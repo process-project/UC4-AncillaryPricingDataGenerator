@@ -1,0 +1,8 @@
+/target/
+
+**/.classpath
+**/.checkstyle
+**/.settings
+**/.project
+**/*.log
+**/~**

@@ -1,0 +1,191 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lhsystems.module</groupId>
+    <artifactId>data-generator-ancillary</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+
+    <!-- Parent pom containing infrastructure information (Nexus) -->
+    <parent>
+        <groupId>com.lufthansa.global</groupId>
+        <artifactId>library</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+
+    <properties>
+        <!-- Empty or prefix of the repositories ended with dash -->
+        <distributionManagement.repository/>
+    </properties>
+
+
+    <modules>
+    </modules>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- jackson dependencies -->
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>1.5.0</version>
+            </dependency>
+            <!-- jackson dependencies -->
+
+            <!-- Module internal dependencies -->
+
+            <dependency>
+                <groupId>com.lhsystems.module.rule-engine-drools</groupId>
+                <artifactId>rule-engine-drools-api</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lhsystems.platform.platform</groupId>
+                <artifactId>rule-engine-drools-service</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Inter-module dependencies -->
+
+
+            <!-- Platform dependencies -->
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-boot</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-exception</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-logging</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-metrics</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-messaging</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-messaging-rabbit</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-serialization</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-tracing</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lufthansa.platform.rule</groupId>
+                <artifactId>rule-engine</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lufthansa.platform.rule</groupId>
+                <artifactId>rule-engine-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lufthansa.platform.rule</groupId>
+                <artifactId>rule-engine-drools</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Added dependency for platform-test -->
+
+
+            <!-- Caching dependencies -->
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-caching</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-caching-hazelcast</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-datastore-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lufthansa.platform.platform</groupId>
+                <artifactId>platform-datastore-mysql</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Drools dependencies -->
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>knowledge-api</artifactId>
+                <version>6.5.0.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-core</artifactId>
+                <version>6.5.0.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-compiler</artifactId>
+                <version>6.5.0.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-templates</artifactId>
+                <version>6.5.0.Final</version>
+            </dependency>
+            <!-- Drools dependencies -->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>1.5.9.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

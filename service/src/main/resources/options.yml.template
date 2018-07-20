@@ -1,0 +1,10 @@
+##GeneratorOptions
+generatorOptions:
+#states how many flights should be generated
+    numberFlights: 2
+
+
+##DataBaseOptions
+databaseOptions:
+#Path of the SQLite Database where the data is stored
+    dbPath: C:\Users\nwuser\MySQLiteDB

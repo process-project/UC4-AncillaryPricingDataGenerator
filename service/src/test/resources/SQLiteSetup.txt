@@ -1,0 +1,38 @@
+Installing SQLite for Windows 7
+
+NOTE: All tools are also available under R:\Tools\to_install\Sqlite
+
+    1. Download sqlite-tools-win32-x86-[VERSION_NUMBER].zip from
+            https://www.sqlite.org/download.html
+    2. extract the content of the zip file to a folder of your choice
+    3. one can verify the installation by navigating to the installation folder in a command line window
+        and calling the command "sqlite3". If everything went well SQLite should start and connect to a
+        temporary in-memory database
+
+
+Creating a new SQLite Database
+    -  A new permanent Database can be created by calling the command "sqlite3 path\to\database" which
+        starts the SQLite Shell connected to the new database. Next call ".databases" this should list
+        the created database. If all went well the database file should now be visible in the file system
+
+
+Using SQLite from the SpRring Tool Suite
+
+
+    1. Next we need to download a jdbc driver to use SQLite from Java. The Xerial sqlite jdbc from
+            https://bitbucket.org/xerial/sqlite-jdbc/downloads
+        works well for me. I used version 3.23.1.
+    2. In Spring Tool Suite access the "Database Development" view. In the "Data Source Explorer" a
+        folder called "Database Connections" should be visible.
+    3. Choosing "New..." in its context menu, leads us to a "New Connection Profile" dialogue.
+        Here we choose to create a SQLite Connection.
+    4. After clicking Next we need to specify a Driver and Connection Details. For Driver we choose
+        a "New Driver Definition". A new Dialogue opens. As a driver template we choose
+        SQLite JDBC Driver. In the tab "JAR List" a driver file "sqlitejdbc-v051.jar" is already selected.
+        We first add the "sqlite-jdbc-[VERSION_NUMBER].jar", that we downloaded before. Afterwards we need
+        to remove the driver file that was selected before. Exit the dialogue via "OK"
+    5. Now we only need to chose the location and name of the previously created database. Note that the
+        database should already exist as a file. See above on how create a database in SQLite. After clicking
+        "Finish" the new connection is visible immediately in the Data Source Explorer.
+    6. Now we can create new SQL files in the Spring Tool Suite and execute them to create or modify Tables
+        the database or access it from Java

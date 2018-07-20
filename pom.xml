@@ -2,8 +2,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.lhsystems.module</groupId>
-    <artifactId>data-generator-ancillary</artifactId>
+    <groupId>com.lhsystems.prototype</groupId>
+    <artifactId>pricing-ancillary</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -23,6 +23,7 @@
 
 
     <modules>
+        <module>data-generator</module>
     </modules>
 
 
@@ -184,8 +185,14 @@
                 <version>1.5.9.RELEASE</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.xerial</groupId>
+                <artifactId>sqlite-jdbc</artifactId>
+                <version>3.23.1</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
 
 </project>
+

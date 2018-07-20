@@ -3,7 +3,6 @@ package com.lhsystems.prototype.pricingancillary.datagenerator;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 /**
  * The class Flight serves as a model for flights.
  *
@@ -12,8 +11,6 @@ import java.time.LocalTime;
  */
 
 final public class Flight {
-
-
 
     /**
      * Unique identifier to be used in a database.
@@ -50,7 +47,6 @@ final public class Flight {
      * flight.
      */
     private final Market market;
-
 
     /**
      * Constructor.

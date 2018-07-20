@@ -2,7 +2,6 @@ package com.lhsystems.prototype.pricingancillary.datagenerator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -10,7 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Class that randomly generates Flights
+ * Class that randomly generates flights.
  *
  * @author Janek Reichardt
  * @version $Revision: 1.10 $
@@ -35,34 +34,10 @@ final public class FlightGenerator {
     private int flightNumberCounter;
 
     /**
-     * Static HashMap of airports and their corresponding <code>Market</code> to
-     * be used for the generation of flights.
+     * list of <code>airport</code> objects to be used for the generation of
+     * flights.
      */
-    private static final List<Airport> AIRPORTS = new ArrayList<Airport>() {
-        /**
-         * Identifier for <code>AIRPORTS</code>.
-         */
-        private static final long serialVersionUID = 1L;
-
-        {
-            add(new Airport("FRA", "Frankfurt Airport", Market.DOMESTIC));
-            add(new Airport("TXL", "Berlin Tegel Airport", Market.DOMESTIC));
-            add(new Airport("OSL", "Oslo Gardermoen", Market.CONTINENTAL));
-            add(new Airport("BCN", "Barcelona El Prat", Market.CONTINENTAL));
-            add(new Airport("LGW", "London Gatwick", Market.CONTINENTAL));
-            add(
-                    new Airport(
-                            "EZE",
-                            "Buenos Aires Ezeiza",
-                            Market.INTERCONTINENTAL));
-            add(
-                    new Airport(
-                            "TFS",
-                            "Tenerife South Airport",
-                            Market.INTERCONTINENTAL));
-
-        }
-    };
+    private final List<Airport> airports;
 
     /**
      * Constructor.
@@ -70,14 +45,13 @@ final public class FlightGenerator {
      * @param startId
      *            a lower bound for the numbers used to compute the Ids of
      *            flights
+     * @param airports
+     *            list of airports to be used for flight generation
      *
      */
-    public FlightGenerator(final Long startId) {
-        /**
-         * Here one could set additional generation options as attributes of the
-         * generator
-         */
+    public FlightGenerator(final Long startId, final List<Airport> airports) {
         setIdCounter(startId);
+        this.airports = airports;
     }
 
     /**
@@ -104,8 +78,8 @@ final public class FlightGenerator {
      *
      * @return the constant HashMap <code>AIRPORTS</code>
      */
-    private static List<Airport> getAirports() {
-        return AIRPORTS;
+    private List<Airport> getAirports() {
+        return airports;
     }
 
     /**
@@ -192,7 +166,6 @@ final public class FlightGenerator {
 
     /**
      * Returns a randomly generated <code>LocalTime</code>
-     *
      * @return a randomly generated <code>LocalTime</code>
      */
     private LocalTime getRandomDaytime() {

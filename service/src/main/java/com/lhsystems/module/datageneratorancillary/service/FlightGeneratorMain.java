@@ -1,8 +1,8 @@
-package com.lhsystems.prototype.pricingancillary.datagenerator;
+package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.prototype.pricingancillary.datagenerator.read.sqlite.SqliteConnection;
-import com.lhsystems.prototype.pricingancillary.datagenerator.read.sqlite.SqliteReader;
-import com.lhsystems.prototype.pricingancillary.datagenerator.write.sqlite.SqliteWriter;
+import com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteConnection;
+import com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteReader;
+import com.lhsystems.module.datageneratorancillary.service.write.sqlite.SqliteWriter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

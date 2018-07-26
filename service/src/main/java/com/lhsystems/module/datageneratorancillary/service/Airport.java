@@ -1,4 +1,4 @@
-package com.lhsystems.prototype.pricingancillary.datagenerator;
+package com.lhsystems.module.datageneratorancillary.service;
 
 /**
  * The class Airport serves as a model for airports.

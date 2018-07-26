@@ -1,4 +1,4 @@
-package com.lhsystems.prototype.pricingancillary.datagenerator;
+package com.lhsystems.module.datageneratorancillary.service;
 
 import java.io.InputStream;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.lhsystems.prototype.pricingancillary.datagenerator;
+package com.lhsystems.module.datageneratorancillary.service;
 
 /**
  * Defines the market in which an airport lies and therefore a flight acts.

@@ -1,4 +1,4 @@
-package com.lhsystems.prototype.pricingancillary.datagenerator.read.sqlite;
+package com.lhsystems.module.datageneratorancillary.service.read.sqlite;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

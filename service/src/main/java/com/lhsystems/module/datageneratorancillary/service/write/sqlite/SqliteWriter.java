@@ -1,7 +1,7 @@
-package com.lhsystems.prototype.pricingancillary.datagenerator.write.sqlite;
+package com.lhsystems.module.datageneratorancillary.service.write.sqlite;
 
-import com.lhsystems.prototype.pricingancillary.datagenerator.Flight;
-import com.lhsystems.prototype.pricingancillary.datagenerator.Market;
+import com.lhsystems.module.datageneratorancillary.service.Flight;
+import com.lhsystems.module.datageneratorancillary.service.Market;
 
 import java.sql.Connection;
 import java.sql.SQLException;

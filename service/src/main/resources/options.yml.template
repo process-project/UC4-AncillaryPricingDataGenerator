@@ -2,7 +2,8 @@
 generatorOptions:
 #states how many flights should be generated
     numberFlights: 2
-
+    minFlightDate: '2018-01-01'
+    maxFlightDate: '2019-12-31'
 
 ##DataBaseOptions
 databaseOptions:

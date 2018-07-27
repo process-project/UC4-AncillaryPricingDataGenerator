@@ -23,52 +23,52 @@ public class SqliteReader {
      * Name of the column that contains the market Id associated with the
      * airport in the resultset returned by <code>SQL_SELECT_AIRPORTS</code>.
      */
-    private static final String COLUMN_AIRPORTS_MARKET_ID = "MARKET";
+    public static final String COLUMN_AIRPORTS_MARKET_ID = "MARKET";
 
     /**
      * Name of the column that contains the airports name in the resultset
      * returned by <code>SQL_SELECT_AIRPORTS</code>.
      */
-    private static final String COLUMN_AIRPORTS_NAME = "NAME";
+    public static final String COLUMN_AIRPORTS_NAME = "NAME";
 
     /**
      * Name of the column that contains the airports IATA code in the resultset
      * returned by <code>SQL_SELECT_AIRPORTS</code>.
      */
-    private static final String COLUMN_AIRPORTS_IATA = "IATA";
+    public static final String COLUMN_AIRPORTS_IATA = "IATA";
 
     /**
      * Name of the column that contains the Market Name in the resultset
      * returned by <code>SQL_SELECT_MARKETS</code>.
      */
-    private static final String COLUMN_MARKET_NAME = "MARKET";
+    public static final String COLUMN_MARKET_NAME = "MARKET";
 
     /**
      * Name of the column that contains the Market Id in the resultset returned
      * by <code>SQL_SELECT_MARKETS</code>.
      */
-    private static final String COLUMN_MARKET_ID = "ID";
+    public static final String COLUMN_MARKET_ID = "ID";
 
     /**
      * Column that contains the maximum id in the resultset returned by
      * <code>SQL_SELECT_MAX_ID</code>.
      */
-    private static final String COLUMN_MAX_ID = "max(id)";
+    public static final String COLUMN_MAX_ID = "max(id)";
 
     /**
      * Query to select all Airports currently in the database.
      */
-    private static final String SQL_SELECT_AIRPORTS = "SELECT * FROM Airport";
+    public static final String SQL_SELECT_AIRPORTS = "SELECT * FROM Airport";
 
     /**
      * Query to get all markets currently in the database.
      */
-    private static final String SQL_SELECT_MARKETS = "SELECT * FROM Market";
+    public static final String SQL_SELECT_MARKETS = "SELECT * FROM Market";
 
     /**
      * Query to get the maximum used id currently in the database.
      */
-    private static final String SQL_SELECT_MAX_ID = "SELECT max(id) FROM Flight";
+    public static final String SQL_SELECT_MAX_ID = "SELECT max(id) FROM Flight";
 
     /**
      * A connection with a specific database. SQL statements are executed and

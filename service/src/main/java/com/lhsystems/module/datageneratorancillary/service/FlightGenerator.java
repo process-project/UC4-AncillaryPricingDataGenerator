@@ -17,15 +17,11 @@ import java.util.stream.Stream;
  */
 public final class FlightGenerator {
 
-    /**
-     * Number of days between 1970-01-01 and 2018-01-01.
-     */
-    private static final int START_OF_2018 = 17532;
+    /** The first date of the generation interval. */
+    private final LocalDate minDate;
 
-    /**
-     * Number of days in two years without leap day.
-     */
-    private static final int NUMBER_OF_DAYS_2_YEARS = 730;
+    /** The last date of the generation interval. */
+    private final LocalDate maxDate;
 
     /**
      * Generates a stream of pseudorandom numbers used for generating flights.
@@ -58,12 +54,18 @@ public final class FlightGenerator {
      *            flights
      * @param paramAirports
      *            list of airports to be used for flight generation
-     *
+     * @param paramMinDate
+     *            the first date of the generation interval
+     * @param paramMaxDate
+     *            the last date of the generation interval
      */
-    public FlightGenerator(final Long startId,
-            final List<Airport> paramAirports) {
+    public FlightGenerator(final long startId,
+            final List<Airport> paramAirports,
+            final LocalDate paramMinDate, final LocalDate paramMaxDate) {
         setIdCounter(startId);
         airports = paramAirports;
+        minDate = paramMinDate;
+        maxDate = paramMaxDate;
     }
 
     /**
@@ -103,9 +105,7 @@ public final class FlightGenerator {
         final long id = increaseIdCounter();
         final int flightNumber = increaseFlightNumberCounter();
         // returns a Random Day of 2018 or 2019
-        final LocalDate departureDate = getRandomDay(
-                START_OF_2018,
-                NUMBER_OF_DAYS_2_YEARS);
+        final LocalDate departureDate = getRandomDay();
         final LocalTime departureTime = getRandomDaytime();
         final Airport originAirport = getRandomAirport();
         final Airport destinationAirport = getDestinationAirport(originAirport);
@@ -157,28 +157,25 @@ public final class FlightGenerator {
     }
 
     /**
-     * Returns a randomly chosen <code>LocalDate</code> in the time interval of
-     * Length <code>durationOfInterval</code> starting on
-     * <code>startOfInterval</code>.
-     *
-     * @param startOfInterval
-     *            The number of Days from 01.01.1970 to the first Day of the
-     *            time interval.
-     * @param durationOfInterval
-     *            The number of Days from which a date is chosen.
+     * Returns a randomly chosen <code>LocalDate</code> in the time interval
+     * between <code>minDate</code> and <code>maxDate</code>.
      *
      * @return a randomly chosen <code>LocalDate</code> between
-     *         <code>startOfInterval</code> and
-     *         <code>startOfInterval</code>+<code>durationOfInterval</code>
+     *         <code>minDate</code> and <code>maxDate</code>
      */
-    private LocalDate getRandomDay(final int startOfInterval,
-            final int durationOfInterval) {
+    private LocalDate getRandomDay() {
+
         return LocalDate.ofEpochDay(
-                startOfInterval + getRandom().nextInt(durationOfInterval));
+                minDate.toEpochDay()
+                + getRandom().nextInt(
+                        (int) (maxDate.toEpochDay()
+                                - minDate.toEpochDay())));
+
     }
 
     /**
-     * Returns a randomly generated <code>LocalTime</code>
+     * Returns a randomly generated <code>LocalTime</code>.
+     *
      * @return a randomly generated <code>LocalTime</code>
      */
     private LocalTime getRandomDaytime() {

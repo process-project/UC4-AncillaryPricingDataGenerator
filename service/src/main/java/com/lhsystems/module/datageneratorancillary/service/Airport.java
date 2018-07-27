@@ -1,5 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * The class Airport serves as a model for airports.
  *
@@ -45,6 +48,35 @@ public final class Airport {
         name = paramName;
         market = paramMarket;
         setIataCode(paramIataCode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        if (other.getClass() != getClass()) {
+            return false;
+        }
+        final Airport otherAirport = (Airport) other;
+        final EqualsBuilder equalsBuilder = new EqualsBuilder();
+        equalsBuilder.append(iataCode,
+                otherAirport.getIata());
+        equalsBuilder.append(name, otherAirport.getName());
+        equalsBuilder.append(market, otherAirport.getMarket());
+        return equalsBuilder.isEquals();
+    }
+
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder().append(iataCode).append(name).append(
+                market).toHashCode();
     }
 
     /**

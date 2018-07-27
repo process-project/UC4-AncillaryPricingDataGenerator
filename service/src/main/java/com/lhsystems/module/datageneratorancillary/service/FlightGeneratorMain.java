@@ -84,9 +84,11 @@ public final class FlightGeneratorMain {
         sqliteReader = new SqliteReader(connection.getConnection());
         flightGenerator = new FlightGenerator(
                 sqliteReader.getMaxId() + 1,
-                sqliteReader.getAirports());
+                sqliteReader.getAirports(),
+                optionReader.getMinDate(),
+                optionReader.getMaxDate());
         final ArrayList<Flight> flights = (ArrayList<Flight>) flightGenerator.generateFlights(
-                optionReader.getNumberFLights());
+                optionReader.getNumberFlights());
         sqliteExporter.write(flights, sqliteReader.getMarkets());
     }
 
@@ -100,9 +102,7 @@ public final class FlightGeneratorMain {
      *             if command line cant be parsed
      */
     private static String getYamlPath(final String[] args)
-            throws ParseException
-
-    {
+            throws ParseException {
         final Options cmdOptions = new Options();
         cmdOptions.addOption(
                 OPTION_NAME_OPTIONS_FILE,

@@ -70,7 +70,7 @@ public final class SqliteWriter {
             final HashMap<Market, Integer> mapMarketToMarketId)
                     throws SQLException {
         final StringBuilder queryBuilder = new StringBuilder();
-        final Flight lastFlight = flights.remove(flights.size());
+        final Flight lastFlight = flights.remove(flights.size() - 1);
         for (final Flight flight : flights) {
             appendToQuery(queryBuilder, flight, mapMarketToMarketId, false);
         }

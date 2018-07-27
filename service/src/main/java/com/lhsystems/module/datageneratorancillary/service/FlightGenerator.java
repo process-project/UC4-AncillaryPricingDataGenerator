@@ -1,6 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
@@ -11,10 +12,20 @@ import java.util.stream.Stream;
 /**
  * Class that randomly generates flights.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
-final public class FlightGenerator {
+public final class FlightGenerator {
+
+    /**
+     * Number of days between 1970-01-01 and 2018-01-01.
+     */
+    private static final int START_OF_2018 = 17532;
+
+    /**
+     * Number of days in two years without leap day.
+     */
+    private static final int NUMBER_OF_DAYS_2_YEARS = 730;
 
     /**
      * Generates a stream of pseudorandom numbers used for generating flights.
@@ -45,13 +56,14 @@ final public class FlightGenerator {
      * @param startId
      *            a lower bound for the numbers used to compute the Ids of
      *            flights
-     * @param airports
+     * @param paramAirports
      *            list of airports to be used for flight generation
      *
      */
-    public FlightGenerator(final Long startId, final List<Airport> airports) {
+    public FlightGenerator(final Long startId,
+            final List<Airport> paramAirports) {
         setIdCounter(startId);
-        this.airports = airports;
+        airports = paramAirports;
     }
 
     /**
@@ -91,7 +103,9 @@ final public class FlightGenerator {
         final long id = increaseIdCounter();
         final int flightNumber = increaseFlightNumberCounter();
         // returns a Random Day of 2018 or 2019
-        final LocalDate departureDate = getRandomDay(17532, 730);
+        final LocalDate departureDate = getRandomDay(
+                START_OF_2018,
+                NUMBER_OF_DAYS_2_YEARS);
         final LocalTime departureTime = getRandomDaytime();
         final Airport originAirport = getRandomAirport();
         final Airport destinationAirport = getDestinationAirport(originAirport);
@@ -100,8 +114,7 @@ final public class FlightGenerator {
         return new Flight(
                 id,
                 flightNumber,
-                departureTime,
-                departureDate,
+                LocalDateTime.of(departureDate, departureTime),
                 originAirport.getIata(),
                 destinationAirport.getIata(),
                 market);
@@ -200,22 +213,22 @@ final public class FlightGenerator {
     /**
      * Sets the current value of <code>idCounter</code> to the given number.
      *
-     * @param idCounter
+     * @param paramIdCounter
      *            the number that <code>idCounter</code> is set to.
      */
-    private void setIdCounter(final Long idCounter) {
-        this.idCounter = idCounter;
+    private void setIdCounter(final Long paramIdCounter) {
+        idCounter = paramIdCounter;
     }
 
     /**
      * Sets the <code>flightNumberCounter</code> to a new number given by the
      * parameter.
      *
-     * @param flightNumberCounter
+     * @param paramFlightNumberCounter
      *            the number that <code>flightNumberCounter</code> is set to.
      */
-    private void setFlightNumberCounter(final int flightNumberCounter) {
-        this.flightNumberCounter = flightNumberCounter;
+    private void setFlightNumberCounter(final int paramFlightNumberCounter) {
+        flightNumberCounter = paramFlightNumberCounter;
     }
 
 }

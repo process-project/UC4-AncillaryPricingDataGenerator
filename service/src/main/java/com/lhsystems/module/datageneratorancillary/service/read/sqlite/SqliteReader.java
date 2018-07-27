@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * Reads data from a SQLite database.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 public class SqliteReader {
 
     /**
      * Name of the column that contains the market Id associated with the
-     * airport in the resultset returned by <code>SQL_SELECT_AIRPORTS</code>
+     * airport in the resultset returned by <code>SQL_SELECT_AIRPORTS</code>.
      */
     private static final String COLUMN_AIRPORTS_MARKET_ID = "MARKET";
 
@@ -56,6 +56,21 @@ public class SqliteReader {
     private static final String COLUMN_MAX_ID = "max(id)";
 
     /**
+     * Query to select all Airports currently in the database.
+     */
+    private static final String SQL_SELECT_AIRPORTS = "SELECT * FROM Airport";
+
+    /**
+     * Query to get all markets currently in the database.
+     */
+    private static final String SQL_SELECT_MARKETS = "SELECT * FROM Market";
+
+    /**
+     * Query to get the maximum used id currently in the database.
+     */
+    private static final String SQL_SELECT_MAX_ID = "SELECT max(id) FROM Flight";
+
+    /**
      * A connection with a specific database. SQL statements are executed and
      * results are returned within the context of this connection.
      */
@@ -67,21 +82,6 @@ public class SqliteReader {
     private ResultSet resultSet;
 
     /**
-     * Query to select all Airports currently in the database.
-     */
-    private final static String SQL_SELECT_AIRPORTS = "SELECT * FROM Airport";
-
-    /**
-     * Query to get all markets currently in the database
-     */
-    private static final String SQL_SELECT_MARKETS = "SELECT * FROM Market";
-
-    /**
-     * Query to get the maximum used id currently in the database
-     */
-    private final static String SQL_SELECT_MAX_ID = "SELECT max(id) FROM Flight";
-
-    /**
      * Used for executing a SQL statement and returning the results.
      */
     private final Statement statement;
@@ -89,12 +89,13 @@ public class SqliteReader {
     /**
      * Constructor.
      *
-     * @param connection
-     *            Connection to an SQLite Database
+     * @param paramConnection
+     *            Connection to an SQLite Database.
      * @throws SQLException
+     *             if the connection can't create a statement.
      */
-    public SqliteReader(final Connection connection) throws SQLException {
-        this.connection = connection;
+    public SqliteReader(final Connection paramConnection) throws SQLException {
+        connection = paramConnection;
         statement = connection.createStatement();
         resultSet = null;
     }
@@ -105,8 +106,10 @@ public class SqliteReader {
      *
      * @return ArrayList containing all Airports currently in the database
      * @throws SQLException
+     *             if the query <code>"SQL_SELECT_AIRPORTS"</code> can't be
+     *             executed
      */
-    public List<Airport> getAirports() throws SQLException {
+    public final List<Airport> getAirports() throws SQLException {
         final ArrayList<Airport> airports = new ArrayList<>();
         resultSet = statement.executeQuery(SQL_SELECT_AIRPORTS);
         final Market[] markets = Market.values().clone();
@@ -128,8 +131,9 @@ public class SqliteReader {
      * @return HashMap that maps each market to its respective id in the
      *         database.
      * @throws SQLException
+     *             if <code>SQL_SELECT_MARKETS</code> can't be executed.
      */
-    public HashMap<Market, Integer> getMarkets() throws SQLException {
+    public final HashMap<Market, Integer> getMarkets() throws SQLException {
         final HashMap<Market, Integer> mapMarketIdToMarket = new HashMap<>();
         resultSet = statement.executeQuery(SQL_SELECT_MARKETS);
         while (resultSet.next()) {
@@ -147,8 +151,9 @@ public class SqliteReader {
      *
      * @return the maximal Id appearing in the database
      * @throws SQLException
+     *             if <code>SQL_SELECT_MAX_ID</code> can't be executed.
      */
-    public long getMaxId() throws SQLException {
+    public final long getMaxId() throws SQLException {
         resultSet = statement.executeQuery(SQL_SELECT_MAX_ID);
         return resultSet.getInt(COLUMN_MAX_ID);
     }

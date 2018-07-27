@@ -11,17 +11,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Offers connection to sqlite database. Allows writing flight to said
- * database.
+ * Offers connection to sqlite database. Allows writing flight to said database.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 
-final public class SqliteWriter {
+public final class SqliteWriter {
 
     /**
-     * Pattern for a SQLite query that inserts Flights into the database
+     * Pattern for adding unformatted flight attributes to a insert query.
+     */
+    private static final String INSERT_INTO_SUBPATTERN = "\"{0}\",";
+
+    /**
+     * Pattern for a SQLite query that inserts Flights into the database.
      */
     private static final String SQL_INSERT_FLIGHTS = "INSERT INTO Flight values {0};";
 
@@ -37,22 +41,40 @@ final public class SqliteWriter {
     private final Statement statement;
 
     /**
-     * Inserts a given List of Flights into the SqlDatabase given by
+     * Constructor. connects to sqlite dataBase specified with
+     * <code>dbPath</code>.
+     *
+     * @param paramConnection
+     *            Connection to the SQLite database
+     * @throws SQLException
+     *             if no statement can be created.
+     */
+    public SqliteWriter(final Connection paramConnection) throws SQLException {
+        connection = paramConnection;
+        statement = paramConnection.createStatement();
+    }
+
+    /**
+     * Inserts a given List of Flights into the SQLite Database given by
      * <code>this.connection</code>. The query is built and executed after such
      * that only on execution is necessary
      *
      * @param flights
+     *            list of Flights to be inserted into the SQLite database
+     * @param mapMarketToMarketId
+     *            HashMap to assign to each market it's respective Id
      * @throws SQLException
+     *             if <code>SQL_INSERT_FLIGHTS</code> can't be executed
      */
     public void write(final ArrayList<Flight> flights,
-            final HashMap<Market, Integer> mapMarketIdToMarket)
+            final HashMap<Market, Integer> mapMarketToMarketId)
                     throws SQLException {
         final StringBuilder queryBuilder = new StringBuilder();
         final Flight lastFlight = flights.remove(flights.size());
         for (final Flight flight : flights) {
-            appendToQuery(queryBuilder, flight, mapMarketIdToMarket, false);
+            appendToQuery(queryBuilder, flight, mapMarketToMarketId, false);
         }
-        appendToQuery(queryBuilder, lastFlight, mapMarketIdToMarket, true);
+        appendToQuery(queryBuilder, lastFlight, mapMarketToMarketId, true);
         statement.execute(
                 MessageFormat.format(
                         SQL_INSERT_FLIGHTS,
@@ -60,28 +82,17 @@ final public class SqliteWriter {
     }
 
     /**
-     * Constructor. connects to sqlite dataBase specified with
-     * <code>dbPath</code>
-     *
-     * @param dbPath
-     *            path of the sqlite dataBase to connect to.
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     */
-    public SqliteWriter(final Connection connection) throws SQLException {
-        this.connection = connection;
-        statement = connection.createStatement();
-    }
-
-    /**
      * Adds a SQLite Query that inserts <code>flight</code> to the database to
      * <code>queryBuilder</code>.
      *
      * @param queryBuilder
+     *            builder for the partially built query that inserts flights.
      * @param flight
      *            flight to be inserted with execution of the final query
      * @param idOfMarket
-     *            maps a market to the corresponding Id in the table Market
+     *            maps a market to the corresponding Id in the table Market.
+     * @param lastFlight
+     *            claims if the flight is the last flight in the query.
      */
     private void appendToQuery(final StringBuilder queryBuilder,
             final Flight flight, final HashMap<Market, Integer> idOfMarket,
@@ -94,7 +105,7 @@ final public class SqliteWriter {
         queryBuilder.append(MessageFormat.format("(\"{0}\",", flight.getId()));
         queryBuilder.append(
                 MessageFormat.format(
-                        "\"{0}\",",
+                        INSERT_INTO_SUBPATTERN,
                         Integer.toString(flight.getFlightNumber())));
         queryBuilder.append(
                 MessageFormat.format(
@@ -108,10 +119,12 @@ final public class SqliteWriter {
                         month,
                         day));
         queryBuilder.append(
-                MessageFormat.format("\"{0}\",", flight.getOriginAirport()));
+                MessageFormat.format(
+                        INSERT_INTO_SUBPATTERN,
+                        flight.getOriginAirport()));
         queryBuilder.append(
                 MessageFormat.format(
-                        "\"{0}\",",
+                        INSERT_INTO_SUBPATTERN,
                         flight.getDestinationAirport()));
         queryBuilder.append(
                 MessageFormat.format(

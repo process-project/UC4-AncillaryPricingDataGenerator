@@ -6,11 +6,12 @@ import java.util.HashMap;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Reads a Yaml Options file and returns the options
+ * Reads a Yaml Options file and returns the options.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
+
 public class YamlOptionReader {
 
     /**
@@ -31,7 +32,7 @@ public class YamlOptionReader {
 
     /**
      * Specifies the key of the generator option that states how many flights to
-     * generate
+     * generate.
      */
     private static String SUBSECTION_NUMBER_OF_FLIGHTS = "numberFlights";
 
@@ -40,29 +41,6 @@ public class YamlOptionReader {
      * generator
      */
     private final HashMap<String, Object> options;
-
-    /**
-     * Returns the path of the database as stated in the loaded file.
-     *
-     * @return the path of the database as stated in the loaded file
-     */
-    @SuppressWarnings("unchecked")
-    public String getDbPath() {
-        return (String) ((HashMap<String, Object>) options.get(
-                SECTION_FOR_DATABASE_OPTIONS)).get(SUBSECTION_DATABASE_PATH);
-    }
-
-    /**
-     * Returns the number of flights as stated in the loaded file.
-     *
-     * @return the number of flights as stated in the loaded file
-     */
-    @SuppressWarnings("unchecked")
-    public int getNumberFLights() {
-        return (int) ((HashMap<String, Object>) options.get(
-                SECTION_FOR_GENERATOR_OPTIONS)).get(
-                        SUBSECTION_NUMBER_OF_FLIGHTS);
-    }
 
     /**
      * Constructor. Reads a Yaml file of the form of options.yml.template.
@@ -76,5 +54,28 @@ public class YamlOptionReader {
                 optionsPath);
         final Yaml yaml = new Yaml();
         options = (HashMap<String, Object>) yaml.load(input);
+    }
+
+    /**
+     * Returns the path of the database as stated in the loaded file.
+     *
+     * @return the path of the database as stated in the loaded file
+     */
+    @SuppressWarnings("unchecked")
+    public final String getDbPath() {
+        return (String) ((HashMap<String, Object>) options.get(
+                SECTION_FOR_DATABASE_OPTIONS)).get(SUBSECTION_DATABASE_PATH);
+    }
+
+    /**
+     * Returns the number of flights as stated in the loaded file.
+     *
+     * @return the number of flights as stated in the loaded file
+     */
+    @SuppressWarnings("unchecked")
+    public final int getNumberFLights() {
+        return (int) ((HashMap<String, Object>) options.get(
+                SECTION_FOR_GENERATOR_OPTIONS)).get(
+                        SUBSECTION_NUMBER_OF_FLIGHTS);
     }
 }

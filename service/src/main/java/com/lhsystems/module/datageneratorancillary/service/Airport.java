@@ -3,11 +3,11 @@ package com.lhsystems.module.datageneratorancillary.service;
 /**
  * The class Airport serves as a model for airports.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 
-final public class Airport {
+public final class Airport {
 
     /**
      * Pattern that every iata airport code should match.
@@ -29,14 +29,22 @@ final public class Airport {
      */
     private final Market market;
 
+
     /**
-     * Constructor.
+     * Instantiates a new airport.
+     *
+     * @param paramIataCode
+     *            IATA code of the airport.
+     * @param paramName
+     *            full name of the airport.
+     * @param paramMarket
+     *            the market in which the airport lies in.
      */
-    public Airport(final String iataCode, final String name,
-            final Market market) {
-        this.name = name;
-        this.market = market;
-        setIataCode(iataCode);
+    public Airport(final String paramIataCode, final String paramName,
+            final Market paramMarket) {
+        name = paramName;
+        market = paramMarket;
+        setIataCode(paramIataCode);
     }
 
     /**
@@ -61,20 +69,21 @@ final public class Airport {
      * Sets <code>iataCode</code> of this Airport if pattern is correct, throws
      * exception otherwise.
      *
-     * @param iataCode
+     * @param paramIataCode
+     *            new IATA code of the airport
      */
-    private void setIataCode(final String iataCode) {
-        if (iataCode.toUpperCase().matches(PATTERN_IATA_AIRPORT_CODE)) {
-            this.iataCode = iataCode.toUpperCase();
+    private void setIataCode(final String paramIataCode) {
+        if (paramIataCode.toUpperCase().matches(PATTERN_IATA_AIRPORT_CODE)) {
+            iataCode = paramIataCode.toUpperCase();
         } else {
-            throw new RuntimeException("Incorrect Iata Code:" + iataCode);
+            throw new RuntimeException("Incorrect Iata Code:" + paramIataCode);
         }
     }
 
     /**
-     * Returns the iata code of the airport object.
+     * Returns the IATA code of the airport object.
      *
-     * @return the iata code of the airpor
+     * @return the IATA code of the airport
      */
     public String getIata() {
         return iataCode;

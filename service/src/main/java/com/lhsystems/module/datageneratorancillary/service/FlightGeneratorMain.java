@@ -11,18 +11,19 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  * Reads options for <code>FlightGenerator</code>, generates a number of flights
  * and stores them in a sqlite database.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
-final public class FlightGeneratorMain {
+public final class FlightGeneratorMain {
 
     /**
-     * Name of the option giving the yaml File containing the options
+     * Name of the option giving the yaml File containing the options.
      */
     private static String OPTION_NAME_OPTIONS_FILE = "optionsFile";
 
@@ -51,7 +52,10 @@ final public class FlightGeneratorMain {
      */
     private static SqliteReader sqliteReader;
 
-    public FlightGeneratorMain() {
+    /**
+     * Instantiates a new flight generator main.
+     */
+    private FlightGeneratorMain() {
     }
 
     /**
@@ -63,11 +67,15 @@ final public class FlightGeneratorMain {
      * @param args
      *            default parameter for main method. No use for now.
      * @throws SQLException
+     *             if something went wrong during communication to the SQLite
+     *             database
      * @throws ClassNotFoundException
-     * @throws org.apache.commons.cli.ParseException
+     *             if the class "org.sqlite.JDBC" can't found.
+     * @throws ParseException
+     *             the parse exception
      */
     public static void main(final String[] args) throws SQLException,
-    ClassNotFoundException, org.apache.commons.cli.ParseException {
+    ClassNotFoundException, ParseException {
         final String yamlPath = getYamlPath(args);
         optionReader = new YamlOptionReader(yamlPath);
         final SqliteConnection connection = new SqliteConnection(
@@ -86,11 +94,13 @@ final public class FlightGeneratorMain {
      * Reads the command line option FILE_OPTIONS_NAME and returns its value.
      *
      * @param args
+     *            default parameter for parsing, no use for now
      * @return value of command line option FILE_OPTIONS_NAME
-     * @throws org.apache.commons.cli.ParseException
+     * @throws ParseException
+     *             if command line cant be parsed
      */
     private static String getYamlPath(final String[] args)
-            throws org.apache.commons.cli.ParseException
+            throws ParseException
 
     {
         final Options cmdOptions = new Options();

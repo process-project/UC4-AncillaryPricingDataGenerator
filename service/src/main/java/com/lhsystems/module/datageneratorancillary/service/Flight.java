@@ -1,16 +1,17 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
  * The class Flight serves as a model for flights.
  *
- * @author Janek Reichardt
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 
-final public class Flight {
+public final class Flight {
 
     /**
      * Unique identifier to be used in a database.
@@ -51,34 +52,32 @@ final public class Flight {
     /**
      * Constructor.
      *
-     * @param id
+     * @param paramId
      *            unique identifier to be used in a database
-     * @param flightNumber
+     * @param paramFlightNumber
      *            flight number of the flight
-     * @param departureTime
-     *            time of day of departure in utc time
-     * @param departureDate
-     *            date of departure in utc time
-     * @param originAirport
+     * @param departureDateTime
+     *            time of day and day of departure in local time
+     * @param paramOriginAirport
      *            IATA code of the origin airport
-     * @param destinationAirport
+     * @param paramDestinationAirport
      *            IATA code of the destination airport
-     * @param market
+     * @param paramMarket
      *            states if the flight is a domestic, continental, or
      *            intercontinental flight
      */
-    public Flight(final long id, final Integer flightNumber,
-            final LocalTime departureTime, final LocalDate departureDate,
-            final String originAirport, final String destinationAirport,
-            final Market market) {
+    public Flight(final long paramId, final Integer paramFlightNumber,
+            final LocalDateTime departureDateTime,
+            final String paramOriginAirport, final String paramDestinationAirport,
+            final Market paramMarket) {
 
-        this.id = id;
-        this.flightNumber = flightNumber;
-        this.departureTime = departureTime;
-        this.departureDate = departureDate;
-        this.originAirport = originAirport;
-        this.destinationAirport = destinationAirport;
-        this.market = market;
+        id = paramId;
+        flightNumber = paramFlightNumber;
+        departureTime = departureDateTime.toLocalTime();
+        departureDate = departureDateTime.toLocalDate();
+        originAirport = paramOriginAirport;
+        this.destinationAirport = paramDestinationAirport;
+        this.market = paramMarket;
     }
 
     /**

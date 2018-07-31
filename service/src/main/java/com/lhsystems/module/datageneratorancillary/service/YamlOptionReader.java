@@ -1,8 +1,13 @@
+/*
+ *
+ */
 package com.lhsystems.module.datageneratorancillary.service;
 
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -13,7 +18,7 @@ import org.yaml.snakeyaml.Yaml;
  * @version $Revision: 1.10 $
  */
 
-public class YamlOptionReader {
+public final class YamlOptionReader {
 
     /**
      * Specifies the key of the generator option that states the minimal flight
@@ -44,16 +49,19 @@ public class YamlOptionReader {
     static final String SUBSECTION_DATABASE_PATH = "dbPath";
 
     /**
-     * Specifies the key of the generator option that states how many flights to
-     * generate.
+     * Specifies the key of the database option that contains how many objects
+     * of each kind should be generated.
      */
-    static final String SUBSECTION_NUMBER_OF_FLIGHTS = "numberFlights";
+    private static final String SUBSECTION_NUMBER_OF = "numberOf";
+
+    /** An error message if a key is not contained in a map. */
+    private static final String EXCEPTION_MESSAGE_PATTERN = "map doesn't contain key {0}";
 
     /**
      * Maps Keys to their respective options. Contains informations for the data
      * generator
      */
-    private HashMap<String, Object> options;
+    private final HashMap<String, Object> options;
 
     /**
      * Constructor. Reads a Yaml file of the form of options.yml.template.
@@ -75,80 +83,78 @@ public class YamlOptionReader {
      * @return the path of the database as stated in the loaded file
      */
     @SuppressWarnings("unchecked")
-    public final String getDbPath() {
-        return (String) ((HashMap<String, Object>) options.get(
-                SECTION_FOR_DATABASE_OPTIONS)).get(SUBSECTION_DATABASE_PATH);
+    public String getDatabasePath() {
+        final HashMap<String, Object> databaseOptions = (HashMap<String, Object>) get(
+                options,
+                SECTION_FOR_DATABASE_OPTIONS);
+        return (String) get(databaseOptions, SUBSECTION_DATABASE_PATH);
     }
 
-
     /**
-     * Returns the number of flights as stated in the loaded file.
+     * Returns how many objects of a given class should be generated according
+     * to the options file.
      *
-     * @return the number of flights as stated in the loaded file
+     * @param className
+     *            the class name
+     * @return the number of elements of the specified class
      */
     @SuppressWarnings("unchecked")
-    public final int getNumberFlights() {
-        int result = 0;
-        if (options.keySet().contains(SECTION_FOR_GENERATOR_OPTIONS)) {
-            if (((HashMap<String, Object>) options.get(
-                    SECTION_FOR_GENERATOR_OPTIONS)).keySet().contains(
-                            SUBSECTION_NUMBER_OF_FLIGHTS)) {
-                result = (int) ((HashMap<String, Object>) options.get(
-                        SECTION_FOR_GENERATOR_OPTIONS)).get(
-                                SUBSECTION_NUMBER_OF_FLIGHTS);
-            }
-        }
-        return result;
+    public int getNumberOf(final String className) {
+        final HashMap<String, Object> generatorOptions = (HashMap<String, Object>) get(
+                options,
+                SECTION_FOR_GENERATOR_OPTIONS);
+        return (int) get(
+                (HashMap<String, Object>) get(
+                        generatorOptions,
+                        SUBSECTION_NUMBER_OF),
+                className);
     }
 
     /**
-     * Gets the min date from the loaded file.
+     * Gets the minimum date from the loaded file.
      *
      * @return the min date
      */
     @SuppressWarnings("unchecked")
-    public final LocalDate getMinDate() {
-        LocalDate result = null;
-        if (options.keySet().contains(SECTION_FOR_GENERATOR_OPTIONS)) {
-            if (((HashMap<String, Object>) options.get(
-                    SECTION_FOR_GENERATOR_OPTIONS)).keySet().contains(
-                            SUBSECTION_MIN_DATE)) {
-                result = LocalDate.parse((String) ((HashMap<String, Object>) options.get(
-                        SECTION_FOR_GENERATOR_OPTIONS)).get(
-                                SUBSECTION_MIN_DATE));
-            }
-        }
-        return result;
+    public LocalDate getMinDate() {
+        final HashMap<String, Object> generatorOptions = (HashMap<String, Object>) get(
+                options,
+                SECTION_FOR_GENERATOR_OPTIONS);
+        return LocalDate.parse(
+                (String) get(generatorOptions, SUBSECTION_MIN_DATE));
     }
 
     /**
-     * Gets the max date from the loaded file.
+     * Gets the maximum date from the loaded file.
      *
      * @return the max date
      */
     @SuppressWarnings("unchecked")
-    public final LocalDate getMaxDate() {
-        LocalDate result = null;
-        if (options.keySet().contains(SECTION_FOR_GENERATOR_OPTIONS)) {
-            if (((HashMap<String, Object>) options.get(
-                    SECTION_FOR_GENERATOR_OPTIONS)).keySet().contains(
-                            SUBSECTION_MAX_DATE)) {
-                result = LocalDate.parse(
-                        (String) ((HashMap<String, Object>) options.get(
-                                SECTION_FOR_GENERATOR_OPTIONS)).get(
-                                        SUBSECTION_MAX_DATE));
-            }
-        }
-        return result;
+    public LocalDate getMaxDate() {
+        final HashMap<String, Object> generatorOptions = (HashMap<String, Object>) get(
+                options,
+                SECTION_FOR_GENERATOR_OPTIONS);
+        return LocalDate.parse(
+                (String) get(generatorOptions, SUBSECTION_MAX_DATE));
     }
 
     /**
-     * Sets the options structure.
+     * Returns an entry of a given map or throws an exception if the entry
+     * doesn't exist.
      *
-     * @param paramOptions
-     *            the param options
+     * @param <T>
+     *            the value type of the map
+     * @param map
+     *            the map
+     * @param key
+     *            the key
+     * @return the value of the key in map
      */
-    public final void setOptions(final HashMap<String, Object> paramOptions) {
-        options = paramOptions;
+    private <T> T get(final Map<String,T> map,  final String key){
+        if (!map.containsKey(key)){
+            throw new RuntimeException(MessageFormat.format(EXCEPTION_MESSAGE_PATTERN, key));
+        }
+        return map.get(key);
     }
+
 }

@@ -1,8 +1,12 @@
-package com.lhsystems.module.datageneratorancillary.service;
+/*
+ *
+ */
+package com.lhsystems.module.datageneratorancillary.service.data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * The class Flight serves as a model for flights.
@@ -13,20 +17,8 @@ import java.time.LocalTime;
 
 public final class Flight {
 
-    /**
-     * Unique identifier to be used in a database.
-     */
-    private final long id;
-
-    /**
-     * Flight number of the flight.
-     */
-    private final int flightNumber;
-
-    /**
-     * Time of day of departure in local time.
-     */
-    private final LocalTime departureTime;
+    /** The tariffs bookable on this flight. */
+    private final List<Tariff> bookableTariffs;
 
     /**
      * Date of departure in local time.
@@ -34,20 +26,22 @@ public final class Flight {
     private final LocalDate departureDate;
 
     /**
-     * IATA code of the origin airport.
+     * Time of day of departure in local time.
      */
-    private final String originAirport;
+    private final LocalTime departureTime;
 
     /**
-     * IATA code of the destination airport.
+     * Flight number of the flight.
      */
-    private final String destinationAirport;
+    private final int flightNumber;
 
     /**
-     * States if the flight is a domestic, continental, or intercontinental
-     * flight.
+     * Unique identifier to be used in a database.
      */
-    private final Market market;
+    private final long id;
+
+    /** The route of the flight. */
+    private final Route route;
 
     /**
      * Constructor.
@@ -58,26 +52,30 @@ public final class Flight {
      *            flight number of the flight
      * @param departureDateTime
      *            time of day and day of departure in local time
-     * @param paramOriginAirport
-     *            IATA code of the origin airport
-     * @param paramDestinationAirport
-     *            IATA code of the destination airport
-     * @param paramMarket
-     *            states if the flight is a domestic, continental, or
-     *            intercontinental flight
+     * @param paramRoute
+     *            the route of the flight
+     * @param tariffs
+     *            the tariffs that are bookable on this flight
      */
     public Flight(final long paramId, final Integer paramFlightNumber,
             final LocalDateTime departureDateTime,
-            final String paramOriginAirport, final String paramDestinationAirport,
-            final Market paramMarket) {
+            final Route paramRoute, final List<Tariff> tariffs) {
 
         id = paramId;
         flightNumber = paramFlightNumber;
         departureTime = departureDateTime.toLocalTime();
         departureDate = departureDateTime.toLocalDate();
-        originAirport = paramOriginAirport;
-        this.destinationAirport = paramDestinationAirport;
-        this.market = paramMarket;
+        route = paramRoute;
+        bookableTariffs = tariffs;
+    }
+
+    /**
+     * Returns the bookable tariffs of the flight.
+     *
+     * @return the bookable tariffs
+     */
+    public List<Tariff> getBookableTariffs() {
+        return bookableTariffs;
     }
 
     /**
@@ -101,15 +99,6 @@ public final class Flight {
     }
 
     /**
-     * Returns the <code>destinationAirport</code> of the flight object.
-     *
-     * @return <code>destinationAirport</code> of the flight object
-     */
-    public String getDestinationAirport() {
-        return destinationAirport;
-    }
-
-    /**
      * Returns the <code>flightNumber</code> of the flight object.
      *
      * @return <code>flightNumber</code> of the flight object
@@ -128,21 +117,11 @@ public final class Flight {
     }
 
     /**
-     * Returns the <code>market</code> of the flight object.
+     * Returns the <code>route</code> of the flight.
      *
-     * @return <code>market</code> of the flight object
+     * @return the <code>route</code>
      */
-    public Market getMarket() {
-        return market;
+    public Route getRoute() {
+        return route;
     }
-
-    /**
-     * Returns the <code>originAirport</code> of the flight object.
-     *
-     * @return <code>originAirport</code> of the flight object
-     */
-    public String getOriginAirport() {
-        return originAirport;
-    }
-
 }

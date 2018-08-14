@@ -1,6 +1,6 @@
 def jdkVersion = 'jdk1.8.0_141'
 def job = 'module/datageneratorancillary'
-def mavenStatement = 'mvn clean deploy'
+def mavenStatement = 'mvn -B clean deploy'
 def mavenVersion = 'maven-3.5.0'
 
 node {

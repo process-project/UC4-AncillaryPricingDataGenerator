@@ -23,7 +23,7 @@
 
 
     <modules>
-        <module>serviceXXX</module>
+        <module>service</module>
     </modules>
 
 

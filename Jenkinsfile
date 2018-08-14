@@ -27,5 +27,12 @@ pipeline {
                 sh "${mavenStatement}"
             }
         }
+    post {
+        failure {
+            mail to: 'joerg.pancake-steeg@lhsystems.com',
+                subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                body: "Something is wrong with ${env.BUILD_URL}"
+            }
+        }		
     }
 }

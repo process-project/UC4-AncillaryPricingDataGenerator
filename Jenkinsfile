@@ -1,5 +1,5 @@
 def jdkVersion = 'jdk1.8.0_141'
-def job = 'module/data-generator-ancillary'
+def job = 'module/datageneratorancillary'
 def mavenStatement = 'mvn clean deploy'
 def mavenVersion = 'maven-3.5.0'
 
@@ -24,7 +24,7 @@ pipeline {
                 echo '*************************************************************************************'
                 echo "*********************  ${job}  ******************************************************"
                 echo '*************************************************************************************'
-                sh "${mavenStatement} -Dmaven.test.skip=true"
+                sh "${mavenStatement}"
             }
         }
     }

@@ -30,6 +30,7 @@ pipeline {
     post {
         always {
 			checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/target/checkstyle-result.xml', unHealthy: ''
+			jacoco execPattern: '**/target/jacoco.exec'
             junit '**/target/surefire-reports/*.xml'
         }
         failure {

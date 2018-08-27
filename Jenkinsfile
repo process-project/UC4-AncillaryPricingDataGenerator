@@ -8,7 +8,10 @@ node {
 }
 
 pipeline {
-    agent none
+    agent {
+        label 'master'
+    }
+
     tools {
         maven "${mavenVersion}"
         jdk "${jdkVersion}"
@@ -16,10 +19,6 @@ pipeline {
 
     stages {
         stage('module/data-generator-ancillary') {
-            agent {
-                label 'master'
-            }
-
             steps {
                 echo '*************************************************************************************'
                 echo "*********************  ${job}  ******************************************************"
@@ -29,6 +28,9 @@ pipeline {
         }
     }
     post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+        }
         failure {
             mail    to: 'janek.reichardt@lhsystems.com',
                     cc: 'joerg.pancake-steeg@lhsystems.com',

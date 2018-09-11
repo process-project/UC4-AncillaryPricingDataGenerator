@@ -24,9 +24,21 @@
                                     <element>CLASS</element>
                                     <excludes>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteConnection</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.FlightGeneratorMain</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.DataGeneratorMain</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.YamlOptionReader</exclude>
-                                        <exclude>*Test</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.OptionFileKeys</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageClass</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageSize</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Compartment</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Product</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Flight</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Route</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatGroup</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatingModel</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Tariff</exclude>
+                                        <exclude>*Test*</exclude>
                                     </excludes>
                                 </rule>
                             </rules>
@@ -45,6 +57,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>

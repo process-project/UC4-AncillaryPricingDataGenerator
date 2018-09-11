@@ -1,11 +1,19 @@
 ##GeneratorOptions
 generatorOptions:
-#states how many flights should be generated
-    numberFlights: 2
+  # states the dates of which to chose departure dates
     minFlightDate: '2018-01-01'
     maxFlightDate: '2019-12-31'
-
+  #states how many Objects of each class should be generated
+    numberOf:
+        BaggageClass: 5
+        BaggageLimits: 5
+        BaggagePricing: 5
+        Product: 3
+        Flight: 60
+        SeatGroup: 5
+        SeatingModel: 5
+        Tariff: 2
 ##DataBaseOptions
 databaseOptions:
 #Path of the SQLite Database where the data is stored
-    dbPath: C:\Users\nwuser\MySQLiteDB
+    dbPath: C:/Users/nwuser/MySQLiteDB

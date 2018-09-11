@@ -1,4 +1,6 @@
-package com.lhsystems.module.datageneratorancillary.service;
+package com.lhsystems.module.datageneratorancillary.service.data;
+
+import com.lhsystems.module.datageneratorancillary.service.Market;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -23,15 +25,14 @@ public final class Airport {
     private String iataCode;
 
     /**
-     * Full name of the airport.
-     */
-    private final String name;
-
-    /**
      * Market in which the airport lies in.
      */
     private final Market market;
 
+    /**
+     * Full name of the airport.
+     */
+    private final String name;
 
     /**
      * Instantiates a new airport.
@@ -48,35 +49,6 @@ public final class Airport {
         name = paramName;
         market = paramMarket;
         setIataCode(paramIataCode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(final Object other) {
-        if (other == null) {
-            return false;
-        }
-        if (other == this) {
-            return true;
-        }
-        if (other.getClass() != getClass()) {
-            return false;
-        }
-        final Airport otherAirport = (Airport) other;
-        final EqualsBuilder equalsBuilder = new EqualsBuilder();
-        equalsBuilder.append(iataCode,
-                otherAirport.getIata());
-        equalsBuilder.append(name, otherAirport.getName());
-        equalsBuilder.append(market, otherAirport.getMarket());
-        return equalsBuilder.isEquals();
-    }
-
-    @Override
-    public int hashCode(){
-        return new HashCodeBuilder().append(iataCode).append(name).append(
-                market).toHashCode();
     }
 
     /**
@@ -98,6 +70,45 @@ public final class Airport {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        if (other.getClass() != getClass()) {
+            return false;
+        }
+        final Airport otherAirport = (Airport) other;
+        final EqualsBuilder equalsBuilder = new EqualsBuilder();
+        equalsBuilder.append(iataCode, otherAirport.getIata());
+        equalsBuilder.append(name, otherAirport.getName());
+        equalsBuilder.append(market, otherAirport.getMarket());
+        return equalsBuilder.isEquals();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(iataCode).append(name).append(
+                market).toHashCode();
+    }
+    /**
+     * Returns the IATA code of the airport object.
+     *
+     * @return the IATA code of the airport
+     */
+    public String getIata() {
+        return iataCode;
+    }
+
+    /**
      * Sets <code>iataCode</code> of this Airport if pattern is correct, throws
      * exception otherwise.
      *
@@ -112,13 +123,5 @@ public final class Airport {
         }
     }
 
-    /**
-     * Returns the IATA code of the airport object.
-     *
-     * @return the IATA code of the airport
-     */
-    public String getIata() {
-        return iataCode;
-    }
 
 }

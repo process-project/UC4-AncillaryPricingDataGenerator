@@ -1,5 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Defines the market in which an airport lies and therefore a flight acts.
  *
@@ -8,15 +11,15 @@ package com.lhsystems.module.datageneratorancillary.service;
  */
 public enum Market {
     /**
-     * Domestic Market
+     * Domestic Market.
      */
     DOMESTIC,
     /**
-     * Continental Market
+     * Continental Market.
      */
     CONTINENTAL,
     /**
-     * Intercontinental Market
+     * Intercontinental Market.
      */
     INTERCONTINENTAL;
 
@@ -34,6 +37,15 @@ public enum Market {
         } else {
             return other;
         }
+    }
+
+    /**
+     * Returns the values of this enum as a List.
+     *
+     * @return the values of this enum as a List
+     */
+    public static final List<Market> getAllMarkets() {
+        return Arrays.asList(Market.values());
     }
 
 }

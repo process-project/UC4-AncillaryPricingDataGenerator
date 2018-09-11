@@ -10,35 +10,36 @@ import java.sql.SQLException;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public class SqliteConnection {
+public final class SqliteConnection {
 
     /** The connection. */
     private final Connection connection;
 
     /**
      *
-     * Instantiates a new SQLite connection.
+     * Instantiates a new SQLite connection to the database given by
+     * <code>dataBasePath</code>.
      *
-     * @param dbPath
+     * @param dataBasePath
      *            the path of the database.
      * @throws SQLException
      *             if the SQLite connection can't be opened.
      * @throws ClassNotFoundException
      *             exception for when "org.sqlite.JDBC" isn't found.
      */
-    public SqliteConnection(final String dbPath)
+    public SqliteConnection(final String dataBasePath)
             throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
         connection = DriverManager.getConnection(
-                "jdbc:sqlite:" + dbPath);
+                "jdbc:sqlite:" + dataBasePath);
     }
 
     /**
-     * Gets the connection.
+     * Returns the connection.
      *
      * @return the connection
      */
-    public final Connection getConnection() {
+    public Connection getConnection() {
         return connection;
     }
 }

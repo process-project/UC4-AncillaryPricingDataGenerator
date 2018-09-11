@@ -1,14 +1,15 @@
 package com.lhsystems.module.datageneratorancillary.service.read.sqlite;
 
-import com.lhsystems.module.datageneratorancillary.service.Airport;
 import com.lhsystems.module.datageneratorancillary.service.Market;
+import com.lhsystems.module.datageneratorancillary.service.data.Airport;
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public class SqliteReader {
+public final class SqliteReader {
 
     /**
      * Name of the column that contains the market Id associated with the
@@ -38,37 +39,64 @@ public class SqliteReader {
     public static final String COLUMN_AIRPORTS_IATA = "IATA";
 
     /**
-     * Name of the column that contains the Market Name in the resultset
+     * Name of the column that contains the market mame in the resultset
      * returned by <code>SQL_SELECT_MARKETS</code>.
      */
     public static final String COLUMN_MARKET_NAME = "MARKET";
 
     /**
-     * Name of the column that contains the Market Id in the resultset returned
+     * Name of the column that contains the market id in the resultset returned
      * by <code>SQL_SELECT_MARKETS</code>.
      */
     public static final String COLUMN_MARKET_ID = "ID";
 
     /**
-     * Column that contains the maximum id in the resultset returned by
-     * <code>SQL_SELECT_MAX_ID</code>.
+     * Column that contains the maximum id in the resultset returned by querys
+     * in the pattern <code>SQL_SELECT_MAX_ID_PATTERN</code>.
      */
-    public static final String COLUMN_MAX_ID = "max(id)";
+    public static final String COLUMN_MAX_ID = "max(ID)";
 
     /**
-     * Query to select all Airports currently in the database.
+     * The column that contains the table names in the result returned by
+     * <code>SQL_SELECT_TABLES</code>.
+     */
+    public static final String COLUMN_TABLE_INDEX = "name";
+
+    /**
+     * Query to select all airports currently in the database.
      */
     public static final String SQL_SELECT_AIRPORTS = "SELECT * FROM Airport";
+
+    /** Query to select all compartments currently in the database. */
+    public static final String SQL_SELECT_COMPARTMENTS = "SELECT * FROM Compartment";
 
     /**
      * Query to get all markets currently in the database.
      */
     public static final String SQL_SELECT_MARKETS = "SELECT * FROM Market";
 
+    /** Query to get the names of all tables in the database. */
+    public static final String SQL_SELECT_TABLES = "SELECT name FROM sqlite_master WHERE type='table';";
+
     /**
-     * Query to get the maximum used id currently in the database.
+     * Column that contains the compartment id in the resultset returned by
+     * <code>SQL_SELECT_COMPARTMENTS</code>.
      */
-    public static final String SQL_SELECT_MAX_ID = "SELECT max(id) FROM Flight";
+    private static final String COLUMN_COMPARTMENTS_ID = "ID";
+
+    /**
+     * Column that contains the compartment name in the resultset returned by
+     * <code>SQL_SELECT_COMPARTMENTS</code>.
+     */
+    private static final String COLUMN_COMPARTMENTS_NAME = "NAME";
+
+    /**
+     * Query to get the maximum used id in a given table.
+     */
+    private static final String SQL_SELECT_MAX_ID_PATTERN = "SELECT max(ID) FROM {0};";
+
+    /** The column that contains the identifying char of the compartments. */
+    private static final String COLUMN_COMPARTMENTS_ID_CHAR = "CHARID";
 
     /**
      * A connection with a specific database. SQL statements are executed and
@@ -101,16 +129,15 @@ public class SqliteReader {
     }
 
     /**
-     * Reads all Airports currently in the database and returns them as an
-     * ArrayList.
+     * Reads all airports currently in the database and returns them as an list.
      *
-     * @return ArrayList containing all Airports currently in the database
+     * @return list containing all airports currently in the database
      * @throws SQLException
-     *             if the query <code>"SQL_SELECT_AIRPORTS"</code> can't be
+     *             if the query <code>SQL_SELECT_AIRPORTS</code> can't be
      *             executed
      */
-    public final List<Airport> getAirports() throws SQLException {
-        final ArrayList<Airport> airports = new ArrayList<>();
+    public List<Airport> getAirports() throws SQLException {
+        final List<Airport> airports = new ArrayList<>();
         resultSet = statement.executeQuery(SQL_SELECT_AIRPORTS);
         final Market[] markets = Market.values().clone();
         while (resultSet.next()) {
@@ -125,36 +152,55 @@ public class SqliteReader {
     }
 
     /**
-     * Returns a HashMap that maps each market to its respective id in the
-     * database.
+     * Reads all compartments from the respective data table and returns them as
+     * a list.
      *
-     * @return HashMap that maps each market to its respective id in the
-     *         database.
+     * @return a list of compartments
      * @throws SQLException
-     *             if <code>SQL_SELECT_MARKETS</code> can't be executed.
+     *             if the query <code>SQL_SELECT_COMPARTMENTS</code> can't be
+     *             executed
      */
-    public final HashMap<Market, Integer> getMarkets() throws SQLException {
-        final HashMap<Market, Integer> mapMarketIdToMarket = new HashMap<>();
-        resultSet = statement.executeQuery(SQL_SELECT_MARKETS);
+    public List<Compartment> getCompartments() throws SQLException {
+        final List<Compartment> compartments = new ArrayList<>();
+        resultSet = statement.executeQuery(SQL_SELECT_COMPARTMENTS);
         while (resultSet.next()) {
-            mapMarketIdToMarket.put(
-                    Market.valueOf(resultSet.getString(COLUMN_MARKET_NAME)),
-                    resultSet.getInt(COLUMN_MARKET_ID));
+            compartments.add(
+                    new Compartment(
+                            resultSet.getInt(COLUMN_COMPARTMENTS_ID),
+                            resultSet.getString(
+                                    COLUMN_COMPARTMENTS_ID_CHAR).charAt(0),
+                            resultSet.getString(COLUMN_COMPARTMENTS_NAME)
+                            ));
         }
-        return mapMarketIdToMarket;
+        return compartments;
     }
 
     /**
      * Gets the maximal Id appearing in the database. Using this id during
-     * initialization of a FlightGenerator guarantees that new generated flights
+     * initialization of a DataGenerator guarantees that new generated objects
      * have unique Ids.
      *
      * @return the maximal Id appearing in the database
      * @throws SQLException
      *             if <code>SQL_SELECT_MAX_ID</code> can't be executed.
      */
-    public final long getMaxId() throws SQLException {
-        resultSet = statement.executeQuery(SQL_SELECT_MAX_ID);
-        return resultSet.getInt(COLUMN_MAX_ID);
+    public long getMaxId() throws SQLException {
+        final ResultSet tableSet;
+        tableSet = statement.executeQuery(SQL_SELECT_TABLES);
+        final List<String> tables = new ArrayList<>();
+        while (tableSet.next()){
+            tables.add(tableSet.getString(COLUMN_TABLE_INDEX));
+        }
+        int maxId = 0;
+        for (final String table : tables) {
+            resultSet = statement.executeQuery(
+                    MessageFormat.format(
+                            SQL_SELECT_MAX_ID_PATTERN,
+                            table));
+            if (resultSet.getInt(COLUMN_MAX_ID) > maxId) {
+                maxId = resultSet.getInt(COLUMN_MAX_ID);
+            }
+        }
+        return maxId;
     }
 }

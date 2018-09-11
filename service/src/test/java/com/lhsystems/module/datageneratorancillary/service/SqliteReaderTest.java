@@ -1,5 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
+import com.lhsystems.module.datageneratorancillary.service.Market;
+import com.lhsystems.module.datageneratorancillary.service.data.Airport;
 import com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteReader;
 
 import java.sql.Connection;
@@ -30,16 +32,24 @@ public class SqliteReaderTest {
     @Mock
     private Connection connection;
 
+    /** List containing airports. */
+    private final ArrayList<Airport> airportList = new ArrayList<>();
+
+    /** Mocks a SQL resultSet containing maximal id values. */
+    @Mock
+    private ResultSet maxIdSet;
+
+    /** Mocks a SQL resultSet. */
+    @Mock
+    private ResultSet resultSet;
+
     /** Mocks a SQL statement. */
     @Mock
     private Statement statement;
 
-    /** Mocks a SQL reultSet. */
+    /** Mocks a SQL resultSet containing table names. */
     @Mock
-    private ResultSet resultSet;
-
-    /** List containing airports. */
-    private final ArrayList<Airport> airportList = new ArrayList<>();
+    private ResultSet tableSet;
 
     /**
      * Instantiates a new sqlite reader test.
@@ -80,8 +90,23 @@ public class SqliteReaderTest {
                                         return 0;
                                     }
                                 });
+        when(statement.executeQuery(SqliteReader.SQL_SELECT_TABLES)).thenReturn(
+                tableSet);
+        when(tableSet.next()).thenReturn(true);
+        when(tableSet.getString(SqliteReader.COLUMN_TABLE_INDEX)).thenAnswer(
+                new Answer<String>() {
+                    @Override
+                    public String answer(final InvocationOnMock invocation)
+                            throws SQLException {
+                        when(tableSet.next()).thenReturn(false);
+                        return "tableName";
+                    }
+                });
+        when(
+                statement.executeQuery(
+                        "SELECT max(ID) FROM tableName;")).thenReturn(maxIdSet);
+        when(maxIdSet.getInt(SqliteReader.COLUMN_MAX_ID)).thenReturn(13);
     }
-
 
     /**
      * Tests getAirports().
@@ -98,5 +123,16 @@ public class SqliteReaderTest {
         }
     }
 
+    /**
+     * Test getMaxId().
+     *
+     * @throws SQLException
+     *             the SQL exception
+     */
+    @Test
+    public final void testGetMaxId() throws SQLException {
+        final SqliteReader sqliteReader = new SqliteReader(connection);
+        assertEquals(sqliteReader.getMaxId(), 13);
+    }
 
 }

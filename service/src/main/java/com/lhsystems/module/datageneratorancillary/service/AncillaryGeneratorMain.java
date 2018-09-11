@@ -37,7 +37,7 @@ import org.apache.commons.cli.ParseException;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public final class DataGeneratorMain {
+public final class AncillaryGeneratorMain {
 
 
     /**
@@ -99,7 +99,7 @@ public final class DataGeneratorMain {
     /**
      * Instantiates a new flight generator main.
      */
-    private DataGeneratorMain() {
+    private AncillaryGeneratorMain() {
     }
 
     /**
@@ -118,8 +118,10 @@ public final class DataGeneratorMain {
      * @throws ParseException
      *             the parse exception
      */
+    // CHECKSTYLE:OFF
     public static void main(final String[] args)
             throws SQLException, ClassNotFoundException, ParseException {
+        // CHECKSTYLE:ON
         initializeReaderAndWriter(args);
         final long maxId = sqliteReader.getMaxId() + 1;
         generateAirlines(maxId);

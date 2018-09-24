@@ -23,6 +23,9 @@
         <!-- Plugin properties defining the version identifier -->
         <version.plugin.jacoco>0.8.1</version.plugin.jacoco>
         <version.plugin.surefire>2.22.0</version.plugin.surefire>
+        <version.spring>5.1.0.RELEASE</version.spring>
+        <version.spring.datajpa>2.0.4.RELEASE</version.spring.datajpa>
+        <version.hibernate>5.3.6.Final</version.hibernate>
 
         <!-- Empty or prefix of the repositories ended with dash -->
         <distributionManagement.repository />
@@ -251,6 +254,7 @@
                 <artifactId>commons-cli</artifactId>
                 <version>1.4</version>
             </dependency>
+
             <!-- Drools dependencies -->
             <dependency>
                 <groupId>org.drools</groupId>
@@ -275,7 +279,6 @@
                 <artifactId>drools-templates</artifactId>
                 <version>6.5.0.Final</version>
             </dependency>
-            <!-- Drools dependencies -->
 
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -287,16 +290,32 @@
                 <artifactId>commons-math3</artifactId>
                 <version>3.0</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>1.5.9.RELEASE</version>
-                <scope>test</scope>
-            </dependency>
+
             <dependency>
                 <groupId>org.xerial</groupId>
                 <artifactId>sqlite-jdbc</artifactId>
                 <version>3.23.1</version>
+            </dependency>
+
+
+            <!-- Spring Data JPA -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${version.spring.datajpa}</version>
+            </dependency>
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${version.hibernate}</version>
+            </dependency>
+
+            <!-- H2 database -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.197</version>
             </dependency>
 
             <!-- Test Dependencies -->

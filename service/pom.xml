@@ -23,21 +23,21 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <excludes>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteConnection</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.sqlite.SqliteConnection</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.DataGeneratorMain</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.YamlOptionReader</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.OptionFileKeys</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageClass</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageSize</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Compartment</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Product</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Flight</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Route</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatGroup</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatingModel</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Tariff</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.YamlOptionReader</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.utils.OptionFileKeys</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggageClass</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggagePricing</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggageLimits</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggageSize</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Compartment</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Product</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Flight</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Route</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.SeatGroup</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.SeatingModel</exclude>
+                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Tariff</exclude>
                                         <exclude>*Test*</exclude>
                                     </excludes>
                                 </rule>
@@ -128,6 +128,11 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
         </dependency>
 
 

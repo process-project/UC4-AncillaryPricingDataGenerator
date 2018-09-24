@@ -9,11 +9,7 @@
 
 
     <!-- Parent pom containing infrastructure information (Nexus) -->
-    <parent>
-        <groupId>com.lufthansa.global</groupId>
-        <artifactId>library</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+
 
 
     <properties>
@@ -316,6 +312,12 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>1.4.197</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.6.1</version>
             </dependency>
 
             <!-- Test Dependencies -->

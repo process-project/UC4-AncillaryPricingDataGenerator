@@ -1,10 +1,9 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.ExtendedRandom;
-
 import java.text.MessageFormat;
 import java.time.LocalDate;
 
+import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
 import org.junit.runner.RunWith;

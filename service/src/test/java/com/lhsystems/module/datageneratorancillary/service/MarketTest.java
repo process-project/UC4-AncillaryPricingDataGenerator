@@ -1,9 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.Market;
-
 import java.util.Arrays;
 
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

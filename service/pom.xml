@@ -23,10 +23,10 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <excludes>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteConnection</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.sqlite.SqliteConnection</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.DataGeneratorMain</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.YamlOptionReader</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.OptionFileKeys</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageClass</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits</exclude>
@@ -45,6 +45,46 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.lhsystems.module.datageneratorancillary.service.AncillaryGeneratorMain</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -69,7 +109,32 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
+            <version>1.10</version>
         </dependency>
+
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+
+        <!-- H2 database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+
 
         <!-- Test Dependencies -->
         <dependency>
@@ -77,6 +142,20 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>1.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.1.0.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
+
+
         <dependency>
             <groupId>junit-addons</groupId>
             <artifactId>junit-addons</artifactId>
@@ -87,5 +166,12 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.1.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

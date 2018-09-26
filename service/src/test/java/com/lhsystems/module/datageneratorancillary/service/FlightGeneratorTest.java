@@ -1,19 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.ExtendedRandom;
-import com.lhsystems.module.datageneratorancillary.service.Market;
-import com.lhsystems.module.datageneratorancillary.service.data.Airport;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
-import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
-import com.lhsystems.module.datageneratorancillary.service.data.Flight;
-import com.lhsystems.module.datageneratorancillary.service.data.Product;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
-import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.generator.FlightGenerator;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.lhsystems.module.datageneratorancillary.service.data.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -121,15 +109,17 @@ public class FlightGeneratorTest {
         final List<Tariff> tariffs = new ArrayList<>();
         tariffs.add(tariff);
         airports.add(new Airport("TAD","Test Airport Domestic", Market.DOMESTIC));
-        airports.add(
-                new Airport("TDO", "Test Airport Domestic2", Market.DOMESTIC));
+        airports.add(new Airport("TDO", "Test Airport Domestic2", Market.DOMESTIC));
         airports.add(new Airport("TAC","Test Airport Continental", Market.CONTINENTAL));
         airports.add(new Airport("TAI","Test Airport Intercontinental", Market.INTERCONTINENTAL));
-        final ExtendedRandom random = new ExtendedRandom();
+        List<Route> routes = new ArrayList<>();
+        routes.add(new Route(airports.get(0), airports.get(1)));
+        routes.add(new Route(airports.get(2), airports.get(1)));
+        routes.add(new Route(airports.get(1), airports.get(2)));
+
         final FlightGenerator flightGenerator = new FlightGenerator(
                 (long) 10,
-                random,
-                airports,
+                routes,
                 tariffs,
                 MIN_DATE,
                 MAX_DATE);

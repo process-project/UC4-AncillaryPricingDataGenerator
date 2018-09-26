@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 
@@ -9,21 +10,33 @@ import java.util.Map;
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "Product")
 public final class Product {
 
     /** The baggage classes that are offered in this product. */
-    private final List<BaggageClass> baggageClasses;
+    @OneToMany
+    @JoinColumn(name = "BAGGAGE_CLASS")
+    private List<BaggageClass> baggageClasses;
 
     /** The compartment this product belongs to. */
+    @OneToOne
+    @JoinColumn(name = "COMPARTMENT")
     private final Compartment compartment;
 
     /** The id of this product. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
 
     /** The number of included bags in each baggage class. */
-    private final Map<BaggageClass, Integer> numberOfIncludedBags;
+    @ElementCollection
+    @MapKeyJoinColumn(name = "baggageClass_id", referencedColumnName = "id")
+    @CollectionTable(name = "NumberOfIncludedBags")
+    private Map<BaggageClass, Integer> numberOfIncludedBags;
 
     /** The name of the product. */
+    @Column(name = "NAME")
     private final String name;
 
     /**
@@ -49,6 +62,16 @@ public final class Product {
         compartment = paramCompartment;
         baggageClasses = paramBaggageClasses;
         numberOfIncludedBags = paramNumberOfIncludedBags;
+    }
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new product
+     * class.
+     */
+    public Product() {
+        id = 0;
+        name = null;
+        compartment = null;
     }
 
     /**

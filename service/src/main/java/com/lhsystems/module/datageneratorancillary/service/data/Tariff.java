@@ -1,6 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import com.lhsystems.module.datageneratorancillary.service.Market;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * data structure representing the tariffs offered by an airline.
@@ -8,44 +9,80 @@ import com.lhsystems.module.datageneratorancillary.service.Market;
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "Tariff")
 public final class Tariff {
 
-    /** The product a tariff belongs to. */
+    /**
+     * The product a tariff belongs to.
+     */
+    @OneToOne
+    @JoinColumn(name = "PRODUCT")
     private final Product product;
 
+    @ManyToMany(mappedBy = "bookableTariffs")
+    private List<Flight> flights;
+
+    public List<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<Flight> flights) {
+        this.flights = flights;
+    }
+
     /** The id of a tariff. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
 
-    /** The market the tariff is offered in. */
+    /**
+     * The market the tariff is offered in.
+     */
+    @Enumerated(EnumType.STRING)
     private final Market market;
 
-    /** The price of a tariff. */
+    /**
+     * The price of a tariff.
+     */
+    @Column(name = "PRICE")
     private final double price;
 
-    /** The seating model in this tariff. */
+    /**
+     * The seating model in this tariff.
+     */
+    @OneToOne
+    @JoinColumn(name = "SEATING_MODEL")
     private final SeatingModel seating;
 
     /**
      * Instantiates a new tariff.
      *
-     * @param paramId
-     *            the id
-     * @param paramPrice
-     *            the price
-     * @param paramSeating
-     *            the seating
-     * @param paramProduct
-     *            the product
-     * @param paramMarket
-     *            the available markets
+     * @param paramId      the id
+     * @param paramPrice   the price
+     * @param paramSeating the seating
+     * @param paramProduct the product
+     * @param paramMarket  the available markets
      */
     public Tariff(final long paramId, final double paramPrice, final SeatingModel paramSeating,
-            final Product paramProduct, final Market paramMarket) {
+                  final Product paramProduct, final Market paramMarket) {
         id = paramId;
         price = paramPrice;
         seating = paramSeating;
         product = paramProduct;
         market = paramMarket;
+    }
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new tariff
+     * class.
+     */
+    public Tariff() {
+        id = 0;
+        price = 0;
+        seating = null;
+        product = null;
+        market = null;
     }
 
     /**

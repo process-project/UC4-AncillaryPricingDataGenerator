@@ -1,24 +1,44 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
+
 /**
- * Defines the prices in a BaggageClasss.
+ * Defines the prices in a BaggageClass.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "BaggagePricing")
 public final class BaggagePricing {
 
+    /** The id of the pricing model. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private final long id;
+
     /** The price of each additional bag. */
+    @Column(name = "PRICE_ADDITIONAL_BAG")
     private final double priceAdditionalBag;
 
     /** The price of the first bag. */
+    @Column(name = "PRICE_FIRST_BAG")
     private final double priceFirstBag;
 
-    /** The id of the pricing model. */
-    private final long id;
-
     /** The price of the second bag. */
+    @Column(name = "PRICE_SECOND_BAG")
     private final double priceSecondBag;
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new baggage
+     * class.
+     */
+    public BaggagePricing() {
+        id = 0L;
+        priceFirstBag = 0;
+        priceSecondBag = 0;
+        priceAdditionalBag = 0;
+    }
 
     /**
      * Instantiates a new baggage pricing.

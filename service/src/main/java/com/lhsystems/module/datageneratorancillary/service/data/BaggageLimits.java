@@ -1,26 +1,46 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
+
 /**
  * Defines the limits of a baggage class.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "BaggageLimits")
 public final class BaggageLimits {
 
     /** The maximum size of baggage items. */
+    @OneToOne
+    @JoinColumn(name = "BAGGAGE_SIZE")
     private final BaggageSize baggageSize;
 
     /** The maximum count of baggage items. */
+    @Column(name = "COUNT_MAX")
     private final int countMax;
 
     /** The id of the baggage Limits. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
 
 
     /** The maximum weight of one piece of baggage. */
+    @Column(name = "WEIGHT_MAX")
     private final double weightMax;
 
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new baggage
+     * class.
+     */
+    public BaggageLimits() {
+        id = 0L;
+        baggageSize = null;
+        weightMax = 0;
+        countMax = 0;
+    }
 
     /**
      * Instantiates new baggage limits .

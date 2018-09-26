@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -8,13 +9,19 @@ import java.util.List;
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "SeatingModel")
 public final class SeatingModel {
 
     /** The id of a seating model. */
-    private final long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     /** The seat groups in this model. */
-    private final List<SeatGroup> seatGroups;
+    @OneToMany
+    @JoinColumn(name = "SEAT_GROUP")
+    private List<SeatGroup> seatGroups;
 
     /**
      * Instantiates a new seating model.
@@ -25,9 +32,16 @@ public final class SeatingModel {
      *            the seat groups offered in this model
      */
     public SeatingModel(final long paramId,
-            final List<SeatGroup> paramSeatGroups) {
+                        List<SeatGroup> paramSeatGroups) {
         id = paramId;
         seatGroups = paramSeatGroups;
+    }
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new seating model
+     * class.
+     */
+    public SeatingModel() {
     }
 
     /**

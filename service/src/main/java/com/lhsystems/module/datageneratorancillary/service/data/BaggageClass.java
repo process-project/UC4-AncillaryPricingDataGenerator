@@ -1,24 +1,46 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
+
 /**
  * data structure representing a baggage class in an ancillary model.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "BaggageClass")
 public final class BaggageClass {
 
     /** The baggage limits. */
+    @OneToOne
+    @JoinColumn(name = "BAGGAGE_LIMITS")
     private final BaggageLimits baggageLimits;
 
     /** The baggage pricing. */
+    @OneToOne
+    @JoinColumn(name = "BAGGAGE_PRICING")
     private final BaggagePricing baggagePricing;
 
     /** The id of the baggage class. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
 
     /** The name of this baggage class. */
+    @Column(name = "NAME")
     private final String name;
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new baggage
+     * class.
+     */
+    public BaggageClass() {
+        name = "default";
+        id = 0L;
+        baggagePricing = null;
+        baggageLimits = null;
+    }
 
     /**
      * Instantiates a new baggage class.

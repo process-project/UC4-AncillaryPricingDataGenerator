@@ -1,7 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.ExtendedRandom;
-import com.lhsystems.module.datageneratorancillary.service.generator.DataGenerator;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.DataGenerator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +22,8 @@ public class DataGeneratorTest {
      */
     @Test
     public void testIncreaseIdCounter() {
-        final ExtendedRandom random = new ExtendedRandom();
         final DataGenerator dataGenerator = new DataGenerator(
-                (long) 3,
-                random) {
+                (long) 3) {
 
             @Override
             protected Object generate(final long id) {

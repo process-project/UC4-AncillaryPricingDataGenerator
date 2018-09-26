@@ -3,6 +3,7 @@
  */
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,33 +16,46 @@ import java.util.List;
  * @version $Revision: 1.10 $
  */
 
+@Entity
+@Table(name = "Flight")
 public final class Flight {
 
     /** The tariffs bookable on this flight. */
-    private final List<Tariff> bookableTariffs;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "flight_tarrfis",
+            joinColumns = @JoinColumn(name = "flight_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tariff_id", referencedColumnName = "id"))
+    private List<Tariff> bookableTariffs;
 
     /**
      * Date of departure in local time.
      */
+    @Column(name = "DEPARTURE_DATE")
     private final LocalDate departureDate;
 
     /**
      * Time of day of departure in local time.
      */
+    @Column(name = "DEPARTURE_TIME")
     private final LocalTime departureTime;
 
     /**
      * Flight number of the flight.
      */
+    @Column(name = "FLIGHT_NUMBER")
     private final int flightNumber;
 
     /**
      * Unique identifier to be used in a database.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
 
     /** The route of the flight. */
-    private final Route route;
+    @OneToOne
+    @JoinColumn(name = "ROUTE")
+    private Route route;
 
     /**
      * Constructor.
@@ -58,8 +72,8 @@ public final class Flight {
      *            the tariffs that are bookable on this flight
      */
     public Flight(final long paramId, final Integer paramFlightNumber,
-            final LocalDateTime departureDateTime,
-            final Route paramRoute, final List<Tariff> tariffs) {
+                  final LocalDateTime departureDateTime,
+                  final Route paramRoute, final List<Tariff> tariffs) {
 
         id = paramId;
         flightNumber = paramFlightNumber;
@@ -67,6 +81,19 @@ public final class Flight {
         departureDate = departureDateTime.toLocalDate();
         route = paramRoute;
         bookableTariffs = tariffs;
+    }
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new flight
+     * class.
+     */
+    public Flight() {
+        id = 0;
+        flightNumber = 0;
+        departureTime = null;
+        departureDate = null;
+        route = null;
+        bookableTariffs = null;
     }
 
     /**

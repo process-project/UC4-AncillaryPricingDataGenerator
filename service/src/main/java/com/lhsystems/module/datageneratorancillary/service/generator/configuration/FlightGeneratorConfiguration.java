@@ -1,0 +1,85 @@
+package com.lhsystems.module.datageneratorancillary.service.generator.configuration;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
+/**
+ * Store configuration responsible for flight generator.
+ *
+ * @author REJ
+ * @version $Revision: 1.10 $
+ */
+public class FlightGeneratorConfiguration {
+    /** The minimum date of departure flight*/
+    private Date minFlightDate;
+
+    /** The maximum date of departure flight*/
+    private Date maxFlightDate;
+
+    /** Number of flights that should be generated. */
+    private int number;
+
+    /**
+     * Gets the min flight date .
+     * @return
+     *      min flight date as local date
+     */
+    public LocalDate getMinFlightDateAsLocalDate() {
+        return minFlightDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    /**
+     * Set min flight date, used for reading yml file
+     *
+     * @param minFlightDate
+     *        minFlightDate from zml file
+     */
+    public void setMinFlightDate(Date minFlightDate) {
+        this.minFlightDate = minFlightDate;
+    }
+
+    /**
+     * Gets the max flight date .
+     *
+     * @return
+     *      max flight date as local date
+     */
+    public LocalDate getMaxFlightDateAsLocalDate() {
+        return maxFlightDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    /**
+     * Set max flight date, used for reading yml file
+     *
+     * @param maxFlightDate
+     *        maxFlightDate from zml file
+     */
+    public void setMaxFlightDate(Date maxFlightDate) {
+        this.maxFlightDate = maxFlightDate;
+    }
+
+    /**
+     * Gets the number of flights
+     *
+     * @return
+     *      number of flights
+     */
+    public int getNumber() {
+        return number;
+    }
+
+    /**
+     * Set max number of flights, used for reading yml file
+     *
+     * @param number
+     *        number from zml file
+     */
+    public void setNumber(int number) {
+        this.number = number;
+    }
+}

@@ -1,8 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Airport;
-import com.lhsystems.module.datageneratorancillary.service.read.sqlite.SqliteReader;
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
+import com.lhsystems.module.datageneratorancillary.service.sqlite.read.SqliteReader;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -1,6 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.ExtendedRandom;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.TariffGenerator;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
@@ -10,7 +10,6 @@ import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.generator.TariffGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,14 +69,12 @@ public final class TariffGeneratorTest {
      */
     @Test
     public void testGenerateList() {
-        final ExtendedRandom random = new ExtendedRandom();
         final List<Product> products = new ArrayList<>();
         products.add(product);
         final List<SeatingModel> seatingModels = new ArrayList<>();
         seatingModels.add(seatingModel);
         final TariffGenerator tariffGenerator = new TariffGenerator(
                 (long) 10,
-                random,
                 products,
                 seatingModels);
         final List<Tariff> testTariffs = tariffGenerator.generateList(100);

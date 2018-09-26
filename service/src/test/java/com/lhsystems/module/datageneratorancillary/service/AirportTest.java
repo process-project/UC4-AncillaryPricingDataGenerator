@@ -1,8 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Airport;
 
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

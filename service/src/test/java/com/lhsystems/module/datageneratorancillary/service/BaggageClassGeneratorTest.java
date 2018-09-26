@@ -1,15 +1,15 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.ExtendedRandom;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
-import com.lhsystems.module.datageneratorancillary.service.generator.BaggageClassGenerator;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.BaggageClassGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -38,7 +38,6 @@ public final class BaggageClassGeneratorTest {
         final ExtendedRandom random = new ExtendedRandom();
         final BaggageClassGenerator baggageClassGenerator = new BaggageClassGenerator(
                 (long) 10,
-                random,
                 limits,
                 pricing);
         final List<BaggageClass> baggageClasses = baggageClassGenerator.generateList(

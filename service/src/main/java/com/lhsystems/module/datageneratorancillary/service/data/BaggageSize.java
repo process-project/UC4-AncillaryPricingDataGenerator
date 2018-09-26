@@ -1,24 +1,49 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.*;
+
 /**
  * The Class BaggageSize.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
+@Entity
+@Table(name = "BaggageSize")
 public final class BaggageSize {
 
+    /** The id of the baggage Size. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     /** The maximum circumference (w+l+h) of a piece of baggage. */
+    @Column(name = "CIRCUMFERENCE_MAX")
     private final double circumferenceMax;
 
     /** The maximum height of a piece of baggage. */
+    @Column(name = "HEIGHT_MAX")
     private final double heightMax;
 
     /** The maximum length of a piece of baggage. */
+    @Column(name = "LENGTH_MAX")
     private final double lengthMax;
 
+
     /** The maximum width of a piece of baggage. */
+    @Column(name = "WIDTH_MAX")
     private final double widthMax;
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new baggage
+     * class.
+     */
+    public BaggageSize() {
+        circumferenceMax = 0;
+        heightMax = 0;
+        lengthMax = 0;
+        widthMax = 0;
+    }
 
     /**
      * Instantiates a new baggage size.

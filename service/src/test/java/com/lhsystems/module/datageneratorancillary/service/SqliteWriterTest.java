@@ -1,20 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.Market;
-import com.lhsystems.module.datageneratorancillary.service.OptionFileKeys;
-import com.lhsystems.module.datageneratorancillary.service.data.Airport;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
-import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
-import com.lhsystems.module.datageneratorancillary.service.data.Flight;
-import com.lhsystems.module.datageneratorancillary.service.data.Product;
-import com.lhsystems.module.datageneratorancillary.service.data.Route;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
-import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.write.sqlite.SqliteWriter;
+import com.lhsystems.module.datageneratorancillary.service.sqlite.write.SqliteWriter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys;
+import com.lhsystems.module.datageneratorancillary.service.data.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

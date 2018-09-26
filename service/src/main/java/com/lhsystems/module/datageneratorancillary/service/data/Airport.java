@@ -1,9 +1,9 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import com.lhsystems.module.datageneratorancillary.service.Market;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import javax.persistence.*;
 
 /**
  * The class Airport serves as a model for airports.
@@ -12,6 +12,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @version $Revision: 1.10 $
  */
 
+@Entity
+@Table(name = "Airport")
 public final class Airport {
 
     /**
@@ -22,16 +24,20 @@ public final class Airport {
     /**
      * IATA airport code naming and identifying the airport.
      */
+    @Id
+    @Column(name = "IATA_CODE")
     private String iataCode;
 
     /**
      * Market in which the airport lies in.
      */
+    @Enumerated(EnumType.STRING)
     private final Market market;
 
     /**
      * Full name of the airport.
      */
+    @Column(name = "NAME")
     private final String name;
 
     /**
@@ -49,6 +55,16 @@ public final class Airport {
         name = paramName;
         market = paramMarket;
         setIataCode(paramIataCode);
+    }
+
+    /**
+     * Default Constructor needed for an Entity. Instantiates a new airport
+     * class.
+     */
+    public Airport() {
+        name = "";
+        market = Market.DOMESTIC;
+        iataCode = "";
     }
 
     /**

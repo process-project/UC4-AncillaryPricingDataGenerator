@@ -120,7 +120,7 @@ public class RoutesGeneratorStarter {
      */
     private Route getOrCreateRouteIfNotExists(Airport origin, Airport destination){
         Route currentRoute = routeRepository.isRouteExists(origin, destination);
-        if(currentRoute == null) {
+        if(Objects.isNull(currentRoute)) {
             Route route = new Route(origin, destination);
             currentRoute = routeRepository.save(route);
         }

@@ -26,7 +26,7 @@ class TariffGeneratorStarter {
     /**
      * Instantiates a new tariff generator starer with injected repositories
      * @param tariffRepository
-     *        tariffRepository
+     *        repository responsible for crud operations on tariff entities
      */
     @Autowired
     public TariffGeneratorStarter(TariffRepository tariffRepository) {

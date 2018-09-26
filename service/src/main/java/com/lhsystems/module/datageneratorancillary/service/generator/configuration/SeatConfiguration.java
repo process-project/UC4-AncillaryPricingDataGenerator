@@ -14,18 +14,40 @@ public class SeatConfiguration {
     /** Number of seats' groups that should be generated. */
     private int seatGroup;
 
+    /**
+     * Gets the seat group size .
+     * @return
+     *      seat group size
+     */
     public int getSeatGroup() {
         return seatGroup;
     }
 
+    /**
+     * Set the size of seat group, used for reading yml file
+     *
+     * @param seatGroup
+     *        seatGroup from zml file
+     */
     public void setSeatGroup(int seatGroup) {
         this.seatGroup = seatGroup;
     }
 
+    /**
+     * Gets the seat model size .
+     * @return
+     *      seat model size
+     */
     public int getSeatModel() {
         return seatModel;
     }
 
+    /**
+     * Set the size of seat model, used for reading yml file
+     *
+     * @param seatModel
+     *        seatModel from zml file
+     */
     public void setSeatModel(int seatModel) {
         this.seatModel = seatModel;
     }

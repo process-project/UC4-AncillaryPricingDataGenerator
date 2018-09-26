@@ -9,8 +9,11 @@
 
 
     <!-- Parent pom containing infrastructure information (Nexus) -->
-
-
+    <parent>
+        <groupId>com.lufthansa.global</groupId>
+        <artifactId>library</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
     <properties>
         <failsOnError.plugin.codeCoverage>false</failsOnError.plugin.codeCoverage>
@@ -330,7 +333,13 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>pl.pragmatists</groupId>
+                <artifactId>JUnitParams</artifactId>
+                <version>1.1.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -339,6 +348,13 @@
                 <version>1.4</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>5.1.0.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

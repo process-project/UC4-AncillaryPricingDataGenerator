@@ -23,21 +23,21 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <excludes>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.sqlite.SqliteConnection</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.sqlite.SqliteConnection</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.DataGeneratorMain</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.YamlOptionReader</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.utils.OptionFileKeys</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggageClass</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggagePricing</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggageLimits</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.BaggageSize</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Compartment</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Product</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Flight</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Route</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.SeatGroup</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.SeatingModel</exclude>
-                                        <exclude>com.lhsystems.module.data.generator.ancillary.data.Tariff</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.YamlOptionReader</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageClass</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageSize</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Compartment</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Product</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Flight</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Route</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatGroup</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatingModel</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Tariff</exclude>
                                         <exclude>*Test*</exclude>
                                     </excludes>
                                 </rule>
@@ -81,7 +81,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.lhsystems.module.data.generator.ancillary.AncillaryGeneratorMain</mainClass>
+                            <mainClass>com.lhsystems.module.datageneratorancillary.service.AncillaryGeneratorMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -143,6 +143,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>1.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.1.0.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
+
+
+        <dependency>
             <groupId>junit-addons</groupId>
             <artifactId>junit-addons</artifactId>
             <scope>test</scope>
@@ -152,5 +166,12 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.1.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

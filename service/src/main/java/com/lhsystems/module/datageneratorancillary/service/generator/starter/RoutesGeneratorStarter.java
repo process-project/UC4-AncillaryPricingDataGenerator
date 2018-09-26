@@ -37,22 +37,22 @@ public class RoutesGeneratorStarter {
     private final ExtendedRandom random = new ExtendedRandom();
 
     /**
-     * Instantiates a new route generator starer with injected repositories
+     * Instantiates a new route generator starer with injected repositories.
      *
-     * @param airportRepository
+     * @param airportRepositoryParam
      *        repository responsible for crud operations on airport entities
-     * @param routeRepository
+     * @param routeRepositoryParam
      *        repository responsible for crud operations on route entities
      */
     @Autowired
-    public RoutesGeneratorStarter(AirportRepository airportRepository,
-                                  RouteRepository routeRepository) {
-        this.airportRepository = airportRepository;
-        this.routeRepository = routeRepository;
+    public RoutesGeneratorStarter(final AirportRepository airportRepositoryParam,
+                                  final RouteRepository routeRepositoryParam) {
+        this.airportRepository = airportRepositoryParam;
+        this.routeRepository = routeRepositoryParam;
     }
 
     /**
-     * Iterate through lines and create routes and airports from each line
+     * Iterate through lines and create routes and airports from each line.
      *
      * @param markets
      *        list of possible markets to used as airport market
@@ -61,7 +61,7 @@ public class RoutesGeneratorStarter {
      * @return
      *        list of routes
      */
-    public List<Route> generateRoutesAndAirports(List<Market> markets, List<String> ssimLines){
+    List<Route> generateRoutesAndAirports(final List<Market> markets, final List<String> ssimLines){
         return ssimLines
                 .stream()
                 .map(e -> generateDate(e, markets))
@@ -70,7 +70,7 @@ public class RoutesGeneratorStarter {
     }
 
     /**
-     * Find iata codes in ssim line, then generate airports from them and add new route if necessary
+     * Find iata codes in ssim line, then generate airports from them and add new route if necessary.
      *
      * @param line
      *      one line from ssim file
@@ -79,11 +79,11 @@ public class RoutesGeneratorStarter {
      * @return
      *        route
      */
-    private Route generateDate(String line, List<Market> markets) {
-        Matcher matcher = idaPattern.matcher(line);
-        List<Airport> airports = new ArrayList<>();
+    private Route generateDate(final String line, final List<Market> markets) {
+        final Matcher matcher = idaPattern.matcher(line);
+        final List<Airport> airports = new ArrayList<>();
         while (matcher.find()) {
-            String iataCode = matcher.group(0).trim();
+            final String iataCode = matcher.group(0).trim();
             final Market market = random.getOneRandomElement(markets);
             airports.add(new Airport(iataCode, iataCode, market));
         }
@@ -97,19 +97,19 @@ public class RoutesGeneratorStarter {
     }
 
     /**
-     * Check that airport is existing in database, if not, save new one
+     * Check that airport is existing in database, if not, save new one.
      *
      * @param airport
      *        airport to check
      */
-    private void saveAirportIfNotExits(Airport airport) {
-        if (!airportRepository.existsById(airport.getIata())) {
+    private void saveAirportIfNotExits(final Airport airport) {
+        if (!airportRepository.exists(airport.getIata())) {
             airportRepository.save(airport);
         }
     }
 
     /**
-     * Check that route is existing in database, if not, create new one
+     * Check that route is existing in database, if not, create new one.
      *
      * @param origin
      *        origin airport for route
@@ -118,10 +118,10 @@ public class RoutesGeneratorStarter {
      * @return
      *      route, new or from database
      */
-    private Route getOrCreateRouteIfNotExists(Airport origin, Airport destination){
+    private Route getOrCreateRouteIfNotExists(final Airport origin, final Airport destination){
         Route currentRoute = routeRepository.isRouteExists(origin, destination);
         if(Objects.isNull(currentRoute)) {
-            Route route = new Route(origin, destination);
+            final Route route = new Route(origin, destination);
             currentRoute = routeRepository.save(route);
         }
         return currentRoute;

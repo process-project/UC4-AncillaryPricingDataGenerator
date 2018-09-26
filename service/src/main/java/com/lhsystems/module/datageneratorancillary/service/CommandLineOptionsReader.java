@@ -4,6 +4,7 @@ import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 /**
  * Class used for reading command line options.
  *
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommandLineOptionsReader {
 
+    /** Logger.*/
     private final Logger log = LoggerFactory.getLogger(CommandLineOptionsReader.class);
 
     private final String OPTION_NAME_SPRING_OUTPUT_ANSI_ENABLED = "spring.output.ansi.enabled";
@@ -31,8 +33,7 @@ public class CommandLineOptionsReader {
     /**
      * Reads the command line option FILE_OPTIONS_NAME and returns its value.
      *
-     * @param args
-     *            default parameter for parsing, no use for now
+     * @param args default parameter for parsing, no use for now
      * @return value of command line option FILE_OPTIONS_NAME
      */
     public String getYamlPathFromCommandLine(final String[] args)  {
@@ -52,7 +53,7 @@ public class CommandLineOptionsReader {
      * @return value of command line option FILE_OPTIONS_NAME
      * or DEFAULT_OPTIONS_FILE when option not found or in case of error
      */
-    private String getPathFromCommandLine(Options cmdOptions, String[] args){
+    private String getPathFromCommandLine(final Options cmdOptions, final String[] args){
         try {
             final CommandLineParser parser = new DefaultParser();
             final CommandLine line = parser.parse(cmdOptions, args);

@@ -40,25 +40,25 @@ class BaggageGeneratorStarter {
     private final BaggageClassRepository baggageClassRepository;
     
     /**
-     * Instantiates a new baggage generator starer with injected baggage repositories
-     * @param baggageSizeRepository
+     * Instantiates a new baggage generator starer with injected baggage repositories.
+     * @param baggageSizeRepositoryParam
      *        repository responsible for crud operations on flight entities
-     * @param baggageLimitsRepository
+     * @param baggageLimitsRepositoryParam
      *        repository responsible for crud operations on baggage limits entities
-     * @param baggagePricingRepository
+     * @param baggagePricingRepositoryParam
      *        repository responsible for crud operations on baggage pricing entities
-     * @param baggageClassRepository
+     * @param baggageClassRepositoryParam
      *        repository responsible for crud operations on baggage class entities
      */
     @Autowired
-    public BaggageGeneratorStarter(BaggageSizeRepository baggageSizeRepository,
-                                   BaggageLimitsRepository baggageLimitsRepository,
-                                   BaggagePricingRepository baggagePricingRepository,
-                                   BaggageClassRepository baggageClassRepository) {
-        this.baggageSizeRepository = baggageSizeRepository;
-        this.baggageLimitsRepository = baggageLimitsRepository;
-        this.baggagePricingRepository = baggagePricingRepository;
-        this.baggageClassRepository = baggageClassRepository;
+    public BaggageGeneratorStarter(final BaggageSizeRepository baggageSizeRepositoryParam,
+                                   final BaggageLimitsRepository baggageLimitsRepositoryParam,
+                                   final BaggagePricingRepository baggagePricingRepositoryParam,
+                                   final BaggageClassRepository baggageClassRepositoryParam) {
+        this.baggageSizeRepository = baggageSizeRepositoryParam;
+        this.baggageLimitsRepository = baggageLimitsRepositoryParam;
+        this.baggagePricingRepository = baggagePricingRepositoryParam;
+        this.baggageClassRepository = baggageClassRepositoryParam;
     }
 
     /**
@@ -69,10 +69,10 @@ class BaggageGeneratorStarter {
      * @return
      *        the list of generated baggage classes
      */
-    List<BaggageClass> generateBaggageEntities(long startId, BaggageGeneratorConfiguration baggageConfiguration) {
-        List<BaggageSize> baggageSizes = generateBaggageSize(startId, baggageConfiguration.getBaggageSize());
-        List<BaggageLimits> baggageLimits = generateBaggageLimits(startId, baggageSizes, baggageConfiguration.getBaggageLimits());
-        List<BaggagePricing> baggagePricingModels = generateBaggagePricing(startId, baggageConfiguration.getBaggagePricing());
+    List<BaggageClass> generateBaggageEntities(final long startId, final BaggageGeneratorConfiguration baggageConfiguration) {
+        final List<BaggageSize> baggageSizes = generateBaggageSize(startId, baggageConfiguration.getBaggageSize());
+        final List<BaggageLimits> baggageLimits = generateBaggageLimits(startId, baggageSizes, baggageConfiguration.getBaggageLimits());
+        final List<BaggagePricing> baggagePricingModels = generateBaggagePricing(startId, baggageConfiguration.getBaggagePricing());
         return generateBaggageClasses(startId, baggageLimits, baggagePricingModels, baggageConfiguration.getBaggageClass());
     }
 
@@ -84,10 +84,10 @@ class BaggageGeneratorStarter {
      * @return
      *      the list of generated baggage sizes
      */
-    private List<BaggageSize> generateBaggageSize(long startId, int baggageSize){
-        BaggageSizeGenerator baggageSizeGenerator = new BaggageSizeGenerator(startId);
+    private List<BaggageSize> generateBaggageSize(final long startId, final int baggageSize){
+        final BaggageSizeGenerator baggageSizeGenerator = new BaggageSizeGenerator(startId);
         final List<BaggageSize> baggageSizes = baggageSizeGenerator.generateList(baggageSize);
-        baggageSizeRepository.saveAll(baggageSizes);
+        baggageSizeRepository.save(baggageSizes);
         return baggageSizes;
     }
 
@@ -103,14 +103,14 @@ class BaggageGeneratorStarter {
      * @return
      *        the list of generated baggage classes
      */
-    private List<BaggageClass> generateBaggageClasses(long startId,
-                                                      List<BaggageLimits> baggageLimits,
-                                                      List<BaggagePricing> baggagePricingModels,
-                                                      int baggageClassesSize) {
-        BaggageClassGenerator baggageClassGenerator =
+    private List<BaggageClass> generateBaggageClasses(final long startId,
+                                                      final List<BaggageLimits> baggageLimits,
+                                                      final List<BaggagePricing> baggagePricingModels,
+                                                      final int baggageClassesSize) {
+        final BaggageClassGenerator baggageClassGenerator =
                 new BaggageClassGenerator(startId, baggageLimits, baggagePricingModels);
         final List<BaggageClass> baggageClasses = baggageClassGenerator.generateList(baggageClassesSize);
-        baggageClassRepository.saveAll(baggageClasses);
+        baggageClassRepository.save(baggageClasses);
         return baggageClasses;
     }
 
@@ -122,11 +122,10 @@ class BaggageGeneratorStarter {
      * @return
      *        the list of generated baggage pricing
      */
-    private List<BaggagePricing> generateBaggagePricing(long startId, int pricingSize) {
-        BaggagePricingGenerator baggagePricingGenerator = new BaggagePricingGenerator(startId);
-        final List<BaggagePricing> baggagePricingModels =
-                baggagePricingGenerator.generateList(pricingSize);
-        baggagePricingRepository.saveAll(baggagePricingModels);
+    private List<BaggagePricing> generateBaggagePricing(final long startId, final int pricingSize) {
+        final BaggagePricingGenerator baggagePricingGenerator = new BaggagePricingGenerator(startId);
+        final List<BaggagePricing> baggagePricingModels = baggagePricingGenerator.generateList(pricingSize);
+        baggagePricingRepository.save(baggagePricingModels);
         return baggagePricingModels;
     }
 
@@ -140,11 +139,11 @@ class BaggageGeneratorStarter {
      * @return
      *        the list of generated baggage limits
      */
-    private List<BaggageLimits> generateBaggageLimits(long startId, List<BaggageSize> baggageSizes,
-                                                      int baggageLimitsSize) {
-        BaggageLimitsGenerator baggageLimitsGenerator = new BaggageLimitsGenerator(startId, baggageSizes);
+    private List<BaggageLimits> generateBaggageLimits(final long startId, final List<BaggageSize> baggageSizes,
+                                                      final int baggageLimitsSize) {
+        final BaggageLimitsGenerator baggageLimitsGenerator = new BaggageLimitsGenerator(startId, baggageSizes);
         final List<BaggageLimits> baggageLimits = baggageLimitsGenerator.generateList(baggageLimitsSize);
-        baggageLimitsRepository.saveAll(baggageLimits);
+        baggageLimitsRepository.save(baggageLimits);
         return baggageLimits;
     }
 

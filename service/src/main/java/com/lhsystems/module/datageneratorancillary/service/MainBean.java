@@ -28,7 +28,7 @@ public class MainBean {
     /**
      * Reads options from CommandLine.
      */
-    private final CommandLineOptionsReader commandLineOptionsReader;
+    private final CommandLineOptionsReader commandLineReader;
 
     /**
      * Reads options from Yaml files.
@@ -38,7 +38,7 @@ public class MainBean {
     /**
      * Reads ssim file for generate airports and routes.
      */
-    private final SSIMFileReader ssimFileReader;
+    private final SSIMFileReader ssimReader;
 
     /**
      * Reads data from a SQLite database.
@@ -52,16 +52,22 @@ public class MainBean {
 
 
     /**
-     * Instantiates a new main bean with injected dependencies.
+     * Instantiates a new Main bean.
+     *
+     * @param generatorStarterParam    the generator starter
+     * @param commandLineOptionsReader the command line options reader
+     * @param yamlOptionReader         the yaml option reader
+     * @param ssimFileReader           the ssim file reader
      */
     @Autowired
-    public MainBean(GeneratorStarter generatorStarter,
-                    CommandLineOptionsReader commandLineOptionsReader,
-                    YamlOptionReader yamlOptionReader, SSIMFileReader ssimFileReader) {
-        this.generatorStarter = generatorStarter;
-        this.commandLineOptionsReader = commandLineOptionsReader;
+    public MainBean(final GeneratorStarter generatorStarterParam,
+                    final CommandLineOptionsReader commandLineOptionsReader,
+                    final YamlOptionReader yamlOptionReader,
+                    final SSIMFileReader ssimFileReader) {
+        this.generatorStarter = generatorStarterParam;
+        this.commandLineReader = commandLineOptionsReader;
         this.optionReader = yamlOptionReader;
-        this.ssimFileReader = ssimFileReader;
+        this.ssimReader = ssimFileReader;
     }
 
     /**
@@ -70,20 +76,16 @@ public class MainBean {
      * by using a <code>flightGenerator</code> object. Afterwards saves the
      * generated flights in a SQLite dataBase.
      *
-     * @param args
-     *            default parameter for main method. No use for now.
-     * @throws SQLException
-     *             if something went wrong during communication to the SQLite
-     *             database
-     * @throws ClassNotFoundException
-     *             if the class "org.sqlite.JDBC" can't found.
+     * @param args default parameter for main method. No use for now.
+     * @throws ClassNotFoundException if the class "org.sqlite.JDBC" can't found.
+     * @throws SQLException           if something went wrong during communication to the SQLite             database
      */
-    // CHECKSTYLE:OFF
+// CHECKSTYLE:OFF
     public void start(final String[] args)
             throws ClassNotFoundException, SQLException {
         // CHECKSTYLE:ON
         initializeSqlLiteConnection();
-        final String yamlPath = commandLineOptionsReader.getYamlPathFromCommandLine(args);
+        final String yamlPath = commandLineReader.getYamlPathFromCommandLine(args);
         final long maxId = sqliteReader.getMaxId() + 1;
 
         generateAirlines(maxId, yamlPath);
@@ -98,9 +100,9 @@ public class MainBean {
      * @param yamlOptionsPath
      *             path to .yml file where are generator options
      */
-    private void generateAirlines(final long maxId, String yamlOptionsPath) {
-        GeneratorConfiguration generatorConfiguration = optionReader.readGeneratorOptions(yamlOptionsPath);
-        List<String> ssimLines = ssimFileReader.getSsimFileLines("/HAW12-AP1.ssim");
+    private void generateAirlines(final long maxId, final String yamlOptionsPath) {
+        final GeneratorConfiguration generatorConfiguration = optionReader.readGeneratorOptions(yamlOptionsPath);
+        final List<String> ssimLines = ssimReader.getSsimFileLines("/ssim-mini.ssim");
         generatorStarter.generateData(maxId, generatorConfiguration, ssimLines);
     }
 

@@ -5,7 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data repository used for save seating group entities
+ * Spring Data repository used for save seating group entities.
+ *
+ * @author REJ
+ * @version $Revision: 1.10 $
  */
 @Repository
 public interface SeatingGroupRepository extends CrudRepository<SeatGroup, Long> {

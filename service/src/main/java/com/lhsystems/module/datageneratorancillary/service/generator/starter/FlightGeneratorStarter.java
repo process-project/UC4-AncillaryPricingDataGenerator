@@ -25,18 +25,18 @@ class FlightGeneratorStarter {
     private final FlightRepository flightRepository;
 
     /**
-     * Instantiates a new flight generator starer with injected flight repository
+     * Instantiates a new flight generator starer with injected flight repository.
      *
-     * @param flightRepository
+     * @param flightRepositoryParam
      *              repository responsible for crud operations on flight entities
      */
     @Autowired
-    public FlightGeneratorStarter(FlightRepository flightRepository) {
-        this.flightRepository = flightRepository;
+    public FlightGeneratorStarter(final FlightRepository flightRepositoryParam) {
+        this.flightRepository = flightRepositoryParam;
     }
 
     /**
-     * Generate flight entities in flight generator and save them
+     * Generate flight entities in flight generator and save them.
      *
      * @param startId
      *        the smallest id used for data Generation
@@ -49,12 +49,12 @@ class FlightGeneratorStarter {
      * @return
      *        the list of generated flights
      */
-    List<Flight> generateFlightsEntities(long startId, FlightGeneratorConfiguration flightGeneratorConfiguration,
-                                         List<Tariff> tariffs, List<Route> routes) {
-        FlightGenerator flightGenerator = new FlightGenerator(startId, routes, tariffs,
+    List<Flight> generateFlightsEntities(final long startId, final FlightGeneratorConfiguration flightGeneratorConfiguration,
+                                         final List<Tariff> tariffs, final List<Route> routes) {
+        final FlightGenerator flightGenerator = new FlightGenerator(startId, routes, tariffs,
                 flightGeneratorConfiguration.getMinFlightDateAsLocalDate(),
                 flightGeneratorConfiguration.getMaxFlightDateAsLocalDate());
-        List<Flight> flights = flightGenerator.generateList(flightGeneratorConfiguration.getNumber());
+        final List<Flight> flights = flightGenerator.generateList(flightGeneratorConfiguration.getNumber());
         return flights.stream()
                 .map(flightRepository::save)
                 .collect(Collectors.toList());

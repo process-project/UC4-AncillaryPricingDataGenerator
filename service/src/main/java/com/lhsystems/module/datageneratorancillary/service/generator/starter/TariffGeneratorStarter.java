@@ -24,17 +24,17 @@ class TariffGeneratorStarter {
     private final TariffRepository tariffRepository;
 
     /**
-     * Instantiates a new tariff generator starer with injected repositories
-     * @param tariffRepository
+     * Instantiates a new tariff generator starer with injected repositories.
+     * @param tariffRepositoryParam
      *        repository responsible for crud operations on tariff entities
      */
     @Autowired
-    public TariffGeneratorStarter(TariffRepository tariffRepository) {
-        this.tariffRepository = tariffRepository;
+    public TariffGeneratorStarter(final TariffRepository tariffRepositoryParam) {
+        this.tariffRepository = tariffRepositoryParam;
     }
 
     /**
-     * Generate tariff entities in tariff generator and save them
+     * Generate tariff entities in tariff generator and save them.
      *
      * @param startId
      *        the smallest id used for data Generation
@@ -47,11 +47,11 @@ class TariffGeneratorStarter {
      * @return
      *        the list of generated tariffs
      */
-    List<Tariff> generateTariffsEntities(long startId, List<Product> products, List<SeatingModel> seatingModels,
-                                         int tariffSize) {
-        TariffGenerator tariffGenerator = new TariffGenerator(startId, products, seatingModels);
+    List<Tariff> generateTariffsEntities(final long startId, final List<Product> products, final List<SeatingModel> seatingModels,
+                                         final int tariffSize) {
+        final TariffGenerator tariffGenerator = new TariffGenerator(startId, products, seatingModels);
         final List<Tariff> tariffs = tariffGenerator.generateList(tariffSize);
-        tariffRepository.saveAll(tariffs);
+        tariffRepository.save(tariffs);
         return tariffs;
     }
 }

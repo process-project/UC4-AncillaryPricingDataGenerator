@@ -21,6 +21,12 @@ public class BaggageGeneratorConfiguration {
     private int baggageClass;
 
     /**
+     * Instantiates a new baggage configuration object.
+     */
+    public BaggageGeneratorConfiguration() {
+    }
+
+    /**
      * Gets the size of baggage sizes.
      * @return
      *      baggage size

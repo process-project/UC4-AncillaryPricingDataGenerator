@@ -32,7 +32,7 @@ public final class SeatingModel {
      *            the seat groups offered in this model
      */
     public SeatingModel(final long paramId,
-                        List<SeatGroup> paramSeatGroups) {
+                        final List<SeatGroup> paramSeatGroups) {
         id = paramId;
         seatGroups = paramSeatGroups;
     }

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Starts generating first airports, then routes entities from ssim file and save them into database.
  *
- * @author MB
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 @Service

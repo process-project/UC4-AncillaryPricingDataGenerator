@@ -3,11 +3,11 @@
  */
 package com.lhsystems.module.datageneratorancillary.service;
 
-import java.io.InputStream;
-
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
+
+import java.io.InputStream;
 
 /**
  * Reads a Yaml file and returns the options.
@@ -23,6 +23,7 @@ public final class YamlOptionReader {
      *
      * @param generatorOptionsPath
      *            Path of the Yaml file containing the options
+     * @return Generator configuration class
      */
     public GeneratorConfiguration readGeneratorOptions(final String generatorOptionsPath) {
         final InputStream input = getClass().getResourceAsStream(generatorOptionsPath);

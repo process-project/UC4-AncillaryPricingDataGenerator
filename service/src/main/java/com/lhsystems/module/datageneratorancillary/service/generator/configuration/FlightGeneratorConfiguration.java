@@ -21,6 +21,12 @@ public class FlightGeneratorConfiguration {
     private int number;
 
     /**
+     * Instantiates a new flight generator configuration object.
+     */
+    public FlightGeneratorConfiguration() {
+    }
+
+    /**
      * Gets the min flight date .
      * @return
      *      min flight date as local date

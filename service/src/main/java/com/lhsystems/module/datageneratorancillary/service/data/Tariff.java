@@ -20,16 +20,11 @@ public final class Tariff {
     @JoinColumn(name = "PRODUCT")
     private final Product product;
 
+    /**
+     * The flights that this tariff belongs to.
+     */
     @ManyToMany(mappedBy = "bookableTariffs")
     private List<Flight> flights;
-
-    public List<Flight> getFlights() {
-        return flights;
-    }
-
-    public void setFlights(List<Flight> flights) {
-        this.flights = flights;
-    }
 
     /** The id of a tariff. */
     @Id
@@ -128,6 +123,24 @@ public final class Tariff {
      */
     public SeatingModel getSeating() {
         return seating;
+    }
+
+    /**
+     * Gets flights.
+     *
+     * @return the flights
+     */
+    public List<Flight> getFlights() {
+        return flights;
+    }
+
+    /**
+     * Sets flights.
+     *
+     * @param flightsParam the flights
+     */
+    public void setFlights(final List<Flight> flightsParam) {
+        this.flights = flightsParam;
     }
 
 }

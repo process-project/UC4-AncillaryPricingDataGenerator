@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Starts generating flight entities and save them into database.
  *
- * @author MB
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 @Service

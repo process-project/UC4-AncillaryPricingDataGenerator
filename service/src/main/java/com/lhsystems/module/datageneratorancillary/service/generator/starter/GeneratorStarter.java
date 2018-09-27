@@ -1,18 +1,19 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
+import com.lhsystems.module.datageneratorancillary.service.data.*;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.lhsystems.module.datageneratorancillary.service.data.*;
-import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 
 /**
  * Starts generating all entities in the proper order.
  *
- * @author MB
- * @version $Revision : 1.10 $
+ * @author REJ
+ * @version $Revision: 1.10 $
  */
 @Service
 public class GeneratorStarter {

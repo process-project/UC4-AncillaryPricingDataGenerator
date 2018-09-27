@@ -16,7 +16,7 @@ import java.util.List;
  * Starts generating seating entities and save them into database.
  *
  *
- * @author MB
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 @Service

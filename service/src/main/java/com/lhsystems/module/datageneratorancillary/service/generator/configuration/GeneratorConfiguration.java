@@ -24,6 +24,12 @@ public class GeneratorConfiguration {
     private int tariff;
 
     /**
+     * Instantiates a new generator configuration object.
+     */
+    public GeneratorConfiguration() {
+    }
+
+    /**
      * Gets the baggage generator configuration .
      * @return
      *      baggage generator configuration
@@ -74,7 +80,7 @@ public class GeneratorConfiguration {
     /**
      * Set max number of products, used for reading yml file.
      *
-     * @param product
+     * @param productParam
      *        product from zml file
      */
     public void setProduct(final int productParam) {

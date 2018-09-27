@@ -16,7 +16,7 @@ import java.util.List;
  * Starts generating product entities and save them into database.
  *
  *
- * @author MB
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 @Service

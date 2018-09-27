@@ -23,6 +23,8 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
      *        origin airport
      * @param destinationAirport
      *        destination airport
+     *
+     * @return route from database, if not exists returns null
      */
     @Query("Select r from Route r where r.destinationAirport =:destinationIata and r.originAirport =:originIata")
     Route isRouteExists(@Param("originIata") Airport originAirport, @Param("destinationIata") Airport destinationAirport);

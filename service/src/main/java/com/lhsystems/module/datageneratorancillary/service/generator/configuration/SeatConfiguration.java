@@ -15,6 +15,12 @@ public class SeatConfiguration {
     private int seatGroup;
 
     /**
+     * Instantiates a new seat configuration object.
+     */
+    public SeatConfiguration() {
+    }
+
+    /**
      * Gets the seat group size .
      * @return
      *      seat group size

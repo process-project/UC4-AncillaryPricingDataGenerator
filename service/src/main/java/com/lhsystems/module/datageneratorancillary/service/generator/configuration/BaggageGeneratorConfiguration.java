@@ -21,6 +21,12 @@ public class BaggageGeneratorConfiguration {
     private int baggageClass;
 
     /**
+     * Instantiates a new baggage configuration object.
+     */
+    public BaggageGeneratorConfiguration() {
+    }
+
+    /**
      * Gets the size of baggage sizes.
      * @return
      *      baggage size
@@ -30,17 +36,17 @@ public class BaggageGeneratorConfiguration {
     }
 
     /**
-     * Set the size of baggage size, used for reading yml file
+     * Set the size of baggage size, used for reading yml file.
      *
-     * @param baggageSize
+     * @param baggageSizeParam
      *        baggageSize from zml file
      */
-    public void setBaggageSize(int baggageSize) {
-        this.baggageSize = baggageSize;
+    public void setBaggageSize(final int baggageSizeParam) {
+        this.baggageSize = baggageSizeParam;
     }
 
     /**
-     * Gets the size of baggage limits .
+     * Gets the size of baggage limits.
      * @return
      *      baggage limits
      */
@@ -49,17 +55,17 @@ public class BaggageGeneratorConfiguration {
     }
 
     /**
-     * Set the size of baggage limits, used for reading yml file
+     * Set the size of baggage limits, used for reading yml file.
      *
-     * @param baggageLimits
+     * @param baggageLimitsParam
      *        baggageLimits from zml file
      */
-    public void setBaggageLimits(int baggageLimits) {
-        this.baggageLimits = baggageLimits;
+    public void setBaggageLimits(final int baggageLimitsParam) {
+        this.baggageLimits = baggageLimitsParam;
     }
 
     /**
-     * Gets the size of baggage pricing .
+     * Gets the size of baggage pricing.
      * @return
      *      baggage pricing
      */
@@ -68,17 +74,17 @@ public class BaggageGeneratorConfiguration {
     }
 
     /**
-     * Set the size of baggage pricing, used for reading yml file
+     * Set the size of baggage pricing, used for reading yml file.
      *
-     * @param baggagePricing
+     * @param baggagePricingParam
      *        baggagePricing from zml file
      */
-    public void setBaggagePricing(int baggagePricing) {
-        this.baggagePricing = baggagePricing;
+    public void setBaggagePricing(final int baggagePricingParam) {
+        this.baggagePricing = baggagePricingParam;
     }
 
     /**
-     * Gets the size of baggage classes .
+     * Gets the size of baggage classes.
      * @return
      *      baggage classes
      */
@@ -87,12 +93,12 @@ public class BaggageGeneratorConfiguration {
     }
 
     /**
-     * Set the size of baggage class, used for reading yml file
+     * Set the size of baggage class, used for reading yml file.
      *
-     * @param baggageClass
+     * @param baggageClassParam
      *        baggageClass from zml file
      */
-    public void setBaggageClass(int baggageClass) {
-        this.baggageClass = baggageClass;
+    public void setBaggageClass(final int baggageClassParam) {
+        this.baggageClass = baggageClassParam;
     }
 }

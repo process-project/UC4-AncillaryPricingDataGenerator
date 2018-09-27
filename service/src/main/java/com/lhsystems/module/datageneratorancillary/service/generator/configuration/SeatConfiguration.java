@@ -15,6 +15,12 @@ public class SeatConfiguration {
     private int seatGroup;
 
     /**
+     * Instantiates a new seat configuration object.
+     */
+    public SeatConfiguration() {
+    }
+
+    /**
      * Gets the seat group size .
      * @return
      *      seat group size
@@ -24,17 +30,17 @@ public class SeatConfiguration {
     }
 
     /**
-     * Set the size of seat group, used for reading yml file
+     * Set the size of seat group, used for reading yml file.
      *
-     * @param seatGroup
+     * @param seatGroupParam
      *        seatGroup from zml file
      */
-    public void setSeatGroup(int seatGroup) {
-        this.seatGroup = seatGroup;
+    public void setSeatGroup(final int seatGroupParam) {
+        this.seatGroup = seatGroupParam;
     }
 
     /**
-     * Gets the seat model size .
+     * Gets the seat model size.
      * @return
      *      seat model size
      */
@@ -43,12 +49,12 @@ public class SeatConfiguration {
     }
 
     /**
-     * Set the size of seat model, used for reading yml file
+     * Set the size of seat model, used for reading yml file.
      *
-     * @param seatModel
+     * @param seatModelParam
      *        seatModel from zml file
      */
-    public void setSeatModel(int seatModel) {
-        this.seatModel = seatModel;
+    public void setSeatModel(final int seatModelParam) {
+        this.seatModel = seatModelParam;
     }
 }

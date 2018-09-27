@@ -1,12 +1,11 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
-import com.lhsystems.module.datageneratorancillary.service.data.Product;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
+import com.lhsystems.module.datageneratorancillary.service.data.Product;
 
 /**
  * Generates products randomly.
@@ -51,7 +50,7 @@ public final class ProductGenerator extends DataGenerator {
      */
     @Override
     protected Product generate(final long id) {
-        final Compartment compartment = new Compartment(1, 'd', "name");
+        final Compartment compartment = getRandom().getOneRandomElement(compartments);
         final List<BaggageClass> chosenClasses = getRandom().getRandomlyManyElements(
                 baggageClasses,
                 MIN_NUMBER_BAGGAGE_CLASSES,

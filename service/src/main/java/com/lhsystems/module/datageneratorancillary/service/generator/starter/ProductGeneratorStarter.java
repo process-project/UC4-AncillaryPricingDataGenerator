@@ -16,7 +16,7 @@ import java.util.List;
  * Starts generating product entities and save them into database.
  *
  *
- * @author MB
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 @Service
@@ -28,21 +28,22 @@ class ProductGeneratorStarter {
     private final CompartmentRepository compartmentRepository;
 
     /**
-     * Instantiates a new product generator starer with injected repositories
+     * Instantiates a new product generator starer with injected repositories.
      *
-     * @param productRepository
+     * @param productRepositoryParam
      *        repository responsible for crud operations on products entities
-     * @param compartmentRepository
+     * @param compartmentRepositoryParam
      *        repository responsible for crud operations on compartment entities
      */
     @Autowired
-    public ProductGeneratorStarter(ProductRepository productRepository, CompartmentRepository compartmentRepository) {
-        this.productRepository = productRepository;
-        this.compartmentRepository = compartmentRepository;
+    public ProductGeneratorStarter(final ProductRepository productRepositoryParam,
+                                   final CompartmentRepository compartmentRepositoryParam) {
+        this.productRepository = productRepositoryParam;
+        this.compartmentRepository = compartmentRepositoryParam;
     }
 
     /**
-     * Generate products entities save them
+     * Generate products entities save them.
      *
      * @param startId
      *        the smallest id used for data Generation
@@ -53,29 +54,29 @@ class ProductGeneratorStarter {
      * @return
      *        the list of generated products
      */
-    List<Product> generateProductsEntities(long startId, List<BaggageClass> baggageClasses, int productsSize) {
-        List<Compartment> compartments = generateCompartment(startId);
+    List<Product> generateProductsEntities(final long startId, final List<BaggageClass> baggageClasses, final int productsSize) {
+        final List<Compartment> compartments = generateCompartment(startId);
         return generateSeatGroups(startId, compartments, baggageClasses, productsSize);
     }
 
     /**
-     * Generate compartment entities and save them into database
+     * Generate compartment entities and save them into database.
      *
      * @param startId
      *        the smallest id used for data Generation
      * @return
      *        the list of generated compartments
      */
-    private List<Compartment> generateCompartment(long startId) {
-        Compartment compartment = new Compartment(1, 'd', "name");
+    private List<Compartment> generateCompartment(final long startId) {
+        final Compartment compartment = new Compartment(1, 'd', "name");
         compartmentRepository.save(compartment);
-        List<Compartment> compartments = new ArrayList<>();
+        final List<Compartment> compartments = new ArrayList<>();
         compartments.add(compartment);
         return compartments;
     }
 
     /**
-     * Generate products entities and save them into database
+     * Generate products entities and save them into database.
      *
      * @param startId
      *        the smallest id used for data Generation
@@ -88,11 +89,12 @@ class ProductGeneratorStarter {
      * @return
      *        the list of generated products
      */
-    private List<Product> generateSeatGroups(long startId, List<Compartment> compartments,
-                                             List<BaggageClass> baggageClasses, int productsSize) {
-        ProductGenerator productGenerator = new ProductGenerator(startId, compartments, baggageClasses);
+    private List<Product> generateSeatGroups(final long startId, final List<Compartment> compartments,
+                                             final List<BaggageClass> baggageClasses,
+                                             final int productsSize) {
+        final ProductGenerator productGenerator = new ProductGenerator(startId, compartments, baggageClasses);
         final List<Product> products = productGenerator.generateList(productsSize);
-        productRepository.saveAll(products);
+        productRepository.save(products);
         return products;
     }
 }

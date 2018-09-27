@@ -24,6 +24,12 @@ public class GeneratorConfiguration {
     private int tariff;
 
     /**
+     * Instantiates a new generator configuration object.
+     */
+    public GeneratorConfiguration() {
+    }
+
+    /**
      * Gets the baggage generator configuration .
      * @return
      *      baggage generator configuration
@@ -33,17 +39,17 @@ public class GeneratorConfiguration {
     }
 
     /**
-     * Set baggage configuration, used for reading yml file
+     * Set baggage configuration, used for reading yml file.
      *
-     * @param baggage
+     * @param baggageParam
      *        baggage configuration from zml file
      */
-    public void setBaggage(BaggageGeneratorConfiguration baggage) {
-        this.baggage = baggage;
+    public void setBaggage(final BaggageGeneratorConfiguration baggageParam) {
+        this.baggage = baggageParam;
     }
 
     /**
-     * Gets the seat generator configuration .
+     * Gets the seat generator configuration.
      * @return
      *      seat generator configuration
      */
@@ -52,13 +58,13 @@ public class GeneratorConfiguration {
     }
 
     /**
-     * Set seat configuration, used for reading yml file
+     * Set seat configuration, used for reading yml file.
      *
-     * @param seat
+     * @param seatParam
      *        seat configuration from zml file
      */
-    public void setSeat(SeatConfiguration seat) {
-        this.seat = seat;
+    public void setSeat(final SeatConfiguration seatParam) {
+        this.seat = seatParam;
     }
 
     /**
@@ -72,17 +78,17 @@ public class GeneratorConfiguration {
     }
 
     /**
-     * Set max number of products, used for reading yml file
+     * Set max number of products, used for reading yml file.
      *
-     * @param product
+     * @param productParam
      *        product from zml file
      */
-    public void setProduct(int product) {
-        this.product = product;
+    public void setProduct(final int productParam) {
+        this.product = productParam;
     }
 
     /**
-     * Gets the size of tariffs .
+     * Gets the size of tariffs.
      * @return
      *      tariffs size
      */
@@ -91,17 +97,17 @@ public class GeneratorConfiguration {
     }
 
     /**
-     * Set max number of tariffs, used for reading yml file
+     * Set max number of tariffs, used for reading yml file.
      *
-     * @param tariff
+     * @param tariffParam
      *        tariff from zml file
      */
-    public void setTariff(int tariff) {
-        this.tariff = tariff;
+    public void setTariff(final int tariffParam) {
+        this.tariff = tariffParam;
     }
 
     /**
-     * Gets the flight generator configuration .
+     * Gets the flight generator configuration.
      * @return
      *      flight generator configuration
      */
@@ -110,12 +116,12 @@ public class GeneratorConfiguration {
     }
 
     /**
-     * Set flight configuration, used for reading yml file
+     * Set flight configuration, used for reading yml file.
      *
-     * @param flight
+     * @param flightParam
      *        flight configuration from zml file
      */
-    public void setFlight(FlightGeneratorConfiguration flight) {
-        this.flight = flight;
+    public void setFlight(final FlightGeneratorConfiguration flightParam) {
+        this.flight = flightParam;
     }
 }

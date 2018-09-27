@@ -4,7 +4,10 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 
 /**
  * Generates baggage sizes randomly.
+ * @author REJ
+ * @version $Revision: 1.10 $
  */
+
 public final class BaggageSizeGenerator extends DataGenerator {
 
     /** The maximum max circumference of a baggage limits object. */

@@ -44,7 +44,7 @@ public enum Market {
      *
      * @return the values of this enum as a List
      */
-    public static final List<Market> getAllMarkets() {
+    public static List<Market> getAllMarkets() {
         return Arrays.asList(Market.values());
     }
 

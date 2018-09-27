@@ -11,14 +11,20 @@ import java.util.Date;
  * @version $Revision: 1.10 $
  */
 public class FlightGeneratorConfiguration {
-    /** The minimum date of departure flight*/
+    /** The minimum date of departure flight.*/
     private Date minFlightDate;
 
-    /** The maximum date of departure flight*/
+    /** The maximum date of departure flight.*/
     private Date maxFlightDate;
 
     /** Number of flights that should be generated. */
     private int number;
+
+    /**
+     * Instantiates a new flight generator configuration object.
+     */
+    public FlightGeneratorConfiguration() {
+    }
 
     /**
      * Gets the min flight date .
@@ -32,17 +38,17 @@ public class FlightGeneratorConfiguration {
     }
 
     /**
-     * Set min flight date, used for reading yml file
+     * Set min flight date, used for reading yml file.
      *
-     * @param minFlightDate
+     * @param minFlightDateParam
      *        minFlightDate from zml file
      */
-    public void setMinFlightDate(Date minFlightDate) {
-        this.minFlightDate = minFlightDate;
+    public void setMinFlightDate(final Date minFlightDateParam) {
+        this.minFlightDate = minFlightDateParam;
     }
 
     /**
-     * Gets the max flight date .
+     * Gets the max flight date.
      *
      * @return
      *      max flight date as local date
@@ -54,17 +60,17 @@ public class FlightGeneratorConfiguration {
     }
 
     /**
-     * Set max flight date, used for reading yml file
+     * Set max flight date, used for reading yml file.
      *
-     * @param maxFlightDate
+     * @param maxFlightDateParam
      *        maxFlightDate from zml file
      */
-    public void setMaxFlightDate(Date maxFlightDate) {
-        this.maxFlightDate = maxFlightDate;
+    public void setMaxFlightDate(final Date maxFlightDateParam) {
+        this.maxFlightDate = maxFlightDateParam;
     }
 
     /**
-     * Gets the number of flights
+     * Gets the number of flights.
      *
      * @return
      *      number of flights
@@ -74,12 +80,12 @@ public class FlightGeneratorConfiguration {
     }
 
     /**
-     * Set max number of flights, used for reading yml file
+     * Set max number of flights, used for reading yml file.
      *
-     * @param number
+     * @param numberParam
      *        number from zml file
      */
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumber(final int numberParam) {
+        this.number = numberParam;
     }
 }

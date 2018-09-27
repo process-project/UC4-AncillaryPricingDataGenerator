@@ -16,7 +16,7 @@ import java.util.List;
  * Starts generating seating entities and save them into database.
  *
  *
- * @author MB
+ * @author REJ
  * @version $Revision: 1.10 $
  */
 @Service
@@ -30,16 +30,16 @@ class SeatingGeneratorStarter {
     /**
      * Instantiates a new seating generator starer with injected seating repositories.
      *
-     * @param seatingModelRepository
+     * @param seatingModelRepositoryParam
      *        repository responsible for crud operations on seating model entities
-     * @param seatingGroupRepository
+     * @param seatingGroupRepositoryParam
      *        repository responsible for crud operations on seating group entities
      */
     @Autowired
-    public SeatingGeneratorStarter(SeatingModelRepository seatingModelRepository,
-                                   SeatingGroupRepository seatingGroupRepository) {
-        this.seatingModelRepository = seatingModelRepository;
-        this.seatingGroupRepository = seatingGroupRepository;
+    public SeatingGeneratorStarter(final SeatingModelRepository seatingModelRepositoryParam,
+                                   final SeatingGroupRepository seatingGroupRepositoryParam) {
+        this.seatingModelRepository = seatingModelRepositoryParam;
+        this.seatingGroupRepository = seatingGroupRepositoryParam;
     }
 
     /**
@@ -50,7 +50,7 @@ class SeatingGeneratorStarter {
      * @return
      *       the list of generated seat models
      */
-    List<SeatingModel> generateSeatingModel(long startId, SeatConfiguration seatConfiguration) {
+    List<SeatingModel> generateSeatingModel(final long startId, final SeatConfiguration seatConfiguration) {
         final List<SeatGroup> seatGroups = generateSeatGroups(startId, seatConfiguration.getSeatGroup());
         return generateSeatingModels(startId, seatGroups, seatConfiguration.getSeatModel());
     }
@@ -65,11 +65,10 @@ class SeatingGeneratorStarter {
      * @return
      *        the list of generated seat models
      */
-    private List<SeatingModel> generateSeatingModels(long startId, List<SeatGroup> seatGroups, int seatModelSize) {
-        SeatingModelGenerator seatingModelGenerator = new SeatingModelGenerator(startId, seatGroups);
-
-        List<SeatingModel> seatingModels = seatingModelGenerator.generateList(seatModelSize);
-        seatingModelRepository.saveAll(seatingModels);
+    private List<SeatingModel> generateSeatingModels(final long startId, final List<SeatGroup> seatGroups, final int seatModelSize) {
+        final SeatingModelGenerator seatingModelGenerator = new SeatingModelGenerator(startId, seatGroups);
+        final List<SeatingModel> seatingModels = seatingModelGenerator.generateList(seatModelSize);
+        seatingModelRepository.save(seatingModels);
         return seatingModels;
     }
 
@@ -81,10 +80,10 @@ class SeatingGeneratorStarter {
      * @return
      *        the list of generated seat groups
      */
-    private List<SeatGroup> generateSeatGroups(long startId, int seatGroupSize) {
-        SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator(startId);
+    private List<SeatGroup> generateSeatGroups(final long startId, final int seatGroupSize) {
+        final SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator(startId);
         final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(seatGroupSize);
-        seatingGroupRepository.saveAll(seatGroups);
+        seatingGroupRepository.save(seatGroups);
         return seatGroups;
     }
 }

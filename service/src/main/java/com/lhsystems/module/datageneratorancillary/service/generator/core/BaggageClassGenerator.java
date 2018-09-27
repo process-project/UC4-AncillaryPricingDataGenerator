@@ -49,7 +49,7 @@ public final class BaggageClassGenerator extends DataGenerator {
         final BaggagePricing pricing = getRandom().getOneRandomElement(
                 baggagePricingModels);
 
-        String nameBuilder = (Double.toString(limits.getWeightMax()) + "kg_") +
+        final String nameBuilder = (Double.toString(limits.getWeightMax()) + "kg_") +
                 "f" + Double.toString(pricing.getFirstPrice()) +
                 "s" + Double.toString(pricing.getSecondPrice()) +
                 "a" + Double.toString(pricing.getAdditionalPrice());

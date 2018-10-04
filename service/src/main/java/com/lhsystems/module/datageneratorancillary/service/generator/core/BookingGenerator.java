@@ -12,6 +12,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.util.Precision;
@@ -91,13 +92,22 @@ public final class BookingGenerator extends DataGenerator {
             final int bookingDaysBeforeDeparture) {
         final HashMap<BaggageClass, Integer> chosenBags = new HashMap<>();
         final List<BaggageClass> baggageClasses = tariff.getProduct().getBaggageClasses();
+        final Map<BaggageClass, Integer> includedBags = tariff.getProduct().getNumberOfIncludedBagsByBaggageClass();
         final int numberBags = getRandom().nextInt(
-                MINIMUM_NUMBER_BAGS,
-                MAXIMUM_NUMBER_BAGS);
+                Math.max(
+                        MINIMUM_NUMBER_BAGS,
+                        includedBags.values().stream().mapToInt(
+                                Integer::intValue).sum()),
+                Math.max(
+                        MAXIMUM_NUMBER_BAGS,
+                        includedBags.values().stream().mapToInt(
+                                Integer::intValue).sum())
+                + 1);
         for (final BaggageClass baggageClass : baggageClasses) {
-            chosenBags.put(baggageClass, 0);
+            chosenBags.put(baggageClass, includedBags.get(baggageClass));
         }
-        for (int bagCounter = 0; bagCounter < numberBags; bagCounter++) {
+        for (int bagCounter = includedBags.values().stream().mapToInt(
+                Integer::intValue).sum(); bagCounter < numberBags; bagCounter++) {
             final BaggageClass chosenBaggageClass = baggageClasses.get(
                     getRandom().nextInt(baggageClasses.size()));
             chosenBags.put(

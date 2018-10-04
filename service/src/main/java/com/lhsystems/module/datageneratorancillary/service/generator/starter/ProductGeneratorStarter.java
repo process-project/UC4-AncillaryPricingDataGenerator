@@ -49,12 +49,15 @@ class ProductGeneratorStarter {
      *            the tariffs to be used for flight generation
      * @param productsSize
      *            the size of products that should be generated
+     * @param compartments
+     *            the compartments to be used for product generation
      * @return the list of generated products
      */
     List<Product> generateProductsEntities(
             final List<BaggageClass> baggageClasses, final int productsSize,
             final List<Compartment> compartments) {
-        return generateSeatGroups(compartments, baggageClasses, productsSize);
+        compartmentRepository.save(compartments);
+        return generateProducts(compartments, baggageClasses, productsSize);
     }
 
     /**
@@ -69,7 +72,7 @@ class ProductGeneratorStarter {
      * @return
      *        the list of generated products
      */
-    private List<Product> generateSeatGroups(
+    private List<Product> generateProducts(
             final List<Compartment> compartments,
             final List<BaggageClass> baggageClasses,
             final int productsSize) {

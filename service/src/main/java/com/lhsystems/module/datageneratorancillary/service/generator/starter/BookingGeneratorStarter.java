@@ -8,8 +8,8 @@ import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.BaggageSelectionRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.BookingRepository;
-import com.lhsystems.module.datageneratorancillary.service.repository.SeatSelectionRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.CoreBookingRepository;
+import com.lhsystems.module.datageneratorancillary.service.repository.SeatSelectionRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,10 +63,12 @@ public final class BookingGeneratorStarter {
     }
 
     /**
-     * Generates booking entities and save all associated .
+     * Generates booking entities and save all associated entities.
      *
      * @param numberBookings
      *            the number bookings
+     * @param flights
+     *            flights, that can be booked
      * @return a list of complete bookings
      */
     public List<Booking> generateBookingEntities(

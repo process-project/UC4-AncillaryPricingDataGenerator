@@ -45,6 +45,14 @@ public final class YamlOptionReader {
         return yaml.loadAs(input, GeneratorConfiguration.class);
     }
 
+    /**
+     * Read a yaml file of the form of compartments.yml.template containing
+     * compartments.
+     *
+     * @param compartmentsPath
+     *            the compartments path
+     * @return a list of compartments described in the file
+     */
     public List<Compartment> readCompartments(final String compartmentsPath) {
         final InputStream input = getClass().getResourceAsStream(
                 compartmentsPath);

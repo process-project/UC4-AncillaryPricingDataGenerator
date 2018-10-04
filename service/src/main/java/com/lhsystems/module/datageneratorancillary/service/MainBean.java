@@ -68,28 +68,24 @@ public class MainBean {
     // CHECKSTYLE:OFF
     public void start(final String[] args) {
         // CHECKSTYLE:ON
-        final String yamlPath = commandLineReader.getYamlPathFromCommandLine(args);
-        final String ssimPath = commandLineReader.getSsimPathFromCommandLine(
+        final PathOptions pathOptions = commandLineReader.readPathOptionsFromCommandLine(
                 args);
-        final String compartmentsPath = commandLineReader.getCompartmentsPathFromCommandLine(
-                args);
-        generateAirlines(yamlPath, compartmentsPath, ssimPath);
+        generateAirlines(pathOptions);
     }
 
     /**
-     * Start airline generator with options read from Yaml file.
+     * Start airline generator with options read from option files.
      *
-     *
-     * @param yamlOptionsPath
-     *             path to .yml file where are generator options
+     * @param pathOptions
+     *            contains paths of option files
      */
-    private void generateAirlines(final String yamlOptionsPath,
-            final String compartmentsPath, final String ssimPath) {
-        final GeneratorConfiguration generatorConfiguration = optionReader.readGeneratorOptions(yamlOptionsPath);
+    private void generateAirlines(final PathOptions pathOptions) {
+        final GeneratorConfiguration generatorConfiguration = optionReader.readGeneratorOptions(
+                pathOptions.getGeneratorConfigurationFile());
         final List<String> ssimLines = ssimReader.getSsimFileLines(
-                ssimPath);
+                pathOptions.getSsimFile());
         final List<Compartment> compartments = optionReader.readCompartments(
-                compartmentsPath);
+                pathOptions.getCompartmenFile());
         generatorStarter.generateData(
                 generatorConfiguration,
                 ssimLines,

@@ -1,8 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Booking;
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
@@ -87,8 +87,12 @@ public class GeneratorStarter {
     /**
      * Starts generating flight data in proper order.
      *
-     * @param generatorConfiguration the generator configuration
-     * @param ssimLines              the ssim lines
+     * @param generatorConfiguration
+     *            the generator configuration
+     * @param ssimLines
+     *            the ssim lines
+     * @param compartments
+     *            compartments the products belong to
      */
     public final void generateData(
             final GeneratorConfiguration generatorConfiguration,

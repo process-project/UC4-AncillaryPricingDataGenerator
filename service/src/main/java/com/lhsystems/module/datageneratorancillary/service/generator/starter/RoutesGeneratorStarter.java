@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Service
 public final class RoutesGeneratorStarter {
     /** The patern used for finding ida codes in line. */
-    private final Pattern idaPattern = Pattern.compile("\\s[A-Z]{3}");
+    private final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
 
     /** The repository used for saving airports. */
     private final AirportRepository airportRepository;
@@ -81,7 +81,7 @@ public final class RoutesGeneratorStarter {
      *        route
      */
     private Route generateDate(final String line, final List<Market> markets) {
-        final Matcher matcher = idaPattern.matcher(line);
+        final Matcher matcher = iataPattern.matcher(line);
         final List<Airport> airports = new ArrayList<>();
         while (matcher.find()) {
             final String iataCode = matcher.group(0).trim();

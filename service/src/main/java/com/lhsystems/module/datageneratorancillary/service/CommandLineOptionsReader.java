@@ -15,25 +15,26 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-
 @Service
 public final class CommandLineOptionsReader {
 
 
-    private final Options cmdOptions;
-
+    /** The compartment options Path to be used if no path option is given. */
     private static final String DEFAULT_COMPARTMENT_FILE = "/compartments.yml";
 
+    /**
+     * The generator options Path to be used if no path option is given.
+     */
+    private static final String DEFAULT_GENERATOR_OPTIONS_FILE = "/generator-options.yml";
+
+    /**
+     * The SSIM Path to be used if no path option is given.
+     */
     private static final String DEFAULT_SSIM_FILE = "/schedule-small.ssim";
 
     /**
-     * The Path to be used if no path option is given.
+     * Name of the option giving the yaml File containing the compartments.
      */
-    private static final String DEFAULT_YAML_FILE = "/generator-options.yml";
-
-    /** Logger.*/
-    private final Logger log = LoggerFactory.getLogger(CommandLineOptionsReader.class);
-
     private static final String OPTION_NAME_COMPARTMENT_FILE = "compartmentsFile";
 
     /**
@@ -42,26 +43,32 @@ public final class CommandLineOptionsReader {
     private static final String OPTION_NAME_SSIM_FILE = "ssimFile";
 
     /**
-     * Name of the option giving the yaml File containing the options.
+     * Name of the option giving the yaml File containing the generator options.
      */
-    private static final String OPTION_NAME_YAML_FILE = "yamlFile";
+    private static final String OPTION_NAME_GENERATOR_CONFIGURATION_FILE = "generatorConfigurationFile";
+
+    /** The options. */
+    private final Options commandLineOptions;
+
+    /** Logger.*/
+    private final Logger log = LoggerFactory.getLogger(CommandLineOptionsReader.class);
 
     /**
      * Instantiates a new command line options reader.
      */
     private CommandLineOptionsReader() {
-        cmdOptions = new Options();
-        cmdOptions.addOption(
-                OPTION_NAME_YAML_FILE,
+        commandLineOptions = new Options();
+        commandLineOptions.addOption(
+                OPTION_NAME_GENERATOR_CONFIGURATION_FILE,
                 true,
-                "Path of the yaml options file. Defaults to "
-                        + DEFAULT_YAML_FILE);
-        cmdOptions.addOption(
+                "Path of the generator options file. Defaults to "
+                        + DEFAULT_GENERATOR_OPTIONS_FILE);
+        commandLineOptions.addOption(
                 OPTION_NAME_SSIM_FILE,
                 true,
                 "Path of the ssim options file. Defaults to "
                         + DEFAULT_SSIM_FILE);
-        cmdOptions.addOption(
+        commandLineOptions.addOption(
                 OPTION_NAME_COMPARTMENT_FILE,
                 true,
                 "Path of the compartments file. Defaults to "
@@ -69,49 +76,36 @@ public final class CommandLineOptionsReader {
     }
 
     /**
-     * Parses arguments to find request option.
+     * Read path files of all option files from command line.
      *
      * @param args
-     *            program arguments
-     * @return value of command line option FILE_OPTIONS_NAME or
-     *         DEFAULT_OPTIONS_FILE when option not found or in case of error
+     *            the args
+     * @return the path options
      */
-    public String getYamlPathFromCommandLine(final String[] args) {
+    public PathOptions readPathOptionsFromCommandLine(final String[] args) {
+        String compartmentFile = DEFAULT_COMPARTMENT_FILE;
+        String ssimFile = DEFAULT_SSIM_FILE;
+        String generatorConfigurationFile = DEFAULT_GENERATOR_OPTIONS_FILE;
         try {
             final CommandLineParser parser = new DefaultParser();
-            final CommandLine line = parser.parse(cmdOptions, args);
-            if (line.hasOption(OPTION_NAME_YAML_FILE)) {
-                return line.getOptionValue(OPTION_NAME_YAML_FILE);
-            }
-        } catch (final ParseException e) {
-            log.error("Cannot parse argument from commandLine", e.getMessage());
-        }
-        return DEFAULT_YAML_FILE;
-    }
-
-    public String getSsimPathFromCommandLine(final String[] args) {
-        try {
-            final CommandLineParser parser = new DefaultParser();
-            final CommandLine line = parser.parse(cmdOptions, args);
-            if (line.hasOption(OPTION_NAME_SSIM_FILE)) {
-                return line.getOptionValue(OPTION_NAME_SSIM_FILE);
-            }
-        } catch (final ParseException e) {
-            log.error("Cannot parse argument from commandLine", e.getMessage());
-        }
-        return DEFAULT_SSIM_FILE;
-    }
-
-    public String getCompartmentsPathFromCommandLine(final String[] args) {
-        try {
-            final CommandLineParser parser = new DefaultParser();
-            final CommandLine line = parser.parse(cmdOptions, args);
+            final CommandLine line = parser.parse(commandLineOptions, args);
             if (line.hasOption(OPTION_NAME_COMPARTMENT_FILE)) {
-                return line.getOptionValue(OPTION_NAME_COMPARTMENT_FILE);
+                compartmentFile = line.getOptionValue(
+                        OPTION_NAME_COMPARTMENT_FILE);
+            }
+            if (line.hasOption(OPTION_NAME_SSIM_FILE)) {
+                ssimFile = line.getOptionValue(OPTION_NAME_SSIM_FILE);
+            }
+            if (line.hasOption(OPTION_NAME_GENERATOR_CONFIGURATION_FILE)) {
+                generatorConfigurationFile = line.getOptionValue(
+                        OPTION_NAME_GENERATOR_CONFIGURATION_FILE);
             }
         } catch (final ParseException e) {
             log.error("Cannot parse argument from commandLine", e.getMessage());
         }
-        return DEFAULT_COMPARTMENT_FILE;
+        return new PathOptions(
+                compartmentFile,
+                ssimFile,
+                generatorConfigurationFile);
     }
 }

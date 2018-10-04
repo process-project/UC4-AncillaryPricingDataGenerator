@@ -81,7 +81,7 @@ public final class ProductGeneratorTest {
     private boolean checkProducts(final List<Product> testProducts) {
         for (final Product product: testProducts){
             for (final BaggageClass baggageClass: product.getBaggageClasses()){
-                if (baggageClass.getBaggageLimits().getCountMax()< product.getNumberOfIncludedBags().get(baggageClass)){
+                if (baggageClass.getBaggageLimits().getCountMax()< product.getNumberOfIncludedBagsByBaggageClass().get(baggageClass)){
                     return false;
                 }
                 if (!product.getName().equals(PRODUCT_NAME)) {

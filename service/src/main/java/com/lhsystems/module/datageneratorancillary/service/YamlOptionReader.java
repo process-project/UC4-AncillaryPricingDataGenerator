@@ -3,9 +3,13 @@
  */
 package com.lhsystems.module.datageneratorancillary.service;
 
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
@@ -41,4 +45,18 @@ public final class YamlOptionReader {
         return yaml.loadAs(input, GeneratorConfiguration.class);
     }
 
+    public List<Compartment> readCompartments(final String compartmentsPath) {
+        final InputStream input = getClass().getResourceAsStream(
+                compartmentsPath);
+        final Yaml yaml = new Yaml();
+        final List<Compartment> compartments = new ArrayList<>();
+        for (final Map<String, String> map : (ArrayList<Map<String, String>>) yaml.load(
+                input)) {
+            compartments.add(
+                    new Compartment(
+                            map.get("identifier").charAt(0),
+                            map.get("name")));
+        }
+        return compartments;
+    }
 }

@@ -39,7 +39,7 @@ public final class SeatGroup {
      * class.
      */
     public SeatGroup() {
-        name = "default";
+        name = null;
         numberSeats = 0;
         seatPrice = 0;
     }

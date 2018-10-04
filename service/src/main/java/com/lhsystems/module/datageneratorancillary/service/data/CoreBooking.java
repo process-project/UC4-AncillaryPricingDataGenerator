@@ -16,8 +16,8 @@ import javax.persistence.Table;
  * @version $Revision: 1.10 $
  */
 @Entity
-@Table(name = "SimpleBooking")
-public final class SimpleBooking {
+@Table(name = "CoreBooking")
+public final class CoreBooking {
 
     /**
      * The number of days between the date of booking and the day of departure.
@@ -45,16 +45,17 @@ public final class SimpleBooking {
     private final Tariff tariff;
 
     /**
-     * Instantiates a new simple booking. Default constructor needed for entity.
+     * Instantiates a new core booking. Default constructor needed for entity.
      */
-    public SimpleBooking() {
+    public CoreBooking() {
         daysBeforeDeparture = 0;
         flight = null;
         numberPassengers = 0;
         tariff = null;
     }
+    
     /**
-     * Instantiates a new simple booking.
+     * Instantiates a new core booking.
      *
      * @param paramDaysBeforeDeparture
      *            The number of days between the date of booking and the day of
@@ -66,7 +67,7 @@ public final class SimpleBooking {
      * @param paramTariff
      *            the chosen tariff
      */
-    public SimpleBooking(final int paramDaysBeforeDeparture,
+    public CoreBooking(final int paramDaysBeforeDeparture,
             final Flight paramFlight,
             final int paramNumberPassengers, final Tariff paramTariff) {
         daysBeforeDeparture = paramDaysBeforeDeparture;

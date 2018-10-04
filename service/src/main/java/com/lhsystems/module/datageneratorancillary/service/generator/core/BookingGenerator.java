@@ -2,12 +2,12 @@ package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSelection;
-import com.lhsystems.module.datageneratorancillary.service.data.CompleteBooking;
+import com.lhsystems.module.datageneratorancillary.service.data.Booking;
+import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
-import com.lhsystems.module.datageneratorancillary.service.data.SimpleBooking;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 
 import java.util.HashMap;
@@ -17,12 +17,12 @@ import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.util.Precision;
 
 /**
- * Generates complete Bookings.
+ * Generates Bookings.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public final class CompleteBookingGenerator extends DataGenerator {
+public final class BookingGenerator extends DataGenerator {
 
     /** The minimum number of passengers. */
     private static final int MINIMUM_NUMBER_PASSENGERS = 1;
@@ -45,7 +45,7 @@ public final class CompleteBookingGenerator extends DataGenerator {
      * @param paramFlights
      *            the flights of wich bookings are chosen
      */
-    public CompleteBookingGenerator(final List<Flight> paramFlights) {
+    public BookingGenerator(final List<Flight> paramFlights) {
         flights = paramFlights;
     }
 
@@ -124,7 +124,7 @@ public final class CompleteBookingGenerator extends DataGenerator {
         final int numberPassengers = getRandom().nextInt(
                 MINIMUM_NUMBER_PASSENGERS,
                 MAXIMUM_NUMBER_PASSENGERS);
-        final SimpleBooking simpleBooking = new SimpleBooking(
+        final CoreBooking coreBooking = new CoreBooking(
                 daysBeforeDeparture,
                 flight,
                 numberPassengers,
@@ -136,8 +136,8 @@ public final class CompleteBookingGenerator extends DataGenerator {
         final BaggageSelection baggageSelection = createBaggageSelection(
                 tariff,
                 daysBeforeDeparture);
-        return new CompleteBooking(
-                simpleBooking,
+        return new Booking(
+                coreBooking,
                 seatSelection,
                 baggageSelection);
     }

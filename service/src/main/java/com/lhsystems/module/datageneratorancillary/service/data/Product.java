@@ -45,7 +45,7 @@ public final class Product {
     @ElementCollection
     @MapKeyJoinColumn(name = "BAGGAGE_CLASS_ID", referencedColumnName = "id")
     @CollectionTable(name = "NumberOfIncludedBags")
-    private final Map<BaggageClass, Integer> numberOfIncludedBags;
+    private final Map<BaggageClass, Integer> numberOfIncludedBagsByBaggageClass;
 
     /** The name of the product. */
     @Column(name = "NAME")
@@ -58,7 +58,7 @@ public final class Product {
     public Product() {
         name = null;
         compartment = null;
-        numberOfIncludedBags = null;
+        numberOfIncludedBagsByBaggageClass = null;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class Product {
         name = paramName;
         compartment = paramCompartment;
         baggageClasses = paramBaggageClasses;
-        numberOfIncludedBags = paramNumberOfIncludedBags;
+        numberOfIncludedBagsByBaggageClass = paramNumberOfIncludedBags;
     }
 
     /**
@@ -124,8 +124,8 @@ public final class Product {
      *
      * @return the number of included bags
      */
-    public Map<BaggageClass, Integer> getNumberOfIncludedBags() {
-        return numberOfIncludedBags;
+    public Map<BaggageClass, Integer> getNumberOfIncludedBagsByBaggageClass() {
+        return numberOfIncludedBagsByBaggageClass;
     }
 
 }

@@ -73,7 +73,6 @@ public final class Flight {
      * class.
      */
     public Flight() {
-        id = 0;
         flightNumber = 0;
         departureTime = null;
         departureDate = null;
@@ -83,7 +82,7 @@ public final class Flight {
 
     /**
      * Constructor.
-     * 
+     *
      * @param paramFlightNumber
      *            flight number of the flight
      * @param departureDateTime

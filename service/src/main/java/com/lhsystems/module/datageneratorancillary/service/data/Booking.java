@@ -15,18 +15,18 @@ import javax.persistence.Table;
  * @version $Revision: 1.10 $
  */
 @Entity
-@Table(name = "CompleteBooking")
-public final class CompleteBooking {
+@Table(name = "Booking")
+public final class Booking {
 
     /** The id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    /** The simple booking. */
+    /** The core booking. */
     @OneToOne
     @JoinColumn(name = "SIMPLE_BOOKING")
-    private final SimpleBooking simpleBooking;
+    private final CoreBooking coreBooking;
 
     /** The seat selection. */
     @OneToOne
@@ -42,8 +42,8 @@ public final class CompleteBooking {
      * Instantiates a new complete booking. DefaultConstructor needed for
      * entity.
      */
-    public CompleteBooking() {
-        simpleBooking = null;
+    public Booking() {
+        coreBooking = null;
         seatSelection = null;
         baggageSelection = null;
     }
@@ -51,18 +51,18 @@ public final class CompleteBooking {
     /**
      * Instantiates a new complete booking.
      *
-     * @param paramSimpleBooking
+     * @param paramCoreBooking
      *            the simple booking field value
      * @param paramSeatSelection
      *            the seat selection field value
      * @param paramBaggageSelection
      *            the baggage selection field value
      */
-    public CompleteBooking(
-            final SimpleBooking paramSimpleBooking,
+    public Booking(
+            final CoreBooking paramCoreBooking,
             final SeatSelection paramSeatSelection,
             final BaggageSelection paramBaggageSelection) {
-        simpleBooking = paramSimpleBooking;
+        coreBooking = paramCoreBooking;
         seatSelection = paramSeatSelection;
         baggageSelection = paramBaggageSelection;
     }
@@ -72,8 +72,8 @@ public final class CompleteBooking {
      *
      * @return the simple booking
      */
-    public SimpleBooking getSimpleBooking() {
-        return simpleBooking;
+    public CoreBooking getCoreBooking() {
+        return coreBooking;
     }
 
     /**

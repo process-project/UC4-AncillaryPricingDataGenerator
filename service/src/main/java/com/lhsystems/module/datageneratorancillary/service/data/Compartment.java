@@ -35,7 +35,6 @@ public final class Compartment {
      * class.
      */
     public Compartment() {
-        id = 0;
         identifier = ' ';
         name = null;
     }

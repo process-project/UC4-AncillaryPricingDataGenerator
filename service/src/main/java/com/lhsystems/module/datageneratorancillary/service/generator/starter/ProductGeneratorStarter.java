@@ -7,7 +7,6 @@ import com.lhsystems.module.datageneratorancillary.service.generator.core.Produc
 import com.lhsystems.module.datageneratorancillary.service.repository.CompartmentRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.ProductRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,30 +46,15 @@ class ProductGeneratorStarter {
      * Generate products entities save them.
      *
      * @param baggageClasses
-     *        the tariffs to be used for flight generation
+     *            the tariffs to be used for flight generation
      * @param productsSize
-     *        the size of products that should be generated
-     * @return
-     *        the list of generated products
+     *            the size of products that should be generated
+     * @return the list of generated products
      */
     List<Product> generateProductsEntities(
-            final List<BaggageClass> baggageClasses, final int productsSize) {
-        final List<Compartment> compartments = generateCompartment();
+            final List<BaggageClass> baggageClasses, final int productsSize,
+            final List<Compartment> compartments) {
         return generateSeatGroups(compartments, baggageClasses, productsSize);
-    }
-
-    /**
-     * Generate compartment entities and save them into database.
-     *
-     * @return
-     *        the list of generated compartments
-     */
-    private List<Compartment> generateCompartment() {
-        final Compartment compartment = new Compartment('d', "name");
-        compartmentRepository.save(compartment);
-        final List<Compartment> compartments = new ArrayList<>();
-        compartments.add(compartment);
-        return compartments;
     }
 
     /**

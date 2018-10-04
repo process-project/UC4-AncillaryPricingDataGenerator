@@ -1,7 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.CompleteBooking;
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
+import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
@@ -91,13 +92,14 @@ public class GeneratorStarter {
      */
     public final void generateData(
             final GeneratorConfiguration generatorConfiguration,
-            final List<String> ssimLines) {
+            final List<String> ssimLines,
+            final List<Compartment> compartments) {
         final List<BaggageClass> baggageClasses = baggageGeneratorStarter.generateBaggageEntities(
                 generatorConfiguration.getBaggageConfiguration());
         final List<Product> products = productGeneratorStarter.generateProductsEntities(
                 baggageClasses,
-                generatorConfiguration.getNumberProducts());
-
+                generatorConfiguration.getNumberProducts(),
+                compartments);
         final List<SeatingModel> seatingModels = seatingGeneratorStarter.generateSeatingModel(
                 generatorConfiguration.getSeatConfiguration());
 
@@ -113,7 +115,7 @@ public class GeneratorStarter {
                 generatorConfiguration.getFlightConfiguration(),
                 tariffs,
                 routes);
-        final List<CompleteBooking> bookings = bookingGeneratorStarter.generateBookingEntities(
+        final List<Booking> bookings = bookingGeneratorStarter.generateBookingEntities(
                 generatorConfiguration.getNumberBookings(),
                 flights);
 

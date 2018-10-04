@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.starter.GeneratorStarter;
 
@@ -38,17 +39,6 @@ public class MainBean {
     private final SSIMFileReader ssimReader;
 
     /**
-     * Reads data from a SQLite database.
-     */
-    // private SqliteReader sqliteReader;
-
-    /**
-     * Used to write the generated flights into the database.
-     */
-    // private SqliteWriter sqliteWriter;
-
-
-    /**
      * Instantiates a new Main bean.
      *
      * @param generatorStarterParam    the generator starter
@@ -79,7 +69,11 @@ public class MainBean {
     public void start(final String[] args) {
         // CHECKSTYLE:ON
         final String yamlPath = commandLineReader.getYamlPathFromCommandLine(args);
-        generateAirlines(yamlPath);
+        final String ssimPath = commandLineReader.getSsimPathFromCommandLine(
+                args);
+        final String compartmentsPath = commandLineReader.getCompartmentsPathFromCommandLine(
+                args);
+        generateAirlines(yamlPath, compartmentsPath, ssimPath);
     }
 
     /**
@@ -89,11 +83,17 @@ public class MainBean {
      * @param yamlOptionsPath
      *             path to .yml file where are generator options
      */
-    private void generateAirlines(final String yamlOptionsPath) {
+    private void generateAirlines(final String yamlOptionsPath,
+            final String compartmentsPath, final String ssimPath) {
         final GeneratorConfiguration generatorConfiguration = optionReader.readGeneratorOptions(yamlOptionsPath);
         final List<String> ssimLines = ssimReader.getSsimFileLines(
-                "/schedule-small.ssim");
-        generatorStarter.generateData(generatorConfiguration, ssimLines);
+                ssimPath);
+        final List<Compartment> compartments = optionReader.readCompartments(
+                compartmentsPath);
+        generatorStarter.generateData(
+                generatorConfiguration,
+                ssimLines,
+                compartments);
     }
 
 }

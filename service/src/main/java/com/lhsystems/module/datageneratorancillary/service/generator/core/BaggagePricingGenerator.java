@@ -1,6 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BaggagePricingConfiguration;
 
 /**
  * Generates baggage prices randomly.
@@ -13,30 +14,38 @@ public final class BaggagePricingGenerator extends DataGenerator {
     /** The number of decimal places of the prices. */
     private static final int ACCURACY = 2;
 
-    /** The maximal price for each additional bag. */
-    private static final int MAX_ADDITIONAL_PRICE = 125;
+    /** The minimum first price. */
+    private final double minFirstPrice;
 
-    /** The maximal first price. */
-    private static final int MAX_FIRST_PRICE = 30;
+    /** The maximum first price. */
+    private final double maxFirstPrice;
 
-    /** The maximal second price. */
-    private static final int MAX_SECOND_PRICE = 50;
+    /** The minimum second price. */
+    private final double minSecondPrice;
 
-    /** The minimal price for each additional bag. */
-    private static final int MIN_ADDITIONAL_PRICE = 15;
+    /** The maximum second price. */
+    private final double maxSecondPrice;
 
-    /** The minimal first price. */
-    private static final int MIN_FIRST_PRICE = 5;
+    /** The minimum additional price. */
+    private final double minAdditionalPrice;
 
-    /** The maximal second price. */
-    private static final int MIN_SECOND_PRICE = 10;
+    /** The maximum additional price. */
+    private final double maxAdditionalPrice;
 
     /**
      * Instantiates a new baggage pricing generator.
      *
+     * @param baggagePricingConfiguration
+     *            the baggage pricing configuration
      */
-    public BaggagePricingGenerator() {
-        super();
+    public BaggagePricingGenerator(
+            final BaggagePricingConfiguration baggagePricingConfiguration) {
+        minFirstPrice = baggagePricingConfiguration.getMinimumFirstPrice();
+        maxFirstPrice = baggagePricingConfiguration.getMaximumFirstPrice();
+        minSecondPrice = baggagePricingConfiguration.getMinimumSecondPrice();
+        maxSecondPrice = baggagePricingConfiguration.getMaximumSecondPrice();
+        minAdditionalPrice = baggagePricingConfiguration.getMinimumAdditionalPrice();
+        maxAdditionalPrice = baggagePricingConfiguration.getMaximumAdditionalPrice();
     }
 
     /**
@@ -45,16 +54,16 @@ public final class BaggagePricingGenerator extends DataGenerator {
     @Override
     protected BaggagePricing generate() {
         final double firstPrice = getRandom().getRandomRoundedDouble(
-                MIN_FIRST_PRICE,
-                MAX_FIRST_PRICE,
+                minFirstPrice,
+                maxFirstPrice,
                 ACCURACY);
         final double secondPrice = getRandom().getRandomRoundedDouble(
-                MIN_SECOND_PRICE,
-                MAX_SECOND_PRICE,
+                minSecondPrice,
+                maxSecondPrice,
                 ACCURACY);
         final double additionalPrice = getRandom().getRandomRoundedDouble(
-                MIN_ADDITIONAL_PRICE,
-                MAX_ADDITIONAL_PRICE,
+                minAdditionalPrice,
+                maxAdditionalPrice,
                 ACCURACY);
         return new BaggagePricing(firstPrice, secondPrice, additionalPrice);
     }

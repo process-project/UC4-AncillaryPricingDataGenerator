@@ -23,7 +23,7 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <excludes>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.sqlite.SqliteConnection</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.configuration</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.DataGeneratorMain</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.YamlOptionReader</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys</exclude>

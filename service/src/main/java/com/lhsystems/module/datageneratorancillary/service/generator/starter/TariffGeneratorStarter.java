@@ -3,6 +3,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.TariffConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.TariffGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.TariffRepository;
 
@@ -38,21 +39,22 @@ class TariffGeneratorStarter {
      * Generate tariff entities in tariff generator and save them.
      *
      * @param products
-     *        the products to be used for tariff generation
+     *            the products to be used for tariff generation
      * @param seatingModels
-     *        the seating models to be used for tariff generation
-     * @param tariffSize
-     *        the size of tariffs that should be generated
-     * @return
-     *        the list of generated tariffs
+     *            the seating models to be used for tariff generation
+     * @param tariffConfiguration
+     *            the tariff configuration
+     * @return the list of generated tariffs
      */
     List<Tariff> generateTariffsEntities(final List<Product> products,
             final List<SeatingModel> seatingModels,
-            final int tariffSize) {
+            final TariffConfiguration tariffConfiguration) {
         final TariffGenerator tariffGenerator = new TariffGenerator(
                 products,
-                seatingModels);
-        final List<Tariff> tariffs = tariffGenerator.generateList(tariffSize);
+                seatingModels,
+                tariffConfiguration);
+        final List<Tariff> tariffs = tariffGenerator.generateList(
+                tariffConfiguration.getNumberTariff());
         tariffRepository.save(tariffs);
         return tariffs;
     }

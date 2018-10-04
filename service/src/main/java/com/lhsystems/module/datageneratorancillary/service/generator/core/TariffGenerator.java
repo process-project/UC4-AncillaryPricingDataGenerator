@@ -4,6 +4,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.TariffConfiguration;
 
 import java.util.List;
 
@@ -16,10 +17,10 @@ import java.util.List;
 public final class TariffGenerator extends DataGenerator {
 
     /** The maximal price of a flight. */
-    private static final double MAXIMUM_PRICE = 600;
+    private final double maximumPrice;
 
     /** The minimal price of a flight. */
-    private static final double MINIMUM_PRICE = 40;
+    private final double minimumPrice;
 
     /** The products to be used for tariff generation. */
     private final List<Product> products;
@@ -37,13 +38,17 @@ public final class TariffGenerator extends DataGenerator {
      *            the products to be used for tariff generation
      * @param paramSeatingModels
      *            the seating models to be used for tariff generation
+     * @param tariffConfiguration
+     *            the tariff configuration
      */
     public TariffGenerator(
             final List<Product> paramProducts,
-            final List<SeatingModel> paramSeatingModels) {
-        super();
+            final List<SeatingModel> paramSeatingModels,
+            final TariffConfiguration tariffConfiguration) {
         products = paramProducts;
         seatingModels = paramSeatingModels;
+        maximumPrice = tariffConfiguration.getMaximumPrice();
+        minimumPrice = tariffConfiguration.getMinimumPrice();
     }
 
     /**
@@ -52,8 +57,8 @@ public final class TariffGenerator extends DataGenerator {
     @Override
     protected Tariff generate() {
         final double price = getRandom().getRandomRoundedDouble(
-                MINIMUM_PRICE,
-                MAXIMUM_PRICE,
+                minimumPrice,
+                maximumPrice,
                 2);
         final Product product = getRandom().getOneRandomElement(products);
         final SeatingModel seatingModel = getRandom().getOneRandomElement(

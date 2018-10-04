@@ -3,6 +3,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ProductConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.CompartmentRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.ProductRepository;
@@ -53,11 +54,15 @@ class ProductGeneratorStarter {
      *            the compartments to be used for product generation
      * @return the list of generated products
      */
-    List<Product> generateProductsEntities(
-            final List<BaggageClass> baggageClasses, final int productsSize,
-            final List<Compartment> compartments) {
+    List<Product> generateProductEntities(
+            final List<Compartment> compartments,
+            final List<BaggageClass> baggageClasses,
+            final ProductConfiguration productConfiguration) {
         compartmentRepository.save(compartments);
-        return generateProducts(compartments, baggageClasses, productsSize);
+        return generateProducts(
+                compartments,
+                baggageClasses,
+                productConfiguration);
     }
 
     /**
@@ -67,19 +72,21 @@ class ProductGeneratorStarter {
      *        the compartments to be used for product generation
      * @param baggageClasses
      *        the baggage classes to be used for product generation
-     * @param productsSize
-     *        the size of products that should be generated
-     * @return
-     *        the list of generated products
+     * @param productConfiguration
+     *            the product configuration
+     * @return the list of generated products
      */
     private List<Product> generateProducts(
             final List<Compartment> compartments,
             final List<BaggageClass> baggageClasses,
-            final int productsSize) {
+            final ProductConfiguration productConfiguration) {
         final ProductGenerator productGenerator = new ProductGenerator(
                 compartments,
-                baggageClasses);
-        final List<Product> products = productGenerator.generateList(productsSize);
+                baggageClasses,
+                productConfiguration);
+        final List<Product> products = productGenerator.generateList(
+                productConfiguration.getNumberProduct());
+        compartmentRepository.save(compartments);
         productRepository.save(products);
         return products;
     }

@@ -99,29 +99,35 @@ public class GeneratorStarter {
             final List<String> ssimLines,
             final List<Compartment> compartments) {
         final List<BaggageClass> baggageClasses = baggageGeneratorStarter.generateBaggageEntities(
-                generatorConfiguration.getBaggageConfiguration());
-        final List<Product> products = productGeneratorStarter.generateProductsEntities(
+                generatorConfiguration.getBaggageClassConfiguration(),
+                generatorConfiguration.getBaggageLimitsConfiguration(),
+                generatorConfiguration.getBaggagePricingConfiguration(),
+                generatorConfiguration.getBaggageSizeConfiguration());
+        final List<Product> products = productGeneratorStarter.generateProductEntities(
+                compartments,
                 baggageClasses,
-                generatorConfiguration.getNumberProducts(),
-                compartments);
-        final List<SeatingModel> seatingModels = seatingGeneratorStarter.generateSeatingModelEntities(
-                generatorConfiguration.getSeatConfiguration());
+                generatorConfiguration.getProductConfiguration());
+        final List<SeatingModel> seatingModels = seatingGeneratorStarter.generateSeatingModel(
+                generatorConfiguration.getSeatingModelConfiguration(),
+                generatorConfiguration.getSeatGroupConfiguration());
 
         final List<Tariff> tariffs = tariffGeneratorStarter.generateTariffsEntities(
                 products,
                 seatingModels,
-                generatorConfiguration.getNumberTariffs());
+                generatorConfiguration.getTariffConfiguration());
 
         final List<Market> markets = getAvailableMarkets(tariffs);
 
-        final List<Route> routes = routesGeneratorStarter.generateRoutesAndAirportEntities(markets, ssimLines);
+        final List<Route> routes = routesGeneratorStarter.generateRoutesAndAirportEntities(
+                markets,
+                ssimLines);
         final List<Flight> flights = flightGeneratorStarter.generateFlightsEntities(
                 generatorConfiguration.getFlightConfiguration(),
                 tariffs,
                 routes);
         final List<Booking> bookings = bookingGeneratorStarter.generateBookingEntities(
-                generatorConfiguration.getNumberBookings(),
-                flights);
+                flights,
+                generatorConfiguration.getBookingConfiguration());
 
     }
 

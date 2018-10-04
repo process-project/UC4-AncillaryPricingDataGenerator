@@ -2,6 +2,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.SeatingModelConfiguration;
 
 import java.util.List;
 
@@ -14,10 +15,10 @@ import java.util.List;
 public final class SeatingModelGenerator extends DataGenerator {
 
     /** The maximal number of seat groups in a model. */
-    private static final int MAX_NUMBER_SEAT_GROUPS = 4;
+    private final int maxNumberSeatGroups;
 
     /** The minimal number of seat groups in a model. */
-    private static final int MIN_NUMBER_SEAT_GROUPS = 1;
+    private final int minNumberSeatGroups;
 
     /**
      * The seat groups from which the seat groups of a random seating model are
@@ -30,11 +31,15 @@ public final class SeatingModelGenerator extends DataGenerator {
      *
      * @param paramSeatGroups
      *            the seat groups from which we chose
+     * @param seatingModelConfiguration
+     *            the seating model configuration
      */
     public SeatingModelGenerator(
-            final List<SeatGroup> paramSeatGroups) {
-        super();
+            final List<SeatGroup> paramSeatGroups,
+            final SeatingModelConfiguration seatingModelConfiguration) {
         seatGroups = paramSeatGroups;
+        maxNumberSeatGroups = seatingModelConfiguration.getMaximumNumberSeatGroups();
+        minNumberSeatGroups = seatingModelConfiguration.getMinimumNumberSeatGroups();
     }
 
 
@@ -45,8 +50,8 @@ public final class SeatingModelGenerator extends DataGenerator {
     protected SeatingModel generate() {
         final List<SeatGroup> chosenSeatGroups = getRandom().getRandomlyManyElements(
                 seatGroups,
-                MIN_NUMBER_SEAT_GROUPS,
-                MAX_NUMBER_SEAT_GROUPS);
+                minNumberSeatGroups,
+                maxNumberSeatGroups);
         return new SeatingModel(chosenSeatGroups);
     }
 

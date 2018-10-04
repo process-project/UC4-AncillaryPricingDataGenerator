@@ -53,7 +53,7 @@ public final class CoreBooking {
         numberPassengers = 0;
         tariff = null;
     }
-    
+
     /**
      * Instantiates a new core booking.
      *
@@ -74,5 +74,29 @@ public final class CoreBooking {
         flight = paramFlight;
         numberPassengers = paramNumberPassengers;
         tariff = paramTariff;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    public int getDaysBeforeDeparture() {
+        return daysBeforeDeparture;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public int getNumberPassengers() {
+        return numberPassengers;
+    }
+
+    public Tariff getTariff() {
+        return tariff;
     }
 }

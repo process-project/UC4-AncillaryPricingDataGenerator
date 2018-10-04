@@ -33,7 +33,7 @@ public final class Flight {
 
     /** The tariffs bookable on this flight. */
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "Flights_Tariffs",
+    @JoinTable(name = "BookableTariffs",
     joinColumns = @JoinColumn(name = "flight_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "tariff_id", referencedColumnName = "id"))
     private final List<Tariff> bookableTariffs;

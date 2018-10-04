@@ -9,6 +9,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.TariffConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.TariffGenerator;
 
 import java.util.ArrayList;
@@ -70,9 +71,13 @@ public final class TariffGeneratorTest {
         products.add(product);
         final List<SeatingModel> seatingModels = new ArrayList<>();
         seatingModels.add(seatingModel);
+        final TariffConfiguration tariffConfiguration = new TariffConfiguration();
+        tariffConfiguration.setMaximumPrice(200);
+        tariffConfiguration.setMinimumPrice(50);
         final TariffGenerator tariffGenerator = new TariffGenerator(
                 products,
-                seatingModels);
+                seatingModels,
+                tariffConfiguration);
         final List<Tariff> testTariffs = tariffGenerator.generateList(100);
         assertTrue(checkTariffs(testTariffs));
 

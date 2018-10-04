@@ -73,9 +73,9 @@ public final class RoutesGeneratorStarter {
         if(airports.size() != 2) {
             return null;
         }
-    
+
         airports.forEach(this::saveAirportIfNotExits);
-    
+
         return getOrCreateRouteIfNotExists(airports.get(0), airports.get(1));
     }
 

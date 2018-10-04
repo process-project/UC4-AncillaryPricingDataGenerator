@@ -3,7 +3,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightGeneratorConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.FlightRepository;
 
@@ -49,14 +49,18 @@ class FlightGeneratorStarter {
      *        the list of generated flights
      */
     List<Flight> generateFlightsEntities(
-            final FlightGeneratorConfiguration flightGeneratorConfiguration,
+            final FlightConfiguration flightGeneratorConfiguration,
             final List<Tariff> tariffs, final List<Route> routes) {
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
-                flightGeneratorConfiguration.getMinFlightDateAsLocalDate(),
-                flightGeneratorConfiguration.getMaxFlightDateAsLocalDate());
-        final List<Flight> flights = flightGenerator.generateList(flightGeneratorConfiguration.getNumber());
+                flightGeneratorConfiguration.getMinimumFlightDateAsLocalDate(),
+                flightGeneratorConfiguration.getMaximumFlightDateAsLocalDate(),
+                flightGeneratorConfiguration.getMinimumNumberTariffs(),
+                flightGeneratorConfiguration.getMaximumNumberTariffs());
+
+        final List<Flight> flights = flightGenerator.generateList(
+                flightGeneratorConfiguration.getNumberFlight());
         return flights.stream()
                 .map(flightRepository::save)
                 .collect(Collectors.toList());

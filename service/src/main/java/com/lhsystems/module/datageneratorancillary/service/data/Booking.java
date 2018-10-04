@@ -52,7 +52,7 @@ public final class Booking {
      * Instantiates a new complete booking.
      *
      * @param paramCoreBooking
-     *            the core booking field value
+     *            the simple booking field value
      * @param paramSeatSelection
      *            the seat selection field value
      * @param paramBaggageSelection
@@ -68,9 +68,9 @@ public final class Booking {
     }
 
     /**
-     * Gets the core booking.
+     * Gets the simple booking.
      *
-     * @return the core booking
+     * @return the simple booking
      */
     public CoreBooking getCoreBooking() {
         return coreBooking;

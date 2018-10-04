@@ -22,17 +22,12 @@ import java.util.List;
  */
 public final class FlightGenerator extends DataGenerator {
 
-    /** The maximum number of tariffs that can be booked on a flight. */
-    private static final int MAX_NUMBER_TARIFFS = 4;
-
-    /** The minimum number of tariffs that can be booked on a flight. */
-    private static final int MIN_NUMBER_TARIFFS = 1;
 
     /** The first date of the generation interval. */
-    private final LocalDate minDate;
+    private final LocalDate minimumDate;
 
     /** The last date of the generation interval. */
-    private final LocalDate maxDate;
+    private final LocalDate maximumDate;
 
     /**
      * list of <code>routes</code> objects to be used for the generation of
@@ -49,6 +44,12 @@ public final class FlightGenerator extends DataGenerator {
     /** The tariffs to be used for flight generation. */
     private final List<Tariff> tariffs;
 
+    /** The minimum number of bookable tariffs for one flight. */
+    private final int minimumNumberTariffs;
+
+    /** The maximum number of bookable tariffs for one flight. */
+    private final int maximumNumberTariffs;
+
     /**
      * Constructor.
      *
@@ -60,15 +61,22 @@ public final class FlightGenerator extends DataGenerator {
      *            the first date of the generation interval
      * @param paramMaxDate
      *            the last date of the generation interval
+     * @param paramMinimumNumberTariffs
+     *            the param minimum number tariffs
+     * @param paramMaximumNumberTariffs
+     *            the param maximum number tariffs
      */
     public FlightGenerator(final List<Route> paramRoutes,
             final List<Tariff> paramTariffs, final LocalDate paramMinDate,
-            final LocalDate paramMaxDate) {
+            final LocalDate paramMaxDate, final int paramMinimumNumberTariffs,
+            final int paramMaximumNumberTariffs) {
         super();
         tariffs = paramTariffs;
-        minDate = paramMinDate;
+        minimumDate = paramMinDate;
         routes = paramRoutes;
-        maxDate = paramMaxDate;
+        maximumDate = paramMaxDate;
+        minimumNumberTariffs = paramMinimumNumberTariffs;
+        maximumNumberTariffs = paramMaximumNumberTariffs;
     }
 
 
@@ -79,8 +87,8 @@ public final class FlightGenerator extends DataGenerator {
     protected Flight generate() {
         final int flightNumber = increaseFlightNumberCounter();
         final LocalDate departureDate = getRandom().getRandomDay(
-                minDate,
-                maxDate);
+                minimumDate,
+                maximumDate);
         final LocalTime departureTime = getRandom().getRandomDaytime();
         final Route route = getRandom().getOneRandomElement(routes);
         final List<Tariff> chosenTariffs = chooseTariffs(route.getMarket());
@@ -108,8 +116,8 @@ public final class FlightGenerator extends DataGenerator {
         }
         return getRandom().getRandomlyManyElements(
                 tariffsOfMarket,
-                MIN_NUMBER_TARIFFS,
-                MAX_NUMBER_TARIFFS);
+                minimumNumberTariffs,
+                maximumNumberTariffs);
     }
 
     /**

@@ -6,9 +6,9 @@ flightConfiguration:
     minimumFlightDate: '2018-01-01'
     minimumNumberTariffs: 1
     numberFlight: 200
-    
+
 #baggage configuration:
-baggageClassConfiguration: 
+baggageClassConfiguration:
     numberBaggageClass: 4
 baggageLimitsConfiguration:
     maximumCount: 5
@@ -30,8 +30,8 @@ baggageSizeConfiguration:
     minimumCircumference: 30
     minimumSideLength: 5
     numberBaggageSize: 3
-    
-#seat configuration: 
+
+#seat configuration:
 seatGroupConfiguration:
     maximumNumberSeats: 20
     maximumSeatPrice: 30
@@ -39,23 +39,23 @@ seatGroupConfiguration:
     minimumSeatPrice: 8
     numberSeatGroup: 5
 
-seatingModelConfiguration: 
+seatingModelConfiguration:
     maximumNumberSeatGroups: 4
     minimumNumberSeatGroups: 1
     numberSeatingModel: 5
 
 #product configuration
-productConfiguration: 
+productConfiguration:
     maximumNumberBaggageClasses: 4
     minimumNumberBaggageClasses: 1
     numberProduct: 3
-  
+
 #tariff configuration
 tariffConfiguration:
     maximumPrice: 600
     minimumPrice: 40
     numberTariff: 100
-    
+
 #bookingConfiguration:
 bookingConfiguration:
     maximumNumberBags: 2
@@ -63,3 +63,4 @@ bookingConfiguration:
     minimumNumberBags: 0
     minimumNumberPassengers: 1
     numberBookings: 10000
+    rangeOfDaysBeforeDeparture: 363

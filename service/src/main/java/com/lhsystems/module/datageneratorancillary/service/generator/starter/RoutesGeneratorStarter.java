@@ -25,13 +25,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public final class RoutesGeneratorStarter {
-<<<<<<< Upstream, based on lmuGitlab/topic/EUPLSY-85
-    /** The patern used for finding ida codes in line. */
-    private final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
-=======
     /** The pattern used for finding IATA codes in line. */
     private static final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
->>>>>>> c0ba3f7 EUPLSY-85: Add Bookings and respective Generator, Repository as well as  utility classes
 
     /** The repository used for saving airports. */
     private final AirportRepository airportRepository;
@@ -67,11 +62,7 @@ public final class RoutesGeneratorStarter {
      * @return
      *        route
      */
-<<<<<<< Upstream, based on lmuGitlab/topic/EUPLSY-85
-    private Route generateDate(final String line, final List<Market> markets) {
-=======
     private Route generateRoute(final String line, final List<Market> markets) {
->>>>>>> c0ba3f7 EUPLSY-85: Add Bookings and respective Generator, Repository as well as  utility classes
         final Matcher matcher = iataPattern.matcher(line);
         final List<Airport> airports = new ArrayList<>();
         while (matcher.find()) {

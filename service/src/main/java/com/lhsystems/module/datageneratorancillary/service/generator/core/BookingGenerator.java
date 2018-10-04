@@ -41,6 +41,9 @@ public final class BookingGenerator extends DataGenerator {
     /** The minimum number of passengers. */
     private final int minimumNumberPassengers;
 
+    /** The range of days before departure. */
+    private final int rangeOfDaysBeforeDeparture;
+
     /**
      * Instantiates a new booking generator.
      *
@@ -55,6 +58,7 @@ public final class BookingGenerator extends DataGenerator {
         maximumNumberBags = bookingConfiguration.getMaximumNumberBags();
         minimumNumberPassengers = bookingConfiguration.getMinimumNumberPassengers();
         maximumNumberPassengers = bookingConfiguration.getMaximumNumberPassengers();
+        rangeOfDaysBeforeDeparture = bookingConfiguration.getRangeOfDaysBeforeDeparture();
     }
 
     /**
@@ -136,7 +140,7 @@ public final class BookingGenerator extends DataGenerator {
         final Tariff tariff = getRandom().getOneRandomElement(
                 flight.getBookableTariffs());
         final int daysBeforeDeparture = getRandomDaysBeforeDeparture(
-                363,
+                rangeOfDaysBeforeDeparture,
                 flight.getRoute().getMarket());
         final int numberPassengers = getRandom().nextInt(
                 minimumNumberPassengers,

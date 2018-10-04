@@ -23,6 +23,9 @@ public final class BookingConfiguration {
     /** The number of bookings to be generated. */
     private int numberBookings;
 
+    /** The maximum number of Days before Departure. */
+    private int rangeOfDaysBeforeDeparture;
+
     /**
      * Instantiates a new booking configuration.
      */
@@ -75,6 +78,15 @@ public final class BookingConfiguration {
     }
 
     /**
+     * Gets the range of days before departure.
+     *
+     * @return the range of days before departure
+     */
+    public int getRangeOfDaysBeforeDeparture() {
+        return rangeOfDaysBeforeDeparture;
+    }
+
+    /**
      * Sets the maximum number of bags.
      *
      * @param paramMaximumNumberBags
@@ -122,6 +134,17 @@ public final class BookingConfiguration {
      */
     public void setNumberBookings(final int paramNumberBookings) {
         numberBookings = paramNumberBookings;
+    }
+
+    /**
+     * Sets the range of days before departure.
+     *
+     * @param paramRangeOfDaysBeforeDeparture
+     *            the new range of days before departure
+     */
+    public void setRangeOfDaysBeforeDeparture(
+            final int paramRangeOfDaysBeforeDeparture) {
+        rangeOfDaysBeforeDeparture = paramRangeOfDaysBeforeDeparture;
     }
 
 }

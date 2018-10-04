@@ -1,3 +1,6 @@
+/*
+ *
+ */
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import java.util.Map;
@@ -68,18 +71,29 @@ public final class BaggageSelection {
         chosenBaggage = paramChosenBaggage;
     }
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
-    public void setId(final long id) {
-        this.id = id;
-    }
-
+    /**
+     * Gets the days before departure the baggage was booked.
+     *
+     * @return the days before departure
+     */
     public int getBaggageDaysBeforeDeparture() {
         return baggageDaysBeforeDeparture;
     }
 
+    /**
+     * Gets the chosen baggage.
+     *
+     * @return the chosen baggage
+     */
     public Map<BaggageClass, Integer> getChosenBaggage() {
         return chosenBaggage;
     }

@@ -5,6 +5,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;

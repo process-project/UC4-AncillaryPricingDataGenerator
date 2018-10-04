@@ -76,26 +76,48 @@ public final class CoreBooking {
         tariff = paramTariff;
     }
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
-    public void setId(final long id) {
-        this.id = id;
-    }
 
+    /**
+     * Gets the days before departure.
+     *
+     * @return the days before departure
+     */
     public int getDaysBeforeDeparture() {
         return daysBeforeDeparture;
     }
 
+    /**
+     * Gets the flight.
+     *
+     * @return the flight
+     */
     public Flight getFlight() {
         return flight;
     }
 
+    /**
+     * Gets the number of passengers.
+     *
+     * @return the number of passengers
+     */
     public int getNumberPassengers() {
         return numberPassengers;
     }
 
+    /**
+     * Gets the tariff.
+     *
+     * @return the tariff
+     */
     public Tariff getTariff() {
         return tariff;
     }

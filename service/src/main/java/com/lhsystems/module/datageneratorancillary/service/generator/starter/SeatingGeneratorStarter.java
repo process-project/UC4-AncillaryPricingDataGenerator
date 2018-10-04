@@ -88,8 +88,16 @@ class SeatingGeneratorStarter {
     }
 
     /**
+<<<<<<< Upstream, based on lmuGitlab/topic/EUPLSY-85-2
      * @return
      *        the list of generated seat groups
+=======
+     * Generate a list of seat groups as specified in configuration.
+     *
+     * @param seatGroupConfiguration
+     *            configures generation of seatGroups
+     * @return the list of generated seat groups
+>>>>>>> 6401dde EUPLSY-85: Add additional configuration
      */
     private List<SeatGroup> generateSeatGroups(
             final SeatGroupConfiguration seatGroupConfiguration) {

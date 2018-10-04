@@ -48,10 +48,10 @@ class ProductGeneratorStarter {
      *
      * @param baggageClasses
      *            the tariffs to be used for flight generation
-     * @param productsSize
-     *            the size of products that should be generated
      * @param compartments
      *            the compartments to be used for product generation
+     * @param productConfiguration
+     *            configures generation of products
      * @return the list of generated products
      */
     List<Product> generateProductEntities(

@@ -1,13 +1,13 @@
 package com.lhsystems.module.datageneratorancillary.service.utils;
 
-import org.apache.commons.math3.util.Precision;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Adds some functions for generating data randomly.

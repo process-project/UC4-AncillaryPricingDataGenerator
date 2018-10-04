@@ -25,17 +25,15 @@ public final class BaggageClassGenerator extends DataGenerator {
     /**
      * Instantiates a new baggage class generator.
      *
-     * @param startId
-     *            the start id
      * @param paramBaggageLimits
      *            the param baggage limits
      * @param paramBaggagePricingModels
      *            the param baggage pricing models
      */
-    public BaggageClassGenerator(final Long startId,
+    public BaggageClassGenerator(
             final List<BaggageLimits> paramBaggageLimits,
             final List<BaggagePricing> paramBaggagePricingModels) {
-        super(startId);
+        super();
         baggageLimits = paramBaggageLimits;
         baggagePricingModels = paramBaggagePricingModels;
     }
@@ -44,7 +42,7 @@ public final class BaggageClassGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected BaggageClass generate(final long id) {
+    protected BaggageClass generate() {
         final BaggageLimits limits = getRandom().getOneRandomElement(baggageLimits);
         final BaggagePricing pricing = getRandom().getOneRandomElement(
                 baggagePricingModels);
@@ -53,7 +51,7 @@ public final class BaggageClassGenerator extends DataGenerator {
                 "f" + Double.toString(pricing.getFirstPrice()) +
                 "s" + Double.toString(pricing.getSecondPrice()) +
                 "a" + Double.toString(pricing.getAdditionalPrice());
-        return new BaggageClass(id, nameBuilder, limits, pricing);
+        return new BaggageClass(nameBuilder, limits, pricing);
     }
 
 }

@@ -33,17 +33,15 @@ public final class TariffGenerator extends DataGenerator {
     /**
      * Instantiates a new tariff generator.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      * @param paramProducts
      *            the products to be used for tariff generation
      * @param paramSeatingModels
      *            the seating models to be used for tariff generation
      */
-    public TariffGenerator(final Long startId,
+    public TariffGenerator(
             final List<Product> paramProducts,
             final List<SeatingModel> paramSeatingModels) {
-        super(startId);
+        super();
         products = paramProducts;
         seatingModels = paramSeatingModels;
     }
@@ -52,7 +50,7 @@ public final class TariffGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected Tariff generate(final long id) {
+    protected Tariff generate() {
         final double price = getRandom().getRandomRoundedDouble(
                 MINIMUM_PRICE,
                 MAXIMUM_PRICE,
@@ -61,6 +59,6 @@ public final class TariffGenerator extends DataGenerator {
         final SeatingModel seatingModel = getRandom().getOneRandomElement(
                 seatingModels);
         final Market market = getRandom().getOneRandomElement(markets);
-        return new Tariff(id, price, seatingModel, product, market);
+        return new Tariff(price, seatingModel, product, market);
     }
 }

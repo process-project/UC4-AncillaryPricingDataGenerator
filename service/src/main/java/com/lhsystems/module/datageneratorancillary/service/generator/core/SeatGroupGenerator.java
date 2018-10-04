@@ -24,19 +24,17 @@ public final class SeatGroupGenerator extends DataGenerator {
 
     /**
      * Instantiates a new seat group generator.
-     *
-     * @param startId
-     *            the smallest id used for data Generation
+     * 
      */
-    public SeatGroupGenerator(final Long startId) {
-        super(startId);
+    public SeatGroupGenerator() {
+        super();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected SeatGroup generate(final long id) {
+    protected SeatGroup generate() {
         final int numberSeats = getRandom().nextInt(
                 MIN_NUMBER_SEATS,
                 MAX_NUMBER_SEATS);
@@ -47,6 +45,6 @@ public final class SeatGroupGenerator extends DataGenerator {
         final String name = Integer.toString(numberSeats)
                 + "s"
                 + Double.toString(seatPrice);
-        return new SeatGroup(id, name, numberSeats, seatPrice);
+        return new SeatGroup(name, numberSeats, seatPrice);
     }
 }

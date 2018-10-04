@@ -1,6 +1,13 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * Defines the limits of a baggage class.
@@ -24,7 +31,7 @@ public final class BaggageLimits {
     /** The id of the baggage Limits. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
 
     /** The maximum weight of one piece of baggage. */
@@ -36,7 +43,6 @@ public final class BaggageLimits {
      * class.
      */
     public BaggageLimits() {
-        id = 0L;
         baggageSize = null;
         weightMax = 0;
         countMax = 0;
@@ -45,8 +51,6 @@ public final class BaggageLimits {
     /**
      * Instantiates new baggage limits .
      *
-     * @param paramId
-     *            the id
      * @param paramBaggageSize
      *            the size limits
      * @param paramCountMax
@@ -54,9 +58,8 @@ public final class BaggageLimits {
      * @param paramWeightMax
      *            the maximum weight
      */
-    public BaggageLimits(final long paramId, final BaggageSize paramBaggageSize,
+    public BaggageLimits(final BaggageSize paramBaggageSize,
             final int paramCountMax, final double paramWeightMax) {
-        id = paramId;
         baggageSize = paramBaggageSize;
         countMax = paramCountMax;
         weightMax = paramWeightMax;

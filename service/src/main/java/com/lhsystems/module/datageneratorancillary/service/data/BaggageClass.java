@@ -1,6 +1,13 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * data structure representing a baggage class in an ancillary model.
@@ -25,7 +32,7 @@ public final class BaggageClass {
     /** The id of the baggage class. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     /** The name of this baggage class. */
     @Column(name = "NAME")
@@ -45,8 +52,7 @@ public final class BaggageClass {
     /**
      * Instantiates a new baggage class.
      *
-     * @param paramId
-     *            the id
+     * 
      * @param paramName
      *            the name
      * @param paramBaggageLimits
@@ -54,10 +60,9 @@ public final class BaggageClass {
      * @param paramBaggagePricing
      *            the baggage pricing
      */
-    public BaggageClass(final long paramId, final String paramName,
+    public BaggageClass(final String paramName,
             final BaggageLimits paramBaggageLimits,
             final BaggagePricing paramBaggagePricing) {
-        id = paramId;
         name = paramName;
         baggageLimits = paramBaggageLimits;
         baggagePricing = paramBaggagePricing;

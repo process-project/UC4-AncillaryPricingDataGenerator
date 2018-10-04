@@ -1,6 +1,11 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * data structure representing a compartment.
@@ -15,7 +20,7 @@ public final class Compartment {
     /** The id of the compartment. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     /** character identifying the compartment. */
     @Column(name = "IDENTIFIER")
@@ -26,23 +31,6 @@ public final class Compartment {
     private final String name;
 
     /**
-     * Instantiates a new compartment.
-     *
-     * @param paramId
-     *            the id
-     * @param paramIdentifier
-     *            the char identifying the compartment
-     * @param paramName
-     *            the name
-     */
-    public Compartment(final long paramId, final char paramIdentifier,
-            final String paramName) {
-        id = paramId;
-        identifier = paramIdentifier;
-        name = paramName;
-    }
-
-    /**
      * Default Constructor needed for an Entity. Instantiates a new compartment
      * class.
      */
@@ -50,6 +38,20 @@ public final class Compartment {
         id = 0;
         identifier = ' ';
         name = null;
+    }
+
+    /**
+     * Instantiates a new compartment.
+     *
+     * @param paramIdentifier
+     *            the char identifying the compartment
+     * @param paramName
+     *            the name
+     */
+    public Compartment(final char paramIdentifier,
+            final String paramName) {
+        identifier = paramIdentifier;
+        name = paramName;
     }
 
     /**

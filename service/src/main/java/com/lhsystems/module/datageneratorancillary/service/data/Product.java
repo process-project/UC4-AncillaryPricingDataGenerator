@@ -1,8 +1,20 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * data structure representing a product in a compartment.
@@ -27,23 +39,31 @@ public final class Product {
     /** The id of this product. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     /** The number of included bags in each baggage class. */
     @ElementCollection
-    @MapKeyJoinColumn(name = "baggageClass_id", referencedColumnName = "id")
+    @MapKeyJoinColumn(name = "BAGGAGE_CLASS_ID", referencedColumnName = "id")
     @CollectionTable(name = "NumberOfIncludedBags")
-    private Map<BaggageClass, Integer> numberOfIncludedBags;
+    private final Map<BaggageClass, Integer> numberOfIncludedBags;
 
     /** The name of the product. */
     @Column(name = "NAME")
     private final String name;
 
     /**
+     * Default Constructor needed for an Entity. Instantiates a new product
+     * class.
+     */
+    public Product() {
+        name = null;
+        compartment = null;
+        numberOfIncludedBags = null;
+    }
+
+    /**
      * Instantiates a new product.
      *
-     * @param paramId
-     *            the id
      * @param paramName
      *            the name
      * @param paramCompartment
@@ -53,25 +73,14 @@ public final class Product {
      * @param paramNumberOfIncludedBags
      *            the number of included bags
      */
-    public Product(final long paramId, final String paramName,
+    public Product(final String paramName,
             final Compartment paramCompartment,
             final List<BaggageClass> paramBaggageClasses,
             final Map<BaggageClass, Integer> paramNumberOfIncludedBags) {
-        id = paramId;
         name = paramName;
         compartment = paramCompartment;
         baggageClasses = paramBaggageClasses;
         numberOfIncludedBags = paramNumberOfIncludedBags;
-    }
-
-    /**
-     * Default Constructor needed for an Entity. Instantiates a new product
-     * class.
-     */
-    public Product() {
-        id = 0;
-        name = null;
-        compartment = null;
     }
 
     /**
@@ -102,21 +111,21 @@ public final class Product {
     }
 
     /**
-     * returns the number of included bags.
-     *
-     * @return the number of included bags
-     */
-    public Map<BaggageClass, Integer> getNumberOfIncludedBags() {
-        return numberOfIncludedBags;
-    }
-
-    /**
      * returns the name.
      *
      * @return the name
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * returns the number of included bags.
+     *
+     * @return the number of included bags
+     */
+    public Map<BaggageClass, Integer> getNumberOfIncludedBags() {
+        return numberOfIncludedBags;
     }
 
 }

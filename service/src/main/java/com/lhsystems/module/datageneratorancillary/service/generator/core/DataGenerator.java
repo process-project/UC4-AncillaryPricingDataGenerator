@@ -15,12 +15,6 @@ import java.util.stream.IntStream;
 public abstract class DataGenerator {
 
     /**
-     * Counter to remember which numbers have been used as <code>id</code>
-     * already.
-     */
-    private long idCounter;
-
-    /**
      * Generates a stream of pseudo random numbers used for generating flights.
      */
     private final ExtendedRandom random = new ExtendedRandom();
@@ -28,11 +22,8 @@ public abstract class DataGenerator {
     /**
      * Instantiates a new data generator.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      */
-    public DataGenerator(final Long startId) {
-        setIdCounter(startId);
+    public DataGenerator() {
     }
 
     /**
@@ -46,54 +37,17 @@ public abstract class DataGenerator {
      */
     public final <T> List<T> generateList(final int numberToGenerate) {
         return IntStream.range(0, numberToGenerate)
-                .mapToObj(n -> (T) generateOne())
+                .mapToObj(n -> (T) generate())
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Generate array list of type type.
-     *
-     * @param <T>
-     *            the generic of elements in the ArrayList
-     * @param generator
-     *            the generator to be used for generation
-     * @param numberOfElements
-     *            the number of elements to be generated
-     * @return an array list containing T objects
-     */
-    public final <T> List<T> generateArrayList(
-            final DataGenerator generator, final int numberOfElements) {
-        return generator.generateList(numberOfElements).stream().map(
-                e -> (T) e).collect(Collectors.toList());
-    }
-
-    /**
-     * Generate one Object.
-     *
-     * @return the object
-     */
-    protected final Object generateOne() {
-        final long id = increaseIdCounter();
-        return generate(id);
     }
 
     /**
      * Generate an object randomly.
      *
-     * @param startId
-     *            the id of the generated object
      * @return one object
      */
-    protected abstract Object generate(long startId);
+    protected abstract Object generate();
 
-    /**
-     * Returns the id counter.
-     *
-     * @return the id counter
-     */
-    protected final long getIdCounter() {
-        return idCounter;
-    }
 
     /**
      * Returns the random number generator of this object.
@@ -104,25 +58,5 @@ public abstract class DataGenerator {
         return random;
     }
 
-    /**
-     * Returns the current value of <code>idCounter</code> and increments it.
-     *
-     * @return the current value of <code>idCounter</code>
-     */
-    protected final long increaseIdCounter() {
-        final Long tempHelper = idCounter;
-        setIdCounter(idCounter + 1);
-        return tempHelper;
-    }
-
-    /**
-     * Sets the current value of <code>idCounter</code> to the given number.
-     *
-     * @param paramIdCounter
-     *            the number that <code>idCounter</code> is set to.
-     */
-    protected final void setIdCounter(final long paramIdCounter) {
-        idCounter = paramIdCounter;
-    }
 
 }

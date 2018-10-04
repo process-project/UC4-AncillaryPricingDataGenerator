@@ -6,8 +6,6 @@ import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.repository.AirportRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.RouteRepository;
 import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 /**
  * Starts generating first airports, then routes entities from ssim file and save them into database.
  *
@@ -23,9 +24,9 @@ import java.util.stream.Collectors;
  * @version $Revision: 1.10 $
  */
 @Service
-public class RoutesGeneratorStarter {
+public final class RoutesGeneratorStarter {
     /** The patern used for finding ida codes in line. */
-    private Pattern idaPattern = Pattern.compile("\\s[A-Z]{3}");
+    private final Pattern idaPattern = Pattern.compile("\\s[A-Z]{3}");
 
     /** The repository used for saving airports. */
     private final AirportRepository airportRepository;
@@ -46,9 +47,9 @@ public class RoutesGeneratorStarter {
      */
     @Autowired
     public RoutesGeneratorStarter(final AirportRepository airportRepositoryParam,
-                                  final RouteRepository routeRepositoryParam) {
-        this.airportRepository = airportRepositoryParam;
-        this.routeRepository = routeRepositoryParam;
+            final RouteRepository routeRepositoryParam) {
+        airportRepository = airportRepositoryParam;
+        routeRepository = routeRepositoryParam;
     }
 
     /**

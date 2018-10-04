@@ -34,18 +34,16 @@ public final class BaggagePricingGenerator extends DataGenerator {
     /**
      * Instantiates a new baggage pricing generator.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      */
-    public BaggagePricingGenerator(final Long startId) {
-        super(startId);
+    public BaggagePricingGenerator() {
+        super();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected BaggagePricing generate(final long id) {
+    protected BaggagePricing generate() {
         final double firstPrice = getRandom().getRandomRoundedDouble(
                 MIN_FIRST_PRICE,
                 MAX_FIRST_PRICE,
@@ -58,7 +56,7 @@ public final class BaggagePricingGenerator extends DataGenerator {
                 MIN_ADDITIONAL_PRICE,
                 MAX_ADDITIONAL_PRICE,
                 ACCURACY);
-        return new BaggagePricing(id, firstPrice, secondPrice, additionalPrice);
+        return new BaggagePricing(firstPrice, secondPrice, additionalPrice);
     }
 
 }

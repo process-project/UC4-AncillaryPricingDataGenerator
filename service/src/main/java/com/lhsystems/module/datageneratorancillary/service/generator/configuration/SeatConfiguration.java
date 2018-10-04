@@ -6,7 +6,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public class SeatConfiguration {
+public final class SeatConfiguration {
 
     /** Number of seats' models that should be generated. */
     private int seatModel;
@@ -36,7 +36,7 @@ public class SeatConfiguration {
      *        seatGroup from zml file
      */
     public void setSeatGroup(final int seatGroupParam) {
-        this.seatGroup = seatGroupParam;
+        seatGroup = seatGroupParam;
     }
 
     /**
@@ -55,6 +55,6 @@ public class SeatConfiguration {
      *        seatModel from zml file
      */
     public void setSeatModel(final int seatModelParam) {
-        this.seatModel = seatModelParam;
+        seatModel = seatModelParam;
     }
 }

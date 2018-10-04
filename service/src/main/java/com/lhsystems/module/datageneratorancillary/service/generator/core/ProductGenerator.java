@@ -1,11 +1,12 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Generates products randomly.
@@ -30,17 +31,15 @@ public final class ProductGenerator extends DataGenerator {
     /**
      * Instantiates a new product generator.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      * @param paramCompartments
      *            the compartments to be used for product generation
      * @param paramBaggageClasses
      *            the baggage classes to be used for product generation
      */
-    public ProductGenerator(final Long startId,
-                            final List<Compartment> paramCompartments,
-                            final List<BaggageClass> paramBaggageClasses) {
-        super(startId);
+    public ProductGenerator(
+            final List<Compartment> paramCompartments,
+            final List<BaggageClass> paramBaggageClasses) {
+        super();
         compartments = paramCompartments;
         baggageClasses = paramBaggageClasses;
     }
@@ -49,7 +48,7 @@ public final class ProductGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected Product generate(final long id) {
+    protected Product generate() {
         final Compartment compartment = getRandom().getOneRandomElement(compartments);
         final List<BaggageClass> chosenClasses = getRandom().getRandomlyManyElements(
                 baggageClasses,
@@ -62,7 +61,6 @@ public final class ProductGenerator extends DataGenerator {
             nameBuilder.append(baggageClass.getName());
         }
         return new Product(
-                id,
                 nameBuilder.toString(),
                 compartment,
                 chosenClasses,

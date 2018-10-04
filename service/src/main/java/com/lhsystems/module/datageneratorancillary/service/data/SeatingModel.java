@@ -1,7 +1,14 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Data structure representing the seating of a tariff.
@@ -24,24 +31,20 @@ public final class SeatingModel {
     private List<SeatGroup> seatGroups;
 
     /**
-     * Instantiates a new seating model.
-     *
-     * @param paramId
-     *            the id
-     * @param paramSeatGroups
-     *            the seat groups offered in this model
-     */
-    public SeatingModel(final long paramId,
-                        final List<SeatGroup> paramSeatGroups) {
-        id = paramId;
-        seatGroups = paramSeatGroups;
-    }
-
-    /**
      * Default Constructor needed for an Entity. Instantiates a new seating model
      * class.
      */
     public SeatingModel() {
+    }
+
+    /**
+     * Instantiates a new seating model.
+     *
+     * @param paramSeatGroups
+     *            the seat groups offered in this model
+     */
+    public SeatingModel(final List<SeatGroup> paramSeatGroups) {
+        seatGroups = paramSeatGroups;
     }
 
     /**

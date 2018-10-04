@@ -25,18 +25,17 @@ public final class BaggageSizeGenerator extends DataGenerator {
     /**
      * Instantiates a new baggage size generator.
      *
-     * @param startId
-     *            the start id
+     * 
      */
-    public BaggageSizeGenerator(final Long startId) {
-        super(startId);
+    public BaggageSizeGenerator() {
+        super();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Object generate(final long startId) {
+    protected Object generate() {
         final double widthMax = getRandom().getRandomRoundedDouble(
                 MINIMUM_SIDE_LENGTH,
                 MAXIMUM_SIDE_LENGTH,

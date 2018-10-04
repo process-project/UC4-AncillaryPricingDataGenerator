@@ -1,7 +1,5 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import java.sql.SQLException;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
@@ -13,7 +11,21 @@ import org.springframework.context.support.AbstractApplicationContext;
  */
 public final class AncillaryGeneratorMain {
 
-    public static void main(final String[] args) throws SQLException, ClassNotFoundException {
+    /**
+     * Instantiates a new ancillary generator main. Default constructor to
+     * satisfy checkstyle requirements.
+     */
+    private AncillaryGeneratorMain() {
+
+    }
+
+    /**
+     * The main method.
+     *
+     * @param args
+     *            the arguments
+     */
+    public static void main(final String[] args) {
         final AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
         final MainBean bean = context.getBean(MainBean.class);
         bean.start(args);

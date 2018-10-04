@@ -1,6 +1,11 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Defines the prices in a BaggageClass.
@@ -15,7 +20,7 @@ public final class BaggagePricing {
     /** The id of the pricing model. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     /** The price of each additional bag. */
     @Column(name = "PRICE_ADDITIONAL_BAG")
@@ -34,7 +39,6 @@ public final class BaggagePricing {
      * class.
      */
     public BaggagePricing() {
-        id = 0L;
         priceFirstBag = 0;
         priceSecondBag = 0;
         priceAdditionalBag = 0;
@@ -43,8 +47,6 @@ public final class BaggagePricing {
     /**
      * Instantiates a new baggage pricing.
      *
-     * @param paramId
-     *            the id
      * @param firstPrice
      *            the first bag price
      * @param secondPrice
@@ -52,9 +54,8 @@ public final class BaggagePricing {
      * @param additionalPrice
      *            the additional bag price
      */
-    public BaggagePricing(final long paramId, final double firstPrice,
+    public BaggagePricing(final double firstPrice,
             final double secondPrice, final double additionalPrice) {
-        id = paramId;
         priceFirstBag = firstPrice;
         priceSecondBag = secondPrice;
         priceAdditionalBag = additionalPrice;

@@ -1,20 +1,21 @@
 ##GeneratorOptions
 #states the dates of which to chose departure dates and number of flights
-flight:
+flightConfiguration:
     minFlightDate: '2018-01-01'
     maxFlightDate: '2019-12-31'
     number: 60
 #states how many baggage objects should be generated
-baggage:
+baggageConfiguration:
     baggageClass: 3
     baggageLimits: 3
     baggagePricing: 3
     baggageSize: 2
 #states how many seat objects should be generated
-seat:
+seatConfiguration:
     seatGroup: 5
     seatModel: 5
 
 #states how many products and tariffs should be generated
-product: 3
-tariff: 100
+numberProducts: 3
+numberTariffs: 100
+numberBookings: 100

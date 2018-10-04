@@ -1,6 +1,10 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,11 +17,13 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class CommandLineOptionsReader {
+public final class CommandLineOptionsReader {
+
 
     /** Logger.*/
     private final Logger log = LoggerFactory.getLogger(CommandLineOptionsReader.class);
 
+    /** The name of the option that states if ansi coloring should be used. */
     private final String OPTION_NAME_SPRING_OUTPUT_ANSI_ENABLED = "spring.output.ansi.enabled";
 
     /**
@@ -29,6 +35,14 @@ public class CommandLineOptionsReader {
      * The Path to be used if the path option is not given.
      */
     private final String DEFAULT_OPTIONS_FILE = "/generator-options.yml";
+
+    /**
+     * Instantiates a new command line options reader. Default constructor to
+     * satisfy checkstyle requirements.
+     */
+    private CommandLineOptionsReader() {
+
+    }
 
     /**
      * Reads the command line option FILE_OPTIONS_NAME and returns its value.
@@ -60,7 +74,7 @@ public class CommandLineOptionsReader {
             if (line.hasOption(OPTION_NAME_OPTIONS_FILE)) {
                 return line.getOptionValue(OPTION_NAME_OPTIONS_FILE);
             }
-        } catch (ParseException e) {
+        } catch (final ParseException e) {
             log.error("Cannot parse argument from commandLine", e.getMessage());
         }
         return DEFAULT_OPTIONS_FILE;

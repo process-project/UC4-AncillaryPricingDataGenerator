@@ -4,10 +4,11 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
-import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
+
+import org.springframework.stereotype.Component;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Reads a Yaml file and returns the options.
@@ -18,6 +19,15 @@ import java.io.InputStream;
 
 @Component
 public final class YamlOptionReader {
+
+    /**
+     * Instantiates a new yaml option reader. Default constructor to satisfy
+     * checkstyle requirements.
+     */
+    private YamlOptionReader() {
+
+    }
+
     /**
      * Reads a Yaml file of the form of generator-options.yml.template into proper classes.
      *
@@ -31,13 +41,4 @@ public final class YamlOptionReader {
         return yaml.loadAs(input, GeneratorConfiguration.class);
     }
 
-    /**
-     * Returns the path of the database as stated in the loaded file.
-     *
-     * @return the path of the database as stated in the loaded file
-     */
-    @SuppressWarnings("unchecked")
-    public String getDatabasePath() {
-        return "C:/Users/nwuser/MySQLiteDB";
-    }
 }

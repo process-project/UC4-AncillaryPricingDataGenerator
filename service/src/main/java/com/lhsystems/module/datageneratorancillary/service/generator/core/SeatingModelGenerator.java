@@ -28,14 +28,12 @@ public final class SeatingModelGenerator extends DataGenerator {
     /**
      * Instantiates a new seating model generator.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      * @param paramSeatGroups
      *            the seat groups from which we chose
      */
-    public SeatingModelGenerator(final Long startId,
+    public SeatingModelGenerator(
             final List<SeatGroup> paramSeatGroups) {
-        super(startId);
+        super();
         seatGroups = paramSeatGroups;
     }
 
@@ -44,12 +42,12 @@ public final class SeatingModelGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected SeatingModel generate(final long id) {
+    protected SeatingModel generate() {
         final List<SeatGroup> chosenSeatGroups = getRandom().getRandomlyManyElements(
                 seatGroups,
                 MIN_NUMBER_SEAT_GROUPS,
                 MAX_NUMBER_SEAT_GROUPS);
-        return new SeatingModel(id, chosenSeatGroups);
+        return new SeatingModel(chosenSeatGroups);
     }
 
 

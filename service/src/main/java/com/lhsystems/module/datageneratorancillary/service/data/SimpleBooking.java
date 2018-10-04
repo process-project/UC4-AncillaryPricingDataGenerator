@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @version $Revision: 1.10 $
  */
 @Entity
-@Table(name = "Product")
+@Table(name = "SimpleBooking")
 public final class SimpleBooking {
 
     /**

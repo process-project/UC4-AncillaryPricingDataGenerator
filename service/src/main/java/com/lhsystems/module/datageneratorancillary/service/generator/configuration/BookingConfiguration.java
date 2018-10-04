@@ -39,53 +39,53 @@ public final class BookingConfiguration {
     }
 
     /**
-     * Gets the maximum number passengers.
+     * Gets the maximum number of passengers.
      *
-     * @return the maximum number passengers
+     * @return the maximum number of passengers
      */
     public int getMaximumNumberPassengers() {
         return maximumNumberPassengers;
     }
 
     /**
-     * Gets the minimum number bags.
+     * Gets the minimum number of bags.
      *
-     * @return the minimum number bags
+     * @return the minimum number of bags
      */
     public int getMinimumNumberBags() {
         return minimumNumberBags;
     }
 
     /**
-     * Gets the minimum number passengers.
+     * Gets the minimum number of passengers.
      *
-     * @return the minimum number passengers
+     * @return the minimum number of passengers
      */
     public int getMinimumNumberPassengers() {
         return minimumNumberPassengers;
     }
 
     /**
-     * Gets the number bookings.
+     * Gets the number of bookings to be generated.
      *
-     * @return the number bookings
+     * @return the number of bookings to be generated
      */
     public int getNumberBookings() {
         return numberBookings;
     }
 
     /**
-     * Sets the maximum number bags.
+     * Sets the maximum number of bags.
      *
      * @param paramMaximumNumberBags
-     *            the new maximum number bags
+     *            the new maximum number of bags
      */
     public void setMaximumNumberBags(final int paramMaximumNumberBags) {
         maximumNumberBags = paramMaximumNumberBags;
     }
 
     /**
-     * Sets the maximum number passengers.
+     * Sets the maximum number of passengers.
      *
      * @param paramMaximumNumberPassengers
      *            the new maximum number passengers
@@ -95,30 +95,30 @@ public final class BookingConfiguration {
     }
 
     /**
-     * Sets the minimum number bags.
+     * Sets the minimum number of bags.
      *
      * @param paramMinimumNumberBags
-     *            the new minimum number bags
+     *            the new minimum number of bags
      */
     public void setMinimumNumberBags(final int paramMinimumNumberBags) {
         minimumNumberBags = paramMinimumNumberBags;
     }
 
     /**
-     * Sets the minimum number passengers.
+     * Sets the minimum number of passengers.
      *
      * @param paramMinimumNumberPassengers
-     *            the new minimum number passengers
+     *            the new minimum number of passengers
      */
     public void setMinimumNumberPassengers(final int paramMinimumNumberPassengers) {
         minimumNumberPassengers = paramMinimumNumberPassengers;
     }
 
     /**
-     * Sets the number bookings.
+     * Sets the number of bookings.
      *
      * @param paramNumberBookings
-     *            the new number bookings
+     *            the new number of bookings
      */
     public void setNumberBookings(final int paramNumberBookings) {
         numberBookings = paramNumberBookings;

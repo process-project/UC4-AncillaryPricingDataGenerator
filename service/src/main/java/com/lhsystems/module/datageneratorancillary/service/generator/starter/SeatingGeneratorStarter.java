@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-class SeatingGeneratorStarter {
+public final class SeatingGeneratorStarter {
     /** The repository used for saving seating models. */
     private final SeatingModelRepository seatingModelRepository;
 
@@ -56,7 +56,7 @@ class SeatingGeneratorStarter {
      *            the seat group configuration
      * @return the list of generated seat models
      */
-    List<SeatingModel> generateSeatingModel(
+    public List<SeatingModel> generateSeatingModel(
             final SeatingModelConfiguration seatingModelConfiguration,
             final SeatGroupConfiguration seatGroupConfiguration) {
         final List<SeatGroup> seatGroups = generateSeatGroups(
@@ -64,6 +64,23 @@ class SeatingGeneratorStarter {
         return generateSeatingModels(
                 seatGroups,
                 seatingModelConfiguration);
+    }
+
+    /**
+     * Generate a list of seat groups as specified in configuration.
+     *
+     * @param seatGroupConfiguration
+     *            configures generation of seatGroups
+     * @return the list of generated seat groups
+     */
+    private List<SeatGroup> generateSeatGroups(
+            final SeatGroupConfiguration seatGroupConfiguration) {
+        final SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator(
+                seatGroupConfiguration);
+        final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(
+                seatGroupConfiguration.getNumberSeatGroup());
+        seatGroupRepository.save(seatGroups);
+        return seatGroups;
     }
 
     /**
@@ -85,27 +102,5 @@ class SeatingGeneratorStarter {
                 seatingModelConfiguration.getNumberSeatingModel());
         seatingModelRepository.save(seatingModels);
         return seatingModels;
-    }
-
-    /**
-<<<<<<< Upstream, based on lmuGitlab/topic/EUPLSY-85-2
-     * @return
-     *        the list of generated seat groups
-=======
-     * Generate a list of seat groups as specified in configuration.
-     *
-     * @param seatGroupConfiguration
-     *            configures generation of seatGroups
-     * @return the list of generated seat groups
->>>>>>> 6401dde EUPLSY-85: Add additional configuration
-     */
-    private List<SeatGroup> generateSeatGroups(
-            final SeatGroupConfiguration seatGroupConfiguration) {
-        final SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator(
-                seatGroupConfiguration);
-        final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(
-                seatGroupConfiguration.getNumberSeatGroup());
-        seatGroupRepository.save(seatGroups);
-        return seatGroups;
     }
 }

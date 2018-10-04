@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-class FlightGeneratorStarter {
+public final class FlightGeneratorStarter {
 
     /** The repository used for saving flights. */
     private final FlightRepository flightRepository;
@@ -48,7 +48,7 @@ class FlightGeneratorStarter {
      * @return
      *        the list of generated flights
      */
-    List<Flight> generateFlightsEntities(
+    public List<Flight> generateFlightsEntities(
             final FlightConfiguration flightGeneratorConfiguration,
             final List<Tariff> tariffs, final List<Route> routes) {
         final FlightGenerator flightGenerator = new FlightGenerator(

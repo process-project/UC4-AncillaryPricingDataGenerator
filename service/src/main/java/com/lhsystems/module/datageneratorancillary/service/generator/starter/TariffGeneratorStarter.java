@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-class TariffGeneratorStarter {
+public final class TariffGeneratorStarter {
 
     /** The repository used for saving tariffs. */
     private final TariffRepository tariffRepository;
@@ -46,7 +46,7 @@ class TariffGeneratorStarter {
      *            the tariff configuration
      * @return the list of generated tariffs
      */
-    List<Tariff> generateTariffsEntities(final List<Product> products,
+    public List<Tariff> generateTariffsEntities(final List<Product> products,
             final List<SeatingModel> seatingModels,
             final TariffConfiguration tariffConfiguration) {
         final TariffGenerator tariffGenerator = new TariffGenerator(

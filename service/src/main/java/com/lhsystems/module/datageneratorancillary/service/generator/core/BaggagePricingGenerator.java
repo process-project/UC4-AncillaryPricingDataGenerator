@@ -14,14 +14,11 @@ public final class BaggagePricingGenerator extends DataGenerator {
     /** The number of decimal places of the prices. */
     private static final int ACCURACY = 2;
 
-    /** The minimum first price. */
-    private final double minFirstPrice;
+    /** The maximum additional price. */
+    private final double maxAdditionalPrice;
 
     /** The maximum first price. */
     private final double maxFirstPrice;
-
-    /** The minimum second price. */
-    private final double minSecondPrice;
 
     /** The maximum second price. */
     private final double maxSecondPrice;
@@ -29,8 +26,11 @@ public final class BaggagePricingGenerator extends DataGenerator {
     /** The minimum additional price. */
     private final double minAdditionalPrice;
 
-    /** The maximum additional price. */
-    private final double maxAdditionalPrice;
+    /** The minimum first price. */
+    private final double minFirstPrice;
+
+    /** The minimum second price. */
+    private final double minSecondPrice;
 
     /**
      * Instantiates a new baggage pricing generator.

@@ -7,8 +7,6 @@ import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
-import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
-import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.BaggageSelectionRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.BookingRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.CoreBookingRepository;
@@ -35,11 +33,11 @@ public final class BookingGeneratorStarter {
     /** Repository for storing complete bookings. */
     private final BookingRepository bookingRepository;
 
-    /** Repository for storing seat selections. */
-    private final SeatSelectionRepository seatSelectionRepository;
-
     /** Repository for simple bookings. */
     private final CoreBookingRepository coreBookingRepository;
+
+    /** Repository for storing seat selections. */
+    private final SeatSelectionRepository seatSelectionRepository;
 
     /**
      * Instantiates a new booking generator starter.

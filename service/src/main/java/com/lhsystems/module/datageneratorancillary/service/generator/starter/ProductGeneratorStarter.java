@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-class ProductGeneratorStarter {
+public final class ProductGeneratorStarter {
     /** The repository used for saving products. */
     private final ProductRepository productRepository;
 
@@ -54,7 +54,7 @@ class ProductGeneratorStarter {
      *            configures generation of products
      * @return the list of generated products
      */
-    List<Product> generateProductEntities(
+    public List<Product> generateProductEntities(
             final List<Compartment> compartments,
             final List<BaggageClass> baggageClasses,
             final ProductConfiguration productConfiguration) {

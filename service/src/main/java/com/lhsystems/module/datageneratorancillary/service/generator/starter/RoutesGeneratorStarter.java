@@ -53,6 +53,25 @@ public final class RoutesGeneratorStarter {
     }
 
     /**
+     * Iterate through lines and create routes and airports from each line.
+     *
+     * @param markets
+     *        list of possible markets to used as airport market
+     * @param ssimLines
+     *        list of lines from ssim file
+     * @return
+     *        list of routes
+     */
+    public List<Route> generateRoutesAndAirportEntities(
+            final List<Market> markets, final List<String> ssimLines) {
+        return ssimLines
+                .stream()
+                .map(e -> generateRoute(e, markets))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Find iata codes in ssim line, then generate airports from them and add new route if necessary.
      *
      * @param line
@@ -80,36 +99,6 @@ public final class RoutesGeneratorStarter {
     }
 
     /**
-     * Iterate through lines and create routes and airports from each line.
-     *
-     * @param markets
-     *        list of possible markets to used as airport market
-     * @param ssimLines
-     *        list of lines from ssim file
-     * @return
-     *        list of routes
-     */
-    List<Route> generateRoutesAndAirportEntities(final List<Market> markets, final List<String> ssimLines){
-        return ssimLines
-                .stream()
-                .map(e -> generateRoute(e, markets))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Check that airport is existing in database, if not, save new one.
-     *
-     * @param airport
-     *        airport to check
-     */
-    private void saveAirportIfNotExits(final Airport airport) {
-        if (!airportRepository.exists(airport.getIata())) {
-            airportRepository.save(airport);
-        }
-    }
-
-    /**
      * Check that route is existing in database, if not, create new one.
      *
      * @param origin
@@ -126,5 +115,17 @@ public final class RoutesGeneratorStarter {
             currentRoute = routeRepository.save(route);
         }
         return currentRoute;
+    }
+
+    /**
+     * Check that airport is existing in database, if not, save new one.
+     *
+     * @param airport
+     *        airport to check
+     */
+    private void saveAirportIfNotExits(final Airport airport) {
+        if (!airportRepository.exists(airport.getIata())) {
+            airportRepository.save(airport);
+        }
     }
 }

@@ -68,9 +68,9 @@ public final class Booking {
     }
 
     /**
-     * Gets the simple booking.
+     * Gets the core booking.
      *
-     * @return the simple booking
+     * @return the core booking
      */
     public CoreBooking getCoreBooking() {
         return coreBooking;

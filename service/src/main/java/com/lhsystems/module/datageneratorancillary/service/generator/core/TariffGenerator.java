@@ -22,11 +22,11 @@ public final class TariffGenerator extends DataGenerator {
     /** The minimal price of a flight. */
     private final double minimumPrice;
 
-    /** The products to be used for tariff generation. */
-    private final List<Product> products;
-
     /** The markets to be used for tariff generation. */
     private final List<Market> markets = Market.getAllMarkets();
+
+    /** The products to be used for tariff generation. */
+    private final List<Product> products;
 
     /** The seating models to be used for tariff generation. */
     private final List<SeatingModel> seatingModels;

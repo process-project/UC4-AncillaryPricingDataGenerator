@@ -23,32 +23,32 @@ import java.util.List;
 public final class FlightGenerator extends DataGenerator {
 
 
-    /** The first date of the generation interval. */
-    private final LocalDate minimumDate;
-
-    /** The last date of the generation interval. */
-    private final LocalDate maximumDate;
-
-    /**
-     * list of <code>routes</code> objects to be used for the generation of
-     * flights.
-     */
-    private final List<Route> routes;
-
     /**
      * Counter to remember which numbers have been used as
      * <code>flightNumber</code> already.
      */
     private int flightNumberCounter;
 
-    /** The tariffs to be used for flight generation. */
-    private final List<Tariff> tariffs;
+    /** The last date of the generation interval. */
+    private final LocalDate maximumDate;
+
+    /** The maximum number of bookable tariffs for one flight. */
+    private final int maximumNumberTariffs;
+
+    /** The first date of the generation interval. */
+    private final LocalDate minimumDate;
 
     /** The minimum number of bookable tariffs for one flight. */
     private final int minimumNumberTariffs;
 
-    /** The maximum number of bookable tariffs for one flight. */
-    private final int maximumNumberTariffs;
+    /** The tariffs to be used for flight generation. */
+    private final List<Tariff> tariffs;
+
+    /**
+     * list of <code>routes</code> objects to be used for the generation of
+     * flights.
+     */
+    private final List<Route> routes;
 
     /**
      * Constructor.

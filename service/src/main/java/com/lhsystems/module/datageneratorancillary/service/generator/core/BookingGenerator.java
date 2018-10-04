@@ -29,17 +29,17 @@ public final class BookingGenerator extends DataGenerator {
     /** The flights of which we chose during booking generation. */
     private final List<Flight> flights;
 
-    /** The minimum number of bags. */
-    private final int minimumNumberBags;
-
     /** The maximum number of bags. */
     private final int maximumNumberBags;
 
-    /** The minimum number of passengers. */
-    private final int minimumNumberPassengers;
-
     /** The maximum number of passengers. */
     private final int maximumNumberPassengers;
+
+    /** The minimum number of bags. */
+    private final int minimumNumberBags;
+
+    /** The minimum number of passengers. */
+    private final int minimumNumberPassengers;
 
     /**
      * Instantiates a new booking generator.

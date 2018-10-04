@@ -8,16 +8,24 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  */
 public final class BaggageSizeConfiguration {
 
-    /** The maximum max circumference of a baggage limits object. */
+    /**
+     * The maximum upper limit of the circumference of a baggage limits object.
+     */
     private double maximumCircumference;
 
-    /** The maximum max length for any side of a piece of baggage. */
+    /**
+     * The maximum upper limit of the length for any side of a piece of baggage.
+     */
     private double maximumSideLength;
 
-    /** The minimum max circumference of a baggage limits object. */
+    /**
+     * The minimum upper limit of the circumference of a baggage limits object.
+     */
     private double minimumCircumference;
 
-    /** The minimum max length for any side of a piece of baggage. */
+    /**
+     * The minimum upper limit of the length for any side of a piece of baggage.
+     */
     private double minimumSideLength;
 
     /** The number of baggage size objects to be generated. */
@@ -67,9 +75,9 @@ public final class BaggageSizeConfiguration {
     }
 
     /**
-     * Gets the number baggage size.
+     * Gets the number of baggage size objects to be generated.
      *
-     * @return the number baggage size
+     * @return the number baggage size of baggage size objects
      */
     public int getNumberBaggageSize() {
         return numberBaggageSize;
@@ -116,10 +124,10 @@ public final class BaggageSizeConfiguration {
     }
 
     /**
-     * Sets the number baggage size.
+     * Sets the number of baggage size objects to be generated.
      *
      * @param paramNumberBaggageSize
-     *            the new number baggage size
+     *            the new number of baggage size objects
      */
     public void setNumberBaggageSize(final int paramNumberBaggageSize) {
         numberBaggageSize = paramNumberBaggageSize;

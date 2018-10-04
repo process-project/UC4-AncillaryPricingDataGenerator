@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-public class GeneratorStarter {
+public final class GeneratorStarter {
 
     /** Starts generating baggage entities. */
     private final BaggageGeneratorStarter baggageGeneratorStarter;
@@ -33,21 +33,20 @@ public class GeneratorStarter {
     /** Starts generating booking entities. */
     private final BookingGeneratorStarter bookingGeneratorStarter;
 
+    /** Starts generating flight entities. */
+    private final FlightGeneratorStarter flightGeneratorStarter;
+
     /** Starts generating products entities. */
     private final ProductGeneratorStarter productGeneratorStarter;
+
+    /** Starts generating routes and airports. */
+    private final RoutesGeneratorStarter routesGeneratorStarter;
 
     /** Starts generating seat entities. */
     private final SeatingGeneratorStarter seatingGeneratorStarter;
 
     /** Starts generating tariff entities. */
     private final TariffGeneratorStarter tariffGeneratorStarter;
-
-    /** Starts generating flight entities. */
-    private final FlightGeneratorStarter flightGeneratorStarter;
-
-    /** Starts generating routes and airports. */
-    private final RoutesGeneratorStarter routesGeneratorStarter;
-
 
     /**
      * Instantiates a new Generator starter.
@@ -94,7 +93,7 @@ public class GeneratorStarter {
      * @param compartments
      *            compartments the products belong to
      */
-    public final void generateData(
+    public void generateData(
             final GeneratorConfiguration generatorConfiguration,
             final List<String> ssimLines,
             final List<Compartment> compartments) {

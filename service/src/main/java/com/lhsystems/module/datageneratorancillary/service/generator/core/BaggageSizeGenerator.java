@@ -11,8 +11,8 @@ import com.lhsystems.module.datageneratorancillary.service.generator.configurati
 
 public final class BaggageSizeGenerator extends DataGenerator {
 
-    /** The minimum side length. */
-    private final double minimumSideLength;
+    /** The maximum circumference. */
+    private final double maximumCircumference;
 
     /** The maximum side length. */
     private final double maximumSideLength;
@@ -20,8 +20,8 @@ public final class BaggageSizeGenerator extends DataGenerator {
     /** The minimum circumference. */
     private final double minimumCircumference;
 
-    /** The maximum circumference. */
-    private final double maximumCircumference;
+    /** The minimum side length. */
+    private final double minimumSideLength;
 
     /**
      * Instantiates a new baggage size generator.
@@ -64,5 +64,4 @@ public final class BaggageSizeGenerator extends DataGenerator {
                 lengthMax,
                 widthMax);
     }
-
 }

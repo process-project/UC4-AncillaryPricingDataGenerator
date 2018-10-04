@@ -85,9 +85,9 @@ public final class SeatSelection {
     }
 
     /**
-     * Gets the number of days before departure.
+     * Gets the number of days before departure the seats were booked.
      *
-     * @return the number of days before departure
+     * @return the number of days before departure the seats were booked
      */
     public int getDaysBeforeDeparture() {
         return daysBeforeDeparture;

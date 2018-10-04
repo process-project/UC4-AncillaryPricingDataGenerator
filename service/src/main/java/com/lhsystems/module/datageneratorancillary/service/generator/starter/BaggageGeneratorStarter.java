@@ -29,10 +29,10 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-class BaggageGeneratorStarter {
+public final class BaggageGeneratorStarter {
 
-    /** The repository used for saving baggage size.*/
-    private final BaggageSizeRepository baggageSizeRepository;
+    /** The repository used for saving baggage class.*/
+    private final BaggageClassRepository baggageClassRepository;
 
     /** The repository used for saving baggage limits.*/
     private final BaggageLimitsRepository baggageLimitsRepository;
@@ -40,8 +40,8 @@ class BaggageGeneratorStarter {
     /** The repository used for saving baggage pricing.*/
     private final BaggagePricingRepository baggagePricingRepository;
 
-    /** The repository used for saving baggage class.*/
-    private final BaggageClassRepository baggageClassRepository;
+    /** The repository used for saving baggage size.*/
+    private final BaggageSizeRepository baggageSizeRepository;
 
     /**
      * Instantiates a new baggage generator starer with injected baggage repositories.
@@ -79,7 +79,7 @@ class BaggageGeneratorStarter {
      *            the baggage size configuration
      * @return the list of generated baggage classes
      */
-    List<BaggageClass> generateBaggageEntities(
+    public List<BaggageClass> generateBaggageEntities(
             final BaggageClassConfiguration baggageClassConfiguration,
             final BaggageLimitsConfiguration baggageLimitsConfiguration,
             final BaggagePricingConfiguration baggagePricingConfiguration,
@@ -95,23 +95,6 @@ class BaggageGeneratorStarter {
                 baggageLimits,
                 baggagePricingModels,
                 baggageClassConfiguration);
-    }
-
-    /**
-     * Generate a list of baggage sizes based on the given configuration.
-     *
-     * @param baggageSizeConfiguration
-     *            the baggage size configuration
-     * @return a list of generated baggage sizes
-     */
-    private List<BaggageSize> generateBaggageSize(
-            final BaggageSizeConfiguration baggageSizeConfiguration) {
-        final BaggageSizeGenerator baggageSizeGenerator = new BaggageSizeGenerator(
-                baggageSizeConfiguration);
-        final List<BaggageSize> baggageSizes = baggageSizeGenerator.generateList(
-                baggageSizeConfiguration.getNumberBaggageSize());
-        baggageSizeRepository.save(baggageSizes);
-        return baggageSizes;
     }
 
     /**
@@ -139,23 +122,6 @@ class BaggageGeneratorStarter {
     }
 
     /**
-     * Generate a list of baggage pricing based on a given configuration.
-     *
-     * @param baggagePricingConfiguration
-     *            the configuration of the generator
-     * @return the list of generated baggage pricing
-     */
-    private List<BaggagePricing> generateBaggagePricing(
-            final BaggagePricingConfiguration baggagePricingConfiguration) {
-        final BaggagePricingGenerator baggagePricingGenerator = new BaggagePricingGenerator(
-                baggagePricingConfiguration);
-        final List<BaggagePricing> baggagePricingModels = baggagePricingGenerator.generateList(
-                baggagePricingConfiguration.getNumberBaggagePricing());
-        baggagePricingRepository.save(baggagePricingModels);
-        return baggagePricingModels;
-    }
-
-    /**
      * Generate a list of baggage limits based on a given configuration.
      *
      * @param baggageSizes
@@ -174,6 +140,40 @@ class BaggageGeneratorStarter {
                 baggageLimitsConfiguration.getNumberBaggageLimits());
         baggageLimitsRepository.save(baggageLimits);
         return baggageLimits;
+    }
+
+    /**
+     * Generate a list of baggage pricing based on a given configuration.
+     *
+     * @param baggagePricingConfiguration
+     *            the configuration of the generator
+     * @return the list of generated baggage pricing
+     */
+    private List<BaggagePricing> generateBaggagePricing(
+            final BaggagePricingConfiguration baggagePricingConfiguration) {
+        final BaggagePricingGenerator baggagePricingGenerator = new BaggagePricingGenerator(
+                baggagePricingConfiguration);
+        final List<BaggagePricing> baggagePricingModels = baggagePricingGenerator.generateList(
+                baggagePricingConfiguration.getNumberBaggagePricing());
+        baggagePricingRepository.save(baggagePricingModels);
+        return baggagePricingModels;
+    }
+
+    /**
+     * Generate a list of baggage sizes based on the given configuration.
+     *
+     * @param baggageSizeConfiguration
+     *            the baggage size configuration
+     * @return a list of generated baggage sizes
+     */
+    private List<BaggageSize> generateBaggageSize(
+            final BaggageSizeConfiguration baggageSizeConfiguration) {
+        final BaggageSizeGenerator baggageSizeGenerator = new BaggageSizeGenerator(
+                baggageSizeConfiguration);
+        final List<BaggageSize> baggageSizes = baggageSizeGenerator.generateList(
+                baggageSizeConfiguration.getNumberBaggageSize());
+        baggageSizeRepository.save(baggageSizes);
+        return baggageSizes;
     }
 
 

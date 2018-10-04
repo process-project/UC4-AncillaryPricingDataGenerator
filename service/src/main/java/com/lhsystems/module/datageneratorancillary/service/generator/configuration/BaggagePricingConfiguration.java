@@ -106,7 +106,7 @@ public final class BaggagePricingConfiguration {
      *            the new maximum additional price
      */
     public void setMaximumAdditionalPrice(final double paramMaximumAdditionalPrice) {
-        this.maximumAdditionalPrice = paramMaximumAdditionalPrice;
+        maximumAdditionalPrice = paramMaximumAdditionalPrice;
     }
 
     /**
@@ -116,7 +116,7 @@ public final class BaggagePricingConfiguration {
      *            the new maximum first price
      */
     public void setMaximumFirstPrice(final double paramMaximumFirstPrice) {
-        this.maximumFirstPrice = paramMaximumFirstPrice;
+        maximumFirstPrice = paramMaximumFirstPrice;
     }
 
     /**
@@ -126,7 +126,7 @@ public final class BaggagePricingConfiguration {
      *            the new maximum second price
      */
     public void setMaximumSecondPrice(final double paramMaximumSecondPrice) {
-        this.maximumSecondPrice = paramMaximumSecondPrice;
+        maximumSecondPrice = paramMaximumSecondPrice;
     }
 
     /**
@@ -136,7 +136,7 @@ public final class BaggagePricingConfiguration {
      *            the new minimum additional price
      */
     public void setMinimumAdditionalPrice(final double paramMinimumAdditionalPrice) {
-        this.minimumAdditionalPrice = paramMinimumAdditionalPrice;
+        minimumAdditionalPrice = paramMinimumAdditionalPrice;
     }
 
     /**
@@ -146,7 +146,7 @@ public final class BaggagePricingConfiguration {
      *            the new minimum first price
      */
     public void setMinimumFirstPrice(final double paramMinimumFirstPrice) {
-        this.minimumFirstPrice = paramMinimumFirstPrice;
+        minimumFirstPrice = paramMinimumFirstPrice;
     }
 
     /**
@@ -156,17 +156,17 @@ public final class BaggagePricingConfiguration {
      *            the new minimum second price
      */
     public void setMinimumSecondPrice(final double paramMinimumSecondPrice) {
-        this.minimumSecondPrice = paramMinimumSecondPrice;
+        minimumSecondPrice = paramMinimumSecondPrice;
     }
 
     /**
-     * Sets the number baggage pricing.
+     * Sets the number of baggage pricing objects to be generated.
      *
      * @param paramMumberBaggagePricing
-     *            the new number baggage pricing
+     *            the new number of baggage pricing objects
      */
     public void setNumberBaggagePricing(final int paramMumberBaggagePricing) {
-        this.numberBaggagePricing = paramMumberBaggagePricing;
+        numberBaggagePricing = paramMumberBaggagePricing;
     }
 
 }

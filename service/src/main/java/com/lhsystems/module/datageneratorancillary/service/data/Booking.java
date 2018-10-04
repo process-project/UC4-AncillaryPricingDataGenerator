@@ -25,7 +25,7 @@ public final class Booking {
 
     /** The core booking. */
     @OneToOne
-    @JoinColumn(name = "SIMPLE_BOOKING")
+    @JoinColumn(name = "CORE_BOOKING")
     private final CoreBooking coreBooking;
 
     /** The seat selection. */
@@ -52,7 +52,7 @@ public final class Booking {
      * Instantiates a new complete booking.
      *
      * @param paramCoreBooking
-     *            the simple booking field value
+     *            the core booking field value
      * @param paramSeatSelection
      *            the seat selection field value
      * @param paramBaggageSelection
@@ -68,9 +68,9 @@ public final class Booking {
     }
 
     /**
-     * Gets the simple booking.
+     * Gets the core booking.
      *
-     * @return the simple booking
+     * @return the core booking
      */
     public CoreBooking getCoreBooking() {
         return coreBooking;

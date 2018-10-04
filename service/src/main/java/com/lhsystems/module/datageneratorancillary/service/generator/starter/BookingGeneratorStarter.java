@@ -30,36 +30,36 @@ public final class BookingGeneratorStarter {
     private final BaggageSelectionRepository baggageSelectionRepository;
 
     /** Repository for storing complete bookings. */
-    private final BookingRepository completeBookingRepository;
+    private final BookingRepository bookingRepository;
 
     /** Repository for storing seat selections. */
     private final SeatSelectionRepository seatSelectionRepository;
 
     /** Repository for simple bookings. */
-    private final CoreBookingRepository simpleBookingRepository;
+    private final CoreBookingRepository coreBookingRepository;
 
     /**
      * Instantiates a new booking generator starter.
      *
      * @param baggageSelectionRepositoryParam
      *            the baggage selection repository
-     * @param completeBookingRepositoryParam
+     * @param bookingRepositoryParam
      *            the complete booking repository
      * @param seatSelectionRepositoryParam
      *            the seat selection repository
-     * @param simpleBookingRepositoryParam
+     * @param coreBookingRepositoryParam
      *            the simple booking repository
      */
     @Autowired
     public BookingGeneratorStarter(
             final BaggageSelectionRepository baggageSelectionRepositoryParam,
-            final BookingRepository completeBookingRepositoryParam,
+            final BookingRepository bookingRepositoryParam,
             final SeatSelectionRepository seatSelectionRepositoryParam,
-            final CoreBookingRepository simpleBookingRepositoryParam) {
+            final CoreBookingRepository coreBookingRepositoryParam) {
         baggageSelectionRepository = baggageSelectionRepositoryParam;
-        completeBookingRepository = completeBookingRepositoryParam;
+        bookingRepository = bookingRepositoryParam;
         seatSelectionRepository = seatSelectionRepositoryParam;
-        simpleBookingRepository = simpleBookingRepositoryParam;
+        coreBookingRepository = coreBookingRepositoryParam;
     }
 
     /**
@@ -86,10 +86,10 @@ public final class BookingGeneratorStarter {
         final List<SeatSelection> seatSelections = bookings.stream().map(
                 booking -> booking.getSeatSelection()).collect(
                         Collectors.toList());
-        simpleBookingRepository.save(coreBookings);
+        coreBookingRepository.save(coreBookings);
         baggageSelectionRepository.save(baggageSelections);
         seatSelectionRepository.save(seatSelections);
-        completeBookingRepository.save(bookings);
+        bookingRepository.save(bookings);
         return bookings;
     }
 

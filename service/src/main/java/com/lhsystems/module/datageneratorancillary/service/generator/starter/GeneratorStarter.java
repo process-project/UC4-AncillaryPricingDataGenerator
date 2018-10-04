@@ -104,7 +104,7 @@ public class GeneratorStarter {
                 baggageClasses,
                 generatorConfiguration.getNumberProducts(),
                 compartments);
-        final List<SeatingModel> seatingModels = seatingGeneratorStarter.generateSeatingModel(
+        final List<SeatingModel> seatingModels = seatingGeneratorStarter.generateSeatingModelEntities(
                 generatorConfiguration.getSeatConfiguration());
 
         final List<Tariff> tariffs = tariffGeneratorStarter.generateTariffsEntities(
@@ -114,7 +114,7 @@ public class GeneratorStarter {
 
         final List<Market> markets = getAvailableMarkets(tariffs);
 
-        final List<Route> routes = routesGeneratorStarter.generateRoutesAndAirports(markets, ssimLines);
+        final List<Route> routes = routesGeneratorStarter.generateRoutesAndAirportEntities(markets, ssimLines);
         final List<Flight> flights = flightGeneratorStarter.generateFlightsEntities(
                 generatorConfiguration.getFlightConfiguration(),
                 tariffs,

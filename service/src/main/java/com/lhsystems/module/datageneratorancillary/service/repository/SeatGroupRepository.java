@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * @version $Revision: 1.10 $
  */
 @Repository
-public interface SeatingGroupRepository extends CrudRepository<SeatGroup, Long> {
+public interface SeatGroupRepository extends CrudRepository<SeatGroup, Long> {
 
 }
 

@@ -5,7 +5,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.SeatConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.SeatGroupGenerator;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.SeatingModelGenerator;
-import com.lhsystems.module.datageneratorancillary.service.repository.SeatingGroupRepository;
+import com.lhsystems.module.datageneratorancillary.service.repository.SeatGroupRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.SeatingModelRepository;
 
 import java.util.List;
@@ -26,21 +26,24 @@ class SeatingGeneratorStarter {
     private final SeatingModelRepository seatingModelRepository;
 
     /** The repository used for saving seating groups. */
-    private final SeatingGroupRepository seatingGroupRepository;
+    private final SeatGroupRepository seatGroupRepository;
 
     /**
-     * Instantiates a new seating generator starer with injected seating repositories.
+     * Instantiates a new seating generator starer with injected seating
+     * repositories.
      *
      * @param seatingModelRepositoryParam
-     *        repository responsible for crud operations on seating model entities
-     * @param seatingGroupRepositoryParam
-     *        repository responsible for crud operations on seating group entities
+     *            repository responsible for crud operations on seating model
+     *            entities
+     * @param seatGroupRepositoryParam
+     *            repository responsible for crud operations on seating group
+     *            entities
      */
     @Autowired
     public SeatingGeneratorStarter(final SeatingModelRepository seatingModelRepositoryParam,
-            final SeatingGroupRepository seatingGroupRepositoryParam) {
+            final SeatGroupRepository seatGroupRepositoryParam) {
         seatingModelRepository = seatingModelRepositoryParam;
-        seatingGroupRepository = seatingGroupRepositoryParam;
+        seatGroupRepository = seatGroupRepositoryParam;
     }
 
     /**
@@ -49,7 +52,7 @@ class SeatingGeneratorStarter {
      * @return
      *       the list of generated seat models
      */
-    List<SeatingModel> generateSeatingModel(
+    List<SeatingModel> generateSeatingModelEntities(
             final SeatConfiguration seatConfiguration) {
         final List<SeatGroup> seatGroups = generateSeatGroups(
                 seatConfiguration.getSeatGroup());
@@ -84,7 +87,7 @@ class SeatingGeneratorStarter {
     private List<SeatGroup> generateSeatGroups(final int seatGroupSize) {
         final SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator();
         final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(seatGroupSize);
-        seatingGroupRepository.save(seatGroups);
+        seatGroupRepository.save(seatGroups);
         return seatGroups;
     }
 }

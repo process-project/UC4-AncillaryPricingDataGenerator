@@ -25,8 +25,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public final class RoutesGeneratorStarter {
+<<<<<<< Upstream, based on lmuGitlab/topic/EUPLSY-85
     /** The patern used for finding ida codes in line. */
     private final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
+=======
+    /** The pattern used for finding IATA codes in line. */
+    private static final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
+>>>>>>> c0ba3f7 EUPLSY-85: Add Bookings and respective Generator, Repository as well as  utility classes
 
     /** The repository used for saving airports. */
     private final AirportRepository airportRepository;
@@ -53,24 +58,6 @@ public final class RoutesGeneratorStarter {
     }
 
     /**
-     * Iterate through lines and create routes and airports from each line.
-     *
-     * @param markets
-     *        list of possible markets to used as airport market
-     * @param ssimLines
-     *        list of lines from ssim file
-     * @return
-     *        list of routes
-     */
-    List<Route> generateRoutesAndAirports(final List<Market> markets, final List<String> ssimLines){
-        return ssimLines
-                .stream()
-                .map(e -> generateDate(e, markets))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Find iata codes in ssim line, then generate airports from them and add new route if necessary.
      *
      * @param line
@@ -80,7 +67,11 @@ public final class RoutesGeneratorStarter {
      * @return
      *        route
      */
+<<<<<<< Upstream, based on lmuGitlab/topic/EUPLSY-85
     private Route generateDate(final String line, final List<Market> markets) {
+=======
+    private Route generateRoute(final String line, final List<Market> markets) {
+>>>>>>> c0ba3f7 EUPLSY-85: Add Bookings and respective Generator, Repository as well as  utility classes
         final Matcher matcher = iataPattern.matcher(line);
         final List<Airport> airports = new ArrayList<>();
         while (matcher.find()) {
@@ -91,10 +82,28 @@ public final class RoutesGeneratorStarter {
         if(airports.size() != 2) {
             return null;
         }
-
+    
         airports.forEach(this::saveAirportIfNotExits);
-
+    
         return getOrCreateRouteIfNotExists(airports.get(0), airports.get(1));
+    }
+
+    /**
+     * Iterate through lines and create routes and airports from each line.
+     *
+     * @param markets
+     *        list of possible markets to used as airport market
+     * @param ssimLines
+     *        list of lines from ssim file
+     * @return
+     *        list of routes
+     */
+    List<Route> generateRoutesAndAirportEntities(final List<Market> markets, final List<String> ssimLines){
+        return ssimLines
+                .stream()
+                .map(e -> generateRoute(e, markets))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /**

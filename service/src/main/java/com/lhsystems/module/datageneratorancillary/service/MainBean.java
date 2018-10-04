@@ -91,7 +91,8 @@ public class MainBean {
      */
     private void generateAirlines(final String yamlOptionsPath) {
         final GeneratorConfiguration generatorConfiguration = optionReader.readGeneratorOptions(yamlOptionsPath);
-        final List<String> ssimLines = ssimReader.getSsimFileLines("/ssim-mini.ssim");
+        final List<String> ssimLines = ssimReader.getSsimFileLines(
+                "/schedule-small.ssim");
         generatorStarter.generateData(generatorConfiguration, ssimLines);
     }
 

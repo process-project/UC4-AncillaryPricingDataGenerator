@@ -1,7 +1,18 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * data structure representing the tariffs offered by an airline.
@@ -29,7 +40,7 @@ public final class Tariff {
     /** The id of a tariff. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     /**
      * The market the tariff is offered in.
@@ -51,33 +62,30 @@ public final class Tariff {
     private final SeatingModel seating;
 
     /**
+     * Default Constructor needed for an Entity. Instantiates a new tariff
+     * class.
+     */
+    public Tariff() {
+        price = 0;
+        seating = null;
+        product = null;
+        market = null;
+    }
+
+    /**
      * Instantiates a new tariff.
      *
-     * @param paramId      the id
      * @param paramPrice   the price
      * @param paramSeating the seating
      * @param paramProduct the product
      * @param paramMarket  the available markets
      */
-    public Tariff(final long paramId, final double paramPrice, final SeatingModel paramSeating,
-                  final Product paramProduct, final Market paramMarket) {
-        id = paramId;
+    public Tariff(final double paramPrice, final SeatingModel paramSeating,
+            final Product paramProduct, final Market paramMarket) {
         price = paramPrice;
         seating = paramSeating;
         product = paramProduct;
         market = paramMarket;
-    }
-
-    /**
-     * Default Constructor needed for an Entity. Instantiates a new tariff
-     * class.
-     */
-    public Tariff() {
-        id = 0;
-        price = 0;
-        seating = null;
-        product = null;
-        market = null;
     }
 
     /**
@@ -140,7 +148,7 @@ public final class Tariff {
      * @param flightsParam the flights
      */
     public void setFlights(final List<Flight> flightsParam) {
-        this.flights = flightsParam;
+        flights = flightsParam;
     }
 
 }

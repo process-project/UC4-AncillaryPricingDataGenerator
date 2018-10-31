@@ -1,9 +1,16 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.*;
+
 
 /**
  * The class Airport serves as a model for airports.

@@ -1,6 +1,14 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * A route defining the origin and destination of flights.
@@ -16,7 +24,7 @@ public final class Route {
     /** The id of the compartment. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
     /**
      * IATA code of the destination airport.
      */
@@ -51,7 +59,6 @@ public final class Route {
         originAirport = paramOriginAirport;
         destinationAirport = paramDestinationAirport;
         market = originAirport.getMarket().getMaximumMarket(destinationAirport.getMarket());
-        id = 0;
     }
 
     /**
@@ -62,7 +69,6 @@ public final class Route {
         originAirport = null;
         destinationAirport = null;
         market = Market.DOMESTIC;
-        id = 0;
     }
 
     /**

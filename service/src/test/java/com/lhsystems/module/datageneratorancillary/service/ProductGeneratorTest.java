@@ -1,17 +1,17 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
+import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,17 +43,15 @@ public final class ProductGeneratorTest {
     public void setUp(){
         final BaggageSize baggageSize = new BaggageSize(3, 3, 3, 3);
         final BaggageLimits baggageLimits = new BaggageLimits(
-                1,
                 baggageSize,
                 3,
                 3);
-        final BaggagePricing baggagePricing = new BaggagePricing(1, 3, 3, 3);
+        final BaggagePricing baggagePricing = new BaggagePricing(3, 3, 3);
         baggageClass = new BaggageClass(
-                1,
                 "bag",
                 baggageLimits,
                 baggagePricing);
-        compartment = new Compartment(1, 'N', "compartment");
+        compartment = new Compartment('N', "compartment");
     }
 
     /**
@@ -67,7 +65,6 @@ public final class ProductGeneratorTest {
         final List<Compartment> compartments = new ArrayList<>();
         compartments.add(compartment);
         final ProductGenerator productGenerator = new ProductGenerator(
-                (long) 10,
                 compartments,
                 baggageClasses);
         final List<Product> testProducts = productGenerator.generateList(100);
@@ -84,7 +81,7 @@ public final class ProductGeneratorTest {
     private boolean checkProducts(final List<Product> testProducts) {
         for (final Product product: testProducts){
             for (final BaggageClass baggageClass: product.getBaggageClasses()){
-                if (baggageClass.getBaggageLimits().getCountMax()< product.getNumberOfIncludedBags().get(baggageClass)){
+                if (baggageClass.getBaggageLimits().getCountMax()< product.getNumberOfIncludedBagsByBaggageClass().get(baggageClass)){
                     return false;
                 }
                 if (!product.getName().equals(PRODUCT_NAME)) {

@@ -6,11 +6,12 @@ import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightGeneratorConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.FlightRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Starts generating flight entities and save them into database.
@@ -32,14 +33,12 @@ class FlightGeneratorStarter {
      */
     @Autowired
     public FlightGeneratorStarter(final FlightRepository flightRepositoryParam) {
-        this.flightRepository = flightRepositoryParam;
+        flightRepository = flightRepositoryParam;
     }
 
     /**
      * Generate flight entities in flight generator and save them.
      *
-     * @param startId
-     *        the smallest id used for data Generation
      * @param flightGeneratorConfiguration
      *        the options used for flight generator
      * @param tariffs
@@ -49,9 +48,12 @@ class FlightGeneratorStarter {
      * @return
      *        the list of generated flights
      */
-    List<Flight> generateFlightsEntities(final long startId, final FlightGeneratorConfiguration flightGeneratorConfiguration,
-                                         final List<Tariff> tariffs, final List<Route> routes) {
-        final FlightGenerator flightGenerator = new FlightGenerator(startId, routes, tariffs,
+    List<Flight> generateFlightsEntities(
+            final FlightGeneratorConfiguration flightGeneratorConfiguration,
+            final List<Tariff> tariffs, final List<Route> routes) {
+        final FlightGenerator flightGenerator = new FlightGenerator(
+                routes,
+                tariffs,
                 flightGeneratorConfiguration.getMinFlightDateAsLocalDate(),
                 flightGeneratorConfiguration.getMaxFlightDateAsLocalDate());
         final List<Flight> flights = flightGenerator.generateList(flightGeneratorConfiguration.getNumber());

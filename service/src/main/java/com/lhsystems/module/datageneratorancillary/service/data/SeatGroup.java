@@ -1,6 +1,11 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * a group of seats that all cost the same.
@@ -15,7 +20,7 @@ public final class SeatGroup {
     /** The id of the seat group. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     /** The name of the seat group. */
     @Column(name = "NAME")
@@ -30,10 +35,18 @@ public final class SeatGroup {
     private final double seatPrice;
 
     /**
+     * Default Constructor needed for an Entity. Instantiates a new seat group
+     * class.
+     */
+    public SeatGroup() {
+        name = null;
+        numberSeats = 0;
+        seatPrice = 0;
+    }
+
+    /**
      * Instantiates a new seat group.
      *
-     * @param paramId
-     *            the id
      * @param paramName
      *            the name
      * @param paramNumberSeats
@@ -41,23 +54,11 @@ public final class SeatGroup {
      * @param paramSeatPrice
      *            the seat price
      */
-    public SeatGroup(final long paramId, final String paramName,
+    public SeatGroup(final String paramName,
             final int paramNumberSeats, final double paramSeatPrice) {
-        id = paramId;
         name = paramName;
         numberSeats = paramNumberSeats;
         seatPrice = paramSeatPrice;
-    }
-
-    /**
-     * Default Constructor needed for an Entity. Instantiates a new seat group
-     * class.
-     */
-    public SeatGroup() {
-        name = "default";
-        id = 0L;
-        numberSeats = 0;
-        seatPrice = 0;
     }
 
     /**

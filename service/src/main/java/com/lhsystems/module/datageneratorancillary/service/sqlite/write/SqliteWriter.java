@@ -237,7 +237,7 @@ public final class SqliteWriter {
                     tempMaxId,
                     product.getId(),
                     baggageClass.getId(),
-                    product.getNumberOfIncludedBags().get(baggageClass),
+                    product.getNumberOfIncludedBagsByBaggageClass().get(baggageClass),
                     false);
             tempMaxId++;
         }
@@ -247,7 +247,7 @@ public final class SqliteWriter {
                     tempMaxId,
                     product.getId(),
                     lastClass.getId(),
-                    product.getNumberOfIncludedBags().get(lastClass),
+                    product.getNumberOfIncludedBagsByBaggageClass().get(lastClass),
                     true);
             tempMaxId++;
         }

@@ -10,7 +10,7 @@ import java.util.Date;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public class FlightGeneratorConfiguration {
+public final class FlightGeneratorConfiguration {
     /** The minimum date of departure flight.*/
     private Date minFlightDate;
 
@@ -44,7 +44,7 @@ public class FlightGeneratorConfiguration {
      *        minFlightDate from zml file
      */
     public void setMinFlightDate(final Date minFlightDateParam) {
-        this.minFlightDate = minFlightDateParam;
+        minFlightDate = minFlightDateParam;
     }
 
     /**
@@ -66,7 +66,7 @@ public class FlightGeneratorConfiguration {
      *        maxFlightDate from zml file
      */
     public void setMaxFlightDate(final Date maxFlightDateParam) {
-        this.maxFlightDate = maxFlightDateParam;
+        maxFlightDate = maxFlightDateParam;
     }
 
     /**
@@ -86,6 +86,6 @@ public class FlightGeneratorConfiguration {
      *        number from zml file
      */
     public void setNumber(final int numberParam) {
-        this.number = numberParam;
+        number = numberParam;
     }
 }

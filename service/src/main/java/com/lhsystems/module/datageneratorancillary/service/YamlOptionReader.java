@@ -3,11 +3,16 @@
  */
 package com.lhsystems.module.datageneratorancillary.service;
 
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
-import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Reads a Yaml file and returns the options.
@@ -18,6 +23,15 @@ import java.io.InputStream;
 
 @Component
 public final class YamlOptionReader {
+
+    /**
+     * Instantiates a new yaml option reader. Default constructor to satisfy
+     * checkstyle requirements.
+     */
+    private YamlOptionReader() {
+
+    }
+
     /**
      * Reads a Yaml file of the form of generator-options.yml.template into proper classes.
      *
@@ -32,12 +46,25 @@ public final class YamlOptionReader {
     }
 
     /**
-     * Returns the path of the database as stated in the loaded file.
+     * Read a yaml file of the form of compartments.yml.template containing
+     * compartments.
      *
-     * @return the path of the database as stated in the loaded file
+     * @param compartmentsPath
+     *            the compartments path
+     * @return a list of compartments described in the file
      */
-    @SuppressWarnings("unchecked")
-    public String getDatabasePath() {
-        return "C:/Users/nwuser/MySQLiteDB";
+    public List<Compartment> readCompartments(final String compartmentsPath) {
+        final InputStream input = getClass().getResourceAsStream(
+                compartmentsPath);
+        final Yaml yaml = new Yaml();
+        final List<Compartment> compartments = new ArrayList<>();
+        for (final Map<String, String> map : (ArrayList<Map<String, String>>) yaml.load(
+                input)) {
+            compartments.add(
+                    new Compartment(
+                            map.get("identifier").charAt(0),
+                            map.get("name")));
+        }
+        return compartments;
     }
 }

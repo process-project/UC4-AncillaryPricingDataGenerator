@@ -6,22 +6,25 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public class GeneratorConfiguration {
+public final class GeneratorConfiguration {
 
     /** Configuration for a flight generator. */
-    private FlightGeneratorConfiguration flight;
+    private FlightGeneratorConfiguration flightConfiguration;
 
     /** Configuration for a baggage generator. */
-    private BaggageGeneratorConfiguration baggage;
+    private BaggageGeneratorConfiguration baggageConfiguration;
 
     /** Configuration for a seat generator. */
-    private SeatConfiguration seat;
+    private SeatConfiguration seatConfiguration;
 
     /** Number of products that should be generated. */
-    private int product;
+    private int numberProducts;
 
     /** Number of tariffs that should be generated. */
-    private int tariff;
+    private int numberTariffs;
+
+    /** Number of bookings that should be generated. */
+    private int numberBookings;
 
     /**
      * Instantiates a new generator configuration object.
@@ -30,22 +33,39 @@ public class GeneratorConfiguration {
     }
 
     /**
-     * Gets the baggage generator configuration .
-     * @return
-     *      baggage generator configuration
+     * Gets the baggage generator configuration.
+     *
+     * @return baggage generator configuration
      */
-    public BaggageGeneratorConfiguration getBaggage() {
-        return baggage;
+    public BaggageGeneratorConfiguration getBaggageConfiguration() {
+        return baggageConfiguration;
     }
 
     /**
-     * Set baggage configuration, used for reading yml file.
+     * Gets the number of bookings.
      *
-     * @param baggageParam
-     *        baggage configuration from zml file
+     * @return the number bookings
      */
-    public void setBaggage(final BaggageGeneratorConfiguration baggageParam) {
-        this.baggage = baggageParam;
+    public int getNumberBookings() {
+        return numberBookings;
+    }
+
+    /**
+     * Gets the flight generator configuration.
+     *
+     * @return flight generator configuration
+     */
+    public FlightGeneratorConfiguration getFlightConfiguration() {
+        return flightConfiguration;
+    }
+
+    /**
+     * Gets the size of products.
+     *
+     * @return products size
+     */
+    public int getNumberProducts() {
+        return numberProducts;
     }
 
     /**
@@ -53,28 +73,49 @@ public class GeneratorConfiguration {
      * @return
      *      seat generator configuration
      */
-    public SeatConfiguration getSeat() {
-        return seat;
+    public SeatConfiguration getSeatConfiguration() {
+        return seatConfiguration;
     }
 
     /**
-     * Set seat configuration, used for reading yml file.
+     * Gets the size of tariffs.
      *
-     * @param seatParam
-     *        seat configuration from zml file
+     * @return tariffs size
      */
-    public void setSeat(final SeatConfiguration seatParam) {
-        this.seat = seatParam;
+    public int getNumberTariffs() {
+        return numberTariffs;
     }
 
     /**
-     * Gets the size of products.
+     * Set baggage configuration, used for reading yml file.
      *
-     * @return
-     *      products size
+     * @param baggageParam
+     *            baggage configuration from zml file
      */
-    public int getProduct() {
-        return product;
+    public void setBaggageConfiguration(
+            final BaggageGeneratorConfiguration baggageParam) {
+        baggageConfiguration = baggageParam;
+    }
+
+    /**
+     * Sets the number of bookings.
+     *
+     * @param numberBookingsParam
+     *            the new number bookings
+     */
+    public void setNumberBookings(final int numberBookingsParam) {
+        numberBookings = numberBookingsParam;
+    }
+
+    /**
+     * Set flight configuration, used for reading yml file.
+     *
+     * @param flightParam
+     *            flight configuration from zml file
+     */
+    public void setFlightConfiguration(
+            final FlightGeneratorConfiguration flightParam) {
+        flightConfiguration = flightParam;
     }
 
     /**
@@ -83,17 +124,18 @@ public class GeneratorConfiguration {
      * @param productParam
      *        product from zml file
      */
-    public void setProduct(final int productParam) {
-        this.product = productParam;
+    public void setNumberProducts(final int productParam) {
+        numberProducts = productParam;
     }
 
     /**
-     * Gets the size of tariffs.
-     * @return
-     *      tariffs size
+     * Set seat configuration, used for reading yml file.
+     *
+     * @param seatParam
+     *            seat configuration from zml file
      */
-    public int getTariff() {
-        return tariff;
+    public void setSeatConfiguration(final SeatConfiguration seatParam) {
+        seatConfiguration = seatParam;
     }
 
     /**
@@ -102,26 +144,7 @@ public class GeneratorConfiguration {
      * @param tariffParam
      *        tariff from zml file
      */
-    public void setTariff(final int tariffParam) {
-        this.tariff = tariffParam;
-    }
-
-    /**
-     * Gets the flight generator configuration.
-     * @return
-     *      flight generator configuration
-     */
-    public FlightGeneratorConfiguration getFlight() {
-        return flight;
-    }
-
-    /**
-     * Set flight configuration, used for reading yml file.
-     *
-     * @param flightParam
-     *        flight configuration from zml file
-     */
-    public void setFlight(final FlightGeneratorConfiguration flightParam) {
-        this.flight = flightParam;
+    public void setNumberTariffs(final int tariffParam) {
+        numberTariffs = tariffParam;
     }
 }

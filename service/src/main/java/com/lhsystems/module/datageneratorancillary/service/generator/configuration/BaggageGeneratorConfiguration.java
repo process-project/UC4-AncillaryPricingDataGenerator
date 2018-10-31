@@ -6,7 +6,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  * @author REJ
  * @version $Revision: 1.10 $
  */
-public class BaggageGeneratorConfiguration {
+public final class BaggageGeneratorConfiguration {
 
     /** Number of how many baggage sizes should be generated. */
     private int baggageSize;
@@ -42,7 +42,7 @@ public class BaggageGeneratorConfiguration {
      *        baggageSize from zml file
      */
     public void setBaggageSize(final int baggageSizeParam) {
-        this.baggageSize = baggageSizeParam;
+        baggageSize = baggageSizeParam;
     }
 
     /**
@@ -61,7 +61,7 @@ public class BaggageGeneratorConfiguration {
      *        baggageLimits from zml file
      */
     public void setBaggageLimits(final int baggageLimitsParam) {
-        this.baggageLimits = baggageLimitsParam;
+        baggageLimits = baggageLimitsParam;
     }
 
     /**
@@ -80,7 +80,7 @@ public class BaggageGeneratorConfiguration {
      *        baggagePricing from zml file
      */
     public void setBaggagePricing(final int baggagePricingParam) {
-        this.baggagePricing = baggagePricingParam;
+        baggagePricing = baggagePricingParam;
     }
 
     /**
@@ -99,6 +99,6 @@ public class BaggageGeneratorConfiguration {
      *        baggageClass from zml file
      */
     public void setBaggageClass(final int baggageClassParam) {
-        this.baggageClass = baggageClassParam;
+        baggageClass = baggageClassParam;
     }
 }

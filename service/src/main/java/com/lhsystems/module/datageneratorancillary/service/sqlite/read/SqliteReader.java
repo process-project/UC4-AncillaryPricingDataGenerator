@@ -1,8 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service.sqlite.read;
 
-import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Airport;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -77,12 +77,6 @@ public final class SqliteReader {
 
     /** Query to get the names of all tables in the database. */
     public static final String SQL_SELECT_TABLES = "SELECT name FROM sqlite_master WHERE type='table';";
-
-    /**
-     * Column that contains the compartment id in the resultset returned by
-     * <code>SQL_SELECT_COMPARTMENTS</code>.
-     */
-    private static final String COLUMN_COMPARTMENTS_ID = "ID";
 
     /**
      * Column that contains the compartment name in the resultset returned by
@@ -166,7 +160,6 @@ public final class SqliteReader {
         while (resultSet.next()) {
             compartments.add(
                     new Compartment(
-                            resultSet.getInt(COLUMN_COMPARTMENTS_ID),
                             resultSet.getString(
                                     COLUMN_COMPARTMENTS_ID_CHAR).charAt(0),
                             resultSet.getString(COLUMN_COMPARTMENTS_NAME)

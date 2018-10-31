@@ -1,6 +1,10 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
-import com.lhsystems.module.datageneratorancillary.service.data.*;
+import com.lhsystems.module.datageneratorancillary.service.data.Airport;
+import com.lhsystems.module.datageneratorancillary.service.data.Flight;
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
+import com.lhsystems.module.datageneratorancillary.service.data.Route;
+import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,8 +52,6 @@ public final class FlightGenerator extends DataGenerator {
     /**
      * Constructor.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      * @param paramRoutes
      *            the routes to be used for flight generation
      * @param paramTariffs
@@ -59,10 +61,10 @@ public final class FlightGenerator extends DataGenerator {
      * @param paramMaxDate
      *            the last date of the generation interval
      */
-    public FlightGenerator(final Long startId, final List<Route> paramRoutes,
-                           final List<Tariff> paramTariffs, final LocalDate paramMinDate,
-                           final LocalDate paramMaxDate) {
-        super(startId);
+    public FlightGenerator(final List<Route> paramRoutes,
+            final List<Tariff> paramTariffs, final LocalDate paramMinDate,
+            final LocalDate paramMaxDate) {
+        super();
         tariffs = paramTariffs;
         minDate = paramMinDate;
         routes = paramRoutes;
@@ -74,7 +76,7 @@ public final class FlightGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected Flight generate(final long id) {
+    protected Flight generate() {
         final int flightNumber = increaseFlightNumberCounter();
         final LocalDate departureDate = getRandom().getRandomDay(
                 minDate,
@@ -83,7 +85,6 @@ public final class FlightGenerator extends DataGenerator {
         final Route route = getRandom().getOneRandomElement(routes);
         final List<Tariff> chosenTariffs = chooseTariffs(route.getMarket());
         return new Flight(
-                id,
                 flightNumber,
                 LocalDateTime.of(departureDate, departureTime),
                 route,
@@ -146,7 +147,7 @@ public final class FlightGenerator extends DataGenerator {
      * @return destinationAirport which is different from originAirport
      */
     private Airport getRandomDestinationAirport(final Airport originAirport,
-                                                final Market market) {
+            final Market market) {
         Airport destinationAirport = getRandomAirport(market);
         while (originAirport == destinationAirport) {
             destinationAirport = getRandomAirport(market);

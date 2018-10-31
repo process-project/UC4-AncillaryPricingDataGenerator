@@ -1,6 +1,12 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import org.apache.commons.cli.*;
+import com.lhsystems.module.datageneratorancillary.service.utils.PathOptions;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,58 +17,97 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-
 @Service
-public class CommandLineOptionsReader {
+public final class CommandLineOptionsReader {
+
+
+    /** The compartment options Path to be used if no path option is given. */
+    private static final String DEFAULT_COMPARTMENT_FILE = "/compartments.yml";
+
+    /**
+     * The generator options Path to be used if no path option is given.
+     */
+    private static final String DEFAULT_GENERATOR_OPTIONS_FILE = "/generator-options.yml";
+
+    /**
+     * The SSIM Path to be used if no path option is given.
+     */
+    private static final String DEFAULT_SSIM_FILE = "/schedule-small.ssim";
+
+    /**
+     * Name of the option giving the yaml File containing the compartments.
+     */
+    private static final String OPTION_NAME_COMPARTMENT_FILE = "compartmentsFile";
+
+    /**
+     * Name of the option giving the ssim File containing the Airports.
+     */
+    private static final String OPTION_NAME_SSIM_FILE = "ssimFile";
+
+    /**
+     * Name of the option giving the yaml File containing the generator options.
+     */
+    private static final String OPTION_NAME_GENERATOR_CONFIGURATION_FILE = "generatorConfigurationFile";
+
+    /** The options. */
+    private final Options commandLineOptions;
 
     /** Logger.*/
     private final Logger log = LoggerFactory.getLogger(CommandLineOptionsReader.class);
 
-    private final String OPTION_NAME_SPRING_OUTPUT_ANSI_ENABLED = "spring.output.ansi.enabled";
-
     /**
-     * Name of the option giving the yaml File containing the options.
+     * Instantiates a new command line options reader.
      */
-    private final String OPTION_NAME_OPTIONS_FILE = "optionsFile";
-
-    /**
-     * The Path to be used if the path option is not given.
-     */
-    private final String DEFAULT_OPTIONS_FILE = "/generator-options.yml";
-
-    /**
-     * Reads the command line option FILE_OPTIONS_NAME and returns its value.
-     *
-     * @param args default parameter for parsing, no use for now
-     * @return value of command line option FILE_OPTIONS_NAME
-     */
-    public String getYamlPathFromCommandLine(final String[] args)  {
-        final Options cmdOptions = new Options();
-        cmdOptions.addOption(OPTION_NAME_OPTIONS_FILE, true,
-                "Path of the yaml options file. Defaults to " + DEFAULT_OPTIONS_FILE);
-        return getPathFromCommandLine(cmdOptions, args);
+    private CommandLineOptionsReader() {
+        commandLineOptions = new Options();
+        commandLineOptions.addOption(
+                OPTION_NAME_GENERATOR_CONFIGURATION_FILE,
+                true,
+                "Path of the generator options file. Defaults to "
+                        + DEFAULT_GENERATOR_OPTIONS_FILE);
+        commandLineOptions.addOption(
+                OPTION_NAME_SSIM_FILE,
+                true,
+                "Path of the ssim options file. Defaults to "
+                        + DEFAULT_SSIM_FILE);
+        commandLineOptions.addOption(
+                OPTION_NAME_COMPARTMENT_FILE,
+                true,
+                "Path of the compartments file. Defaults to "
+                        + DEFAULT_COMPARTMENT_FILE);
     }
 
     /**
-     * Parses arguments to find request option.
+     * Read path files of all option files from command line.
      *
-     * @param cmdOptions
-     *            options used for parsing arguments from command line
      * @param args
-     *            program arguments
-     * @return value of command line option FILE_OPTIONS_NAME
-     * or DEFAULT_OPTIONS_FILE when option not found or in case of error
+     *            the args
+     * @return the path options
      */
-    private String getPathFromCommandLine(final Options cmdOptions, final String[] args){
+    public PathOptions readPathOptionsFromCommandLine(final String[] args) {
+        String compartmentFile = DEFAULT_COMPARTMENT_FILE;
+        String ssimFile = DEFAULT_SSIM_FILE;
+        String generatorConfigurationFile = DEFAULT_GENERATOR_OPTIONS_FILE;
         try {
             final CommandLineParser parser = new DefaultParser();
-            final CommandLine line = parser.parse(cmdOptions, args);
-            if (line.hasOption(OPTION_NAME_OPTIONS_FILE)) {
-                return line.getOptionValue(OPTION_NAME_OPTIONS_FILE);
+            final CommandLine line = parser.parse(commandLineOptions, args);
+            if (line.hasOption(OPTION_NAME_COMPARTMENT_FILE)) {
+                compartmentFile = line.getOptionValue(
+                        OPTION_NAME_COMPARTMENT_FILE);
             }
-        } catch (ParseException e) {
+            if (line.hasOption(OPTION_NAME_SSIM_FILE)) {
+                ssimFile = line.getOptionValue(OPTION_NAME_SSIM_FILE);
+            }
+            if (line.hasOption(OPTION_NAME_GENERATOR_CONFIGURATION_FILE)) {
+                generatorConfigurationFile = line.getOptionValue(
+                        OPTION_NAME_GENERATOR_CONFIGURATION_FILE);
+            }
+        } catch (final ParseException e) {
             log.error("Cannot parse argument from commandLine", e.getMessage());
         }
-        return DEFAULT_OPTIONS_FILE;
+        return new PathOptions(
+                compartmentFile,
+                ssimFile,
+                generatorConfigurationFile);
     }
 }

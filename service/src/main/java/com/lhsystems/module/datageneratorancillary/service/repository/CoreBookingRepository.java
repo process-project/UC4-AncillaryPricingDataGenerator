@@ -1,18 +1,17 @@
 package com.lhsystems.module.datageneratorancillary.service.repository;
 
-import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
+import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data repository used for save seating group entities.
+ * Spring Data repository used for saving core bookings entities.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
 @Repository
-public interface SeatingGroupRepository extends CrudRepository<SeatGroup, Long> {
-
+public interface CoreBookingRepository
+extends CrudRepository<CoreBooking, Long> {
 }
-
-

@@ -1,6 +1,20 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
+import com.lhsystems.module.datageneratorancillary.service.data.Airport;
+import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
+import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
+import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
+import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
+import com.lhsystems.module.datageneratorancillary.service.data.Flight;
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
+import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.data.Route;
+import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
+import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
+import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.sqlite.write.SqliteWriter;
+import com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys;
-import com.lhsystems.module.datageneratorancillary.service.data.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -131,29 +143,27 @@ public class SqliteWriterTest {
                 Market.CONTINENTAL);
         airport2 = new Airport("TAD", "Test Airport Domestic", Market.DOMESTIC);
         baggageSize = new BaggageSize(3, 3, 3, 3);
-        baggageLimits = new BaggageLimits(1, baggageSize, 3, 3);
-        baggagePricing = new BaggagePricing(1, 3, 3, 3);
+        baggageLimits = new BaggageLimits(baggageSize, 3, 3);
+        baggagePricing = new BaggagePricing(3, 3, 3);
         baggageClass = new BaggageClass(
-                1,
                 "baggageClass",
                 baggageLimits,
                 baggagePricing);
-        compartment = new Compartment(1, 'N', "name");
+        compartment = new Compartment('N', "name");
         final List<BaggageClass> baggageClasses = new ArrayList<>();
         baggageClasses.add(baggageClass);
         final Map<BaggageClass, Integer> includedBags = new HashMap<>();
         includedBags.put(baggageClass, 1);
         product = new Product(
-                1,
                 "product",
                 compartment,
                 baggageClasses,
                 includedBags);
-        seatGroup = new SeatGroup(1, "seatGroup", 1, 1);
+        seatGroup = new SeatGroup("seatGroup", 1, 1);
         final ArrayList<SeatGroup> seatGroups = new ArrayList<>();
         seatGroups.add(seatGroup);
-        seatingModel = new SeatingModel(1, seatGroups);
-        tariff = new Tariff(1, 3, seatingModel, product, Market.CONTINENTAL);
+        seatingModel = new SeatingModel(seatGroups);
+        tariff = new Tariff(3, seatingModel, product, Market.CONTINENTAL);
         when(connection.createStatement()).thenReturn(statement);
     }
 
@@ -279,7 +289,6 @@ public class SqliteWriterTest {
         flights.add(
                 new Flight(
                         1,
-                        1,
                         LocalDateTime.of(2018, 5, 5, 12, 0),
                         new Route(airport1, airport2),
                         tariffs));
@@ -301,10 +310,9 @@ public class SqliteWriterTest {
         final ArrayList<Tariff> tariffs = new ArrayList<>();
         tariffs.add(tariff);
         tariffs.add(
-                new Tariff(3, 3, seatingModel, product, Market.CONTINENTAL));
+                new Tariff(3, seatingModel, product, Market.CONTINENTAL));
         flights.add(
                 new Flight(
-                        1,
                         1,
                         LocalDateTime.of(2018, 5, 5, 12, 0),
                         new Route(airport1, airport2),
@@ -326,9 +334,9 @@ public class SqliteWriterTest {
         final ArrayList<SeatingModel> seatingModels = new ArrayList<>();
         final ArrayList<SeatGroup> seatGroups = new ArrayList<>();
         seatGroups.add(seatGroup);
-        seatGroups.add(new SeatGroup(2, "someName", 6, 6));
+        seatGroups.add(new SeatGroup("someName", 6, 6));
         seatingModels.add(seatingModel);
-        seatingModels.add(new SeatingModel(2, seatGroups));
+        seatingModels.add(new SeatingModel(seatGroups));
         sqliteWriter.writeSeatGroupsOfSeatingModels(seatingModels, 1);
         verify(statement).execute(INSERT_SEAT_GROUPS_OF_SEATING_MODELS);
     }

@@ -31,13 +31,11 @@ public final class BaggageLimitsGenerator extends DataGenerator {
     /**
      * Instantiates a new baggage limits generator.
      *
-     * @param startId
-     *            the smallest id used for data Generation
      * @param paramBaggageSizes
      *            baggage sizes used for generation
      */
-    public BaggageLimitsGenerator(final Long startId, final List<BaggageSize> paramBaggageSizes) {
-        super(startId);
+    public BaggageLimitsGenerator(final List<BaggageSize> paramBaggageSizes) {
+        super();
         baggageSizes = paramBaggageSizes;
     }
 
@@ -46,7 +44,7 @@ public final class BaggageLimitsGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected BaggageLimits generate(final long id) {
+    protected BaggageLimits generate() {
 
         final int countMax = getRandom().nextInt(MINIMUM_COUNT, MAXIMUM_COUNT);
         final double weightMax = getRandom().getRandomRoundedDouble(
@@ -56,7 +54,6 @@ public final class BaggageLimitsGenerator extends DataGenerator {
         final BaggageSize baggageSize = getRandom().getOneRandomElement(
                 baggageSizes);
         return new BaggageLimits(
-                id,
                 baggageSize,
                 countMax,
                 weightMax);

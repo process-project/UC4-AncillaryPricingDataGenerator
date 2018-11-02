@@ -26,12 +26,12 @@ public class DataGeneratorTest {
         ) {
 
             @Override
-            protected Object generate() {
+            protected Integer generate() {
                 return 1;
             }
         };
-        assertEquals((long) 1, dataGenerator.generateList(1).get(0));
-        assertEquals((long) 1, dataGenerator.generateList(1).get(0));
+        assertEquals(1, dataGenerator.generateList(1).get(0));
+        assertEquals( 1, dataGenerator.generateList(1).get(0));
 
     }
 }

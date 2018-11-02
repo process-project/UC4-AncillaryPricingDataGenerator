@@ -3,35 +3,49 @@ package com.lhsystems.module.datageneratorancillary.service;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.*;
 
 /**
  * Configuration, initializes component scan,
- * enable spring jpa repositories and establish connection to database.   .
+ * enable spring jpa repositories and establish connection to database,
+ * specify classpath where database configuration is stored,
+ * if classpath is not present, templates properties will be read.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
 @Configuration
+@PropertySources({
+        @PropertySource("classpath:database.properties"),
+        @PropertySource(value = "file:${database-properties}", ignoreResourceNotFound=true),
+})
 @ComponentScan
 @EnableJpaRepositories("com.lhsystems.module.datageneratorancillary.service.repository")
 public class AppConfiguration {
 
     /**
-     * Instantiates a new app configuration. Default constructor to satisfy
-     * checkstyle requirements.
+     * Environment used for getting database.properties.
      */
-    public AppConfiguration() {
+    private final Environment environment;
 
+    /**
+     * Instantiates a new app configuration.
+     *
+     * @param environmentParam
+     *       injected spring environment to get database properties
+     */
+    @Autowired
+    public AppConfiguration(final Environment environmentParam) {
+        this.environment = environmentParam;
     }
 
     /**
@@ -42,13 +56,11 @@ public class AppConfiguration {
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:tcp://localhost/~/test");
-        dataSource.setUsername("sa");
+        dataSource.setDriverClassName(getEnvironmentProperty(DRIVER));
+        dataSource.setUrl(getEnvironmentProperty(URL));
+        dataSource.setUsername(getEnvironmentProperty(USERNAME));
+        dataSource.setPassword(getEnvironmentProperty(PASSWORD));
         return dataSource;
-        /*
-         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
-         */
     }
 
     /**
@@ -64,16 +76,6 @@ public class AppConfiguration {
     }
 
     /**
-     * Hibernate exception translator.
-     *
-     * @return the hibernate exception translator
-     */
-    @Bean
-    public HibernateExceptionTranslator hibernateExceptionTranslator() {
-        return new HibernateExceptionTranslator();
-    }
-
-    /**
      * Entity manager factory.
      *
      * @return the entity manager factory
@@ -81,13 +83,39 @@ public class AppConfiguration {
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setShowSql(true);
-        vendorAdapter.setGenerateDdl(true);
+        vendorAdapter.setShowSql(getBooleanEnvironmentProperty(SHOW_SQL));
+        vendorAdapter.setGenerateDdl(getBooleanEnvironmentProperty(GENERATE_DDL));
         final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("com.lhsystems.module.datageneratorancillary.service.data");
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
         return factory.getObject();
+    }
+
+
+    /**
+     * Get boolean value from environment property.
+     *
+     * @param name
+     *      database property name
+     * @return
+     *      boolean value made from property
+     */
+    private boolean getBooleanEnvironmentProperty(final DatabasePropertyName name){
+        return Boolean.valueOf(getEnvironmentProperty(name));
+    }
+
+
+    /**
+     * Get value from environment property.
+     *
+     * @param propertyName
+     *      database property name
+     * @return
+     *      value from environment property
+     */
+    private String getEnvironmentProperty(final DatabasePropertyName propertyName) {
+        return environment.getProperty(propertyName.getPropertyName());
     }
 }

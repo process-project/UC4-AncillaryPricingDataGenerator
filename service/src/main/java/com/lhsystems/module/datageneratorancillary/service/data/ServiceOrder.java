@@ -1,3 +1,4 @@
+
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import javax.persistence.Column;
@@ -11,9 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-// TODO: Auto-generated Javadoc
 /**
- * Describes the order of a service for a Booking.
+ * Describes a concrete service ordered by a customer at a certain price and
+ * order date (given in days before departure).
  *
  * @author REJ
  * @version $Revision: 1.10 $

@@ -22,12 +22,12 @@ public final class CommandLineOptionsReader {
 
 
     /** The compartment options Path to be used if no path option is given. */
-    private static final String DEFAULT_COMPARTMENT_FILE = "/compartments.yml";
+    public static final String DEFAULT_COMPARTMENT_FILE = "/compartments.yml";
 
     /**
      * The generator options Path to be used if no path option is given.
      */
-    private static final String DEFAULT_GENERATOR_OPTIONS_FILE = "/generator-options.yml";
+    public static final String DEFAULT_GENERATOR_OPTIONS_FILE = "/generator-options.yml";
 
     /**
      * The SSIM Path to be used if no path option is given.

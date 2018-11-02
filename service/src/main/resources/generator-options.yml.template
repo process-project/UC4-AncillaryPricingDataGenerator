@@ -39,15 +39,12 @@ seatGroupConfiguration:
     minimumSeatPrice: 8
     numberSeatGroup: 5
 
-seatingModelConfiguration:
-    maximumNumberSeatGroups: 4
-    minimumNumberSeatGroups: 1
-    numberSeatingModel: 5
-
 #product configuration
 productConfiguration:
     maximumNumberBaggageClasses: 4
     minimumNumberBaggageClasses: 1
+    maximumNumberSeatGroups: 4
+    minimumNumberSeatGroups: 1
     numberProduct: 3
 
 #tariff configuration

@@ -4,7 +4,6 @@ import com.lhsystems.module.datageneratorancillary.service.data.Airport;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageSelection;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
@@ -14,8 +13,8 @@ import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
+import com.lhsystems.module.datageneratorancillary.service.data.ServiceSelection;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
@@ -62,8 +61,6 @@ public class BookingGeneratorTest {
 
     private Tariff tariff;
 
-    private SeatingModel seatingModel;
-
     private Flight flight;
 
     @Before
@@ -78,6 +75,7 @@ public class BookingGeneratorTest {
         baggagePricing = new BaggagePricing(3, 3, 3);
         baggageClass = new BaggageClass(
                 "baggageClass",
+                1,
                 baggageLimits,
                 baggagePricing);
         compartment = new Compartment('N', "name");
@@ -85,16 +83,16 @@ public class BookingGeneratorTest {
         baggageClasses.add(baggageClass);
         final Map<BaggageClass, Integer> includedBags = new HashMap<>();
         includedBags.put(baggageClass, 1);
+        seatGroup = new SeatGroup("seatGroup", 1, 1);
+        final List<Service> services = new ArrayList<>();
+        services.add(seatGroup);
+        services.addAll(baggageClasses);
         product = new Product(
                 "product",
                 compartment,
-                baggageClasses,
+                services,
                 includedBags);
-        seatGroup = new SeatGroup("seatGroup", 1, 1);
-        final List<SeatGroup> seatGroups = new ArrayList<>();
-        seatGroups.add(seatGroup);
-        seatingModel = new SeatingModel(seatGroups);
-        tariff = new Tariff(3, seatingModel, product, Market.CONTINENTAL);
+        tariff = new Tariff(3, product, Market.CONTINENTAL);
         final List<Tariff> tariffs = new ArrayList<>();
         tariffs.add(tariff);
         flight = new Flight(
@@ -118,24 +116,25 @@ public class BookingGeneratorTest {
                 bookingConfiguration);
         final List<Booking> bookings = bookingGenerator.generateList(1);
         final CoreBooking coreBooking = new CoreBooking(1, flight, 1, tariff);
-        final Map<SeatGroup, Integer> chosenSeats = new HashMap<>();
-        chosenSeats.put(seatGroup, 1);
-        final SeatSelection seatSelection = new SeatSelection(chosenSeats, 1);
-        final Map<BaggageClass, Integer> chosenBaggage = new HashMap<>();
-        chosenBaggage.put(baggageClass, 1);
-        final BaggageSelection baggageSelection = new BaggageSelection(
-                chosenBaggage,
-                1);
+        final Map<Service, Integer> chosenService = new HashMap<>();
+        chosenService.put(baggageClass, 1);
+        chosenService.put(seatGroup, 1);
+        final Map<Service, Integer> daysBeforeDeparture = new HashMap<>();
+        daysBeforeDeparture.put(baggageClass, 1);
+        daysBeforeDeparture.put(seatGroup, 1);
+        final Map<Service, Double> prices = new HashMap<>();
+        prices.put(baggageClass, 1.0);
+        prices.put(seatGroup, 1.0);
+        final ServiceSelection serviceSelection = new ServiceSelection(
+                chosenService,
+                prices,
+                daysBeforeDeparture);
         final Booking testBooking = new Booking(
                 coreBooking,
-                seatSelection,
-                baggageSelection);
+                serviceSelection);
         assertEquals(
-                testBooking.getBaggageSelection().getChosenBaggage(),
-                bookings.get(0).getBaggageSelection().getChosenBaggage());
-        assertEquals(
-                testBooking.getSeatSelection().getChosenSeats(),
-                bookings.get(0).getSeatSelection().getChosenSeats());
+                testBooking.getServiceSelection(),
+                bookings.get(0).getServiceSelection());
         assertEquals(
                 testBooking.getCoreBooking().getFlight(),
                 bookings.get(0).getCoreBooking().getFlight());

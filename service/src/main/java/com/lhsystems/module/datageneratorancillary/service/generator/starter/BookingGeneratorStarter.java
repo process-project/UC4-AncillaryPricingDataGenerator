@@ -1,22 +1,19 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageSelection;
 import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
+import com.lhsystems.module.datageneratorancillary.service.data.ServiceSelection;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
-import com.lhsystems.module.datageneratorancillary.service.repository.BaggageSelectionRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.BookingRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.CoreBookingRepository;
-import com.lhsystems.module.datageneratorancillary.service.repository.SeatSelectionRepository;
+import com.lhsystems.module.datageneratorancillary.service.repository.ServiceSelectionRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Starts generating booking entities and saves them into database.
@@ -24,42 +21,35 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
+@org.springframework.stereotype.Service
 public final class BookingGeneratorStarter {
-
-    /** Repository for storing baggage selections. */
-    private final BaggageSelectionRepository baggageSelectionRepository;
 
     /** Repository for storing complete bookings. */
     private final BookingRepository bookingRepository;
 
-    /** Repository for simple bookings. */
+    /** Repository for core bookings. */
     private final CoreBookingRepository coreBookingRepository;
 
-    /** Repository for storing seat selections. */
-    private final SeatSelectionRepository seatSelectionRepository;
+    /** Repository for saving services. */
+    private final ServiceSelectionRepository serviceSelectionRepository;
 
     /**
      * Instantiates a new booking generator starter.
      *
-     * @param baggageSelectionRepositoryParam
-     *            the baggage selection repository
      * @param bookingRepositoryParam
      *            the complete booking repository
-     * @param seatSelectionRepositoryParam
-     *            the seat selection repository
+     * @param serviceSelectionRepositoryParam
+     *            the service repository
      * @param coreBookingRepositoryParam
      *            the simple booking repository
      */
     @Autowired
     public BookingGeneratorStarter(
-            final BaggageSelectionRepository baggageSelectionRepositoryParam,
             final BookingRepository bookingRepositoryParam,
-            final SeatSelectionRepository seatSelectionRepositoryParam,
+            final ServiceSelectionRepository serviceSelectionRepositoryParam,
             final CoreBookingRepository coreBookingRepositoryParam) {
-        baggageSelectionRepository = baggageSelectionRepositoryParam;
         bookingRepository = bookingRepositoryParam;
-        seatSelectionRepository = seatSelectionRepositoryParam;
+        serviceSelectionRepository = serviceSelectionRepositoryParam;
         coreBookingRepository = coreBookingRepositoryParam;
     }
 
@@ -80,16 +70,14 @@ public final class BookingGeneratorStarter {
                 bookingConfiguration);
         final List<Booking> bookings = bookingGenerator.generateList(
                 bookingConfiguration.getNumberBookings());
-        final List<BaggageSelection> baggageSelections = bookings.stream().map(booking -> booking.getBaggageSelection()).collect(Collectors.toList());
+        final List<ServiceSelection> serviceSelections = bookings.stream().map(
+                booking -> booking.getServiceSelection()).collect(
+                        Collectors.toList());
         final List<CoreBooking> coreBookings = bookings.stream().map(
                 booking -> booking.getCoreBooking()).collect(
                         Collectors.toList());
-        final List<SeatSelection> seatSelections = bookings.stream().map(
-                booking -> booking.getSeatSelection()).collect(
-                        Collectors.toList());
         coreBookingRepository.save(coreBookings);
-        baggageSelectionRepository.save(baggageSelections);
-        seatSelectionRepository.save(seatSelections);
+        serviceSelectionRepository.save(serviceSelections);
         bookingRepository.save(bookings);
         return bookings;
     }

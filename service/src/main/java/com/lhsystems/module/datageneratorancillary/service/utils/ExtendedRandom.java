@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.utils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -164,6 +165,7 @@ public final class ExtendedRandom extends Random {
         return nextInt(max - min) + min;
     }
 
+
     /**
      * Draws a random value from a modified gamma distribution. Random values
      * are drawn from a gamma distribution defined by shape and scale and
@@ -186,17 +188,21 @@ public final class ExtendedRandom extends Random {
     public double getCutOffGammaDistributedDouble(final double min,
             final double max, final int precision, final double shape,
             final double scale) {
-        final GammaDistribution distribution = new GammaDistribution(shape, scale);
-        if (Precision.round(max, precision) < Precision.round(
+        final double roundedMax = Precision.round(
+                max,
+                precision,
+                BigDecimal.ROUND_DOWN);
+        final double roundedMin = Precision.round(
                 min,
-                precision)) {
+                precision,
+                BigDecimal.ROUND_UP);
+        final GammaDistribution distribution = new GammaDistribution(shape, scale);
+        if (roundedMax < roundedMin) {
             throw new RuntimeException(
                     "the maximal value is not greater than the minimal value after rounding");
         }
-        if (Precision.round(max, precision) == Precision.round(
-                min,
-                precision)) {
-            return Precision.round(max, precision);
+        if (roundedMax == roundedMin) {
+            return roundedMax;
         }
         double randomDouble = Precision.round(
                 distribution.sample(),

@@ -126,7 +126,8 @@ public final class Tariff {
     /**
      * Sets flights.
      *
-     * @param flightsParam the flights
+     * @param flightsParam
+     *            the flights
      */
     public void setFlights(final List<Flight> flightsParam) {
         flights = flightsParam;

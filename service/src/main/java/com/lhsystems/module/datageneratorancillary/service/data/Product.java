@@ -2,7 +2,6 @@ package com.lhsystems.module.datageneratorancillary.service.data;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -31,7 +30,7 @@ public final class Product {
     /** The services that are offered in this product. */
     @ManyToMany
     @JoinTable(name = "PRODUCT_SERVICES")
-    private final List<Service> services;
+    private final List<Service> serviceOffer;
 
     /** The compartment this product belongs to. */
     @OneToOne
@@ -61,7 +60,7 @@ public final class Product {
         name = null;
         compartment = null;
         numberOfIncludedBagsByBaggageClass = null;
-        services = null;
+        serviceOffer = null;
     }
 
     /**
@@ -82,7 +81,7 @@ public final class Product {
             final Map<BaggageClass, Integer> paramNumberOfIncludedBags) {
         name = paramName;
         compartment = paramCompartment;
-        services = paramServices;
+        serviceOffer = paramServices;
         numberOfIncludedBagsByBaggageClass = paramNumberOfIncludedBags;
     }
 
@@ -128,20 +127,6 @@ public final class Product {
      * @return the services
      */
     public List<Service> getServices() {
-        return services;
-    }
-
-    /**
-     * Gets the services of the given class.
-     *
-     * @param serviceClass
-     *            the service class
-     * @return the services
-     */
-    public List<Service> getServicesByClass(
-            final Class<? extends Service> serviceClass) {
-        return  services.stream().filter(
-                e -> e.getClass().equals(serviceClass)).collect(
-                        Collectors.toList());
+        return serviceOffer;
     }
 }

@@ -1,10 +1,14 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,10 +32,10 @@ public final class Booking {
     @JoinColumn(name = "CORE_BOOKING")
     private final CoreBooking coreBooking;
 
-    /** The service selection. */
-    @OneToOne
-    @JoinColumn(name = "SERVICE_SELECTION")
-    private final ServiceSelection serviceSelection;
+
+    /** The service orders. */
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    private final List<ServiceOrder> serviceOrders;
 
     /**
      * Instantiates a new complete booking. DefaultConstructor needed for
@@ -39,7 +43,7 @@ public final class Booking {
      */
     public Booking() {
         coreBooking = null;
-        serviceSelection = null;
+        serviceOrders = null;
     }
 
     /**
@@ -47,14 +51,14 @@ public final class Booking {
      *
      * @param paramCoreBooking
      *            the core booking field value
-     * @param paramServiceSelection
-     *            the service selection field value
+     * @param paramServiceOrders
+     *            the service orders of this booking
      */
     public Booking(
             final CoreBooking paramCoreBooking,
-            final ServiceSelection paramServiceSelection) {
+            final List<ServiceOrder> paramServiceOrders) {
         coreBooking = paramCoreBooking;
-        serviceSelection = paramServiceSelection;
+        serviceOrders = paramServiceOrders;
     }
 
     /**
@@ -64,15 +68,6 @@ public final class Booking {
      */
     public CoreBooking getCoreBooking() {
         return coreBooking;
-    }
-
-    /**
-     * Gets the service selection.
-     *
-     * @return the service selection
-     */
-    public ServiceSelection getServiceSelection() {
-        return serviceSelection;
     }
 
 }

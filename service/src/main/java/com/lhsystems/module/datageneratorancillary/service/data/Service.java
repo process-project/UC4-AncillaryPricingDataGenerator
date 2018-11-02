@@ -1,7 +1,10 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +20,6 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "SERVICE_TYPE")
 public abstract class Service {
 
     /** The id. */
@@ -30,8 +32,7 @@ public abstract class Service {
     private final String name;
 
     /**
-     * The maximum number of times this ancillary can be booked during one
-     * flight.
+     * The maximum number of times this ancillary can be sold for one flight.
      */
     @Column(name = "MAXIMUM_CAPACITY")
     private final int maximumCapacity;
@@ -76,10 +77,10 @@ public abstract class Service {
     }
 
     /**
-     * Given how often this service is booked, return a price.
+     * Return a price depending on the number of times this service is booked.
      *
      * @param number
-     *            the number
+     *            the number of times this service is booked
      * @return the price
      */
     public abstract double getPrice(int number);
@@ -87,11 +88,27 @@ public abstract class Service {
     /**
      * Gets the price of buying this service once.
      *
-     * @return the price
+     * @return the price of buying this service once.
      */
     public final double getPrice() {
         return getPrice(1);
     }
 
+    /**
+     * Gets the services of the given class from a collection of services.
+     *
+     * @param services
+     *            the services
+     * @param serviceClass
+     *            the service class
+     * @return the services of desired type
+     */
+    public static List<Service> getServicesByServiceClass(
+            final Collection<Service> services,
+            final Class<? extends Service> serviceClass) {
+        return services.stream().filter(
+                e -> e.getClass().equals(serviceClass)).collect(
+                        Collectors.toList());
+    }
 }
 

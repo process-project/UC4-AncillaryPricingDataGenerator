@@ -1,7 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
@@ -128,9 +127,10 @@ public final class GeneratorStarter {
                 generatorConfiguration.getFlightConfiguration(),
                 tariffs,
                 routes);
-        final List<Booking> bookings = bookingGeneratorStarter.generateBookingEntities(
+        bookingGeneratorStarter.generateBookingEntities(
                 flights,
-                generatorConfiguration.getBookingConfiguration());
+                generatorConfiguration.getCoreBookingConfiguration(),
+                generatorConfiguration.getServiceOrderConfiguration());
 
     }
 

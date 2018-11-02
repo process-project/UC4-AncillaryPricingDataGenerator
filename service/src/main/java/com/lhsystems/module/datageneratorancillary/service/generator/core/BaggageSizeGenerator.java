@@ -41,7 +41,7 @@ public final class BaggageSizeGenerator extends DataGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected Object generate() {
+    protected BaggageSize generate() {
         final double widthMax = getRandom().getRandomRoundedDouble(
                 minimumSideLength,
                 maximumSideLength,

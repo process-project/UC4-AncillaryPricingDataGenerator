@@ -88,7 +88,8 @@ public final class ProductGeneratorTest {
      */
     private boolean checkProducts(final List<Product> testProducts) {
         for (final Product product: testProducts){
-            for (final BaggageClass baggageClass : product.getServicesByClass(
+            for (final BaggageClass baggageClass : Service.getServicesByServiceClass(
+                    product.getServices(),
                     BaggageClass.class).stream().map(
                             e -> (BaggageClass) e).collect(
                                     Collectors.toList())) {

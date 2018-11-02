@@ -66,28 +66,27 @@ public final class ProductGenerator extends DataGenerator {
     @Override
     protected Product generate() {
         final Compartment compartment = getRandom().getOneRandomElement(compartments);
-
         final List<Service> offeredServices = getRandom().getRandomlyManyElements(
-                services.stream().filter(
-                        e -> e.getClass().equals(BaggageClass.class)).collect(
-                                Collectors.toList()),
+                Service.getServicesByServiceClass(services, BaggageClass.class),
                 minNumberBaggageClasses,
                 maxNumberBaggageClasses);
         final StringBuilder nameBuilder = new StringBuilder();
+
         final Map<BaggageClass, Integer> numberOfIncludedBags = randomIncludedBags(
-                offeredServices.stream().filter(
-                        e -> e.getClass().equals(BaggageClass.class)).map(
+                Service.getServicesByServiceClass(
+                        offeredServices,
+                        BaggageClass.class).stream().map(
                                 e -> (BaggageClass) e).collect(
                                         Collectors.toList()));
-
         nameBuilder.append(compartment.getName()).append("_");
+
         offeredServices.addAll(
                 getRandom().getRandomlyManyElements(
-                services.stream().filter(
-                        e -> e.getClass().equals(SeatGroup.class)).collect(
-                                Collectors.toList()),
-                minNumberSeatGroups,
-                maxNumberSeatGroups));
+                        Service.getServicesByServiceClass(
+                                services,
+                                SeatGroup.class),
+                        minNumberSeatGroups,
+                        maxNumberSeatGroups));
         for (final Service service : offeredServices) {
             nameBuilder.append(service.getName());
         }

@@ -33,7 +33,6 @@ public final class BaggagePricingConfiguration {
      * Instantiates a new baggage pricing configuration.
      */
     public BaggagePricingConfiguration() {
-        // TODO Auto-generated constructor stub
     }
 
     /**

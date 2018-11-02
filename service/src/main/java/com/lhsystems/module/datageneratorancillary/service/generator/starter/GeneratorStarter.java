@@ -7,7 +7,8 @@ import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
+import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Starts generating all entities in the proper order.
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
+@org.springframework.stereotype.Service
 public final class GeneratorStarter {
 
     /** Starts generating baggage entities. */
@@ -102,17 +102,21 @@ public final class GeneratorStarter {
                 generatorConfiguration.getBaggageLimitsConfiguration(),
                 generatorConfiguration.getBaggagePricingConfiguration(),
                 generatorConfiguration.getBaggageSizeConfiguration());
+        final List<SeatGroup> seatGroups = seatingGeneratorStarter.generateSeatGroupEntities(
+                generatorConfiguration.getSeatGroupConfiguration());
+        final List<Service> services = new ArrayList<>();
+        for (final BaggageClass baggageClass : baggageClasses) {
+            services.add(baggageClass);
+        }
+        for (final SeatGroup seatGroup : seatGroups) {
+            services.add(seatGroup);
+        }
         final List<Product> products = productGeneratorStarter.generateProductEntities(
                 compartments,
-                baggageClasses,
+                services,
                 generatorConfiguration.getProductConfiguration());
-        final List<SeatingModel> seatingModels = seatingGeneratorStarter.generateSeatingModel(
-                generatorConfiguration.getSeatingModelConfiguration(),
-                generatorConfiguration.getSeatGroupConfiguration());
-
         final List<Tariff> tariffs = tariffGeneratorStarter.generateTariffsEntities(
                 products,
-                seatingModels,
                 generatorConfiguration.getTariffConfiguration());
 
         final List<Market> markets = getAvailableMarkets(tariffs);

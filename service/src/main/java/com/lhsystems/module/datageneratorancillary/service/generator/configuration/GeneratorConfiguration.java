@@ -32,9 +32,6 @@ public final class GeneratorConfiguration {
     /** Configuration for a seat group generator. */
     private SeatGroupConfiguration seatGroupConfiguration;
 
-    /** Configuration for a seating model generator. */
-    private SeatingModelConfiguration seatingModelConfiguration;
-
     /** Configuration for a tariff generator. */
     private TariffConfiguration tariffConfiguration;
 
@@ -111,16 +108,6 @@ public final class GeneratorConfiguration {
      */
     public SeatGroupConfiguration getSeatGroupConfiguration() {
         return seatGroupConfiguration;
-    }
-
-
-    /**
-     * Gets the seating model configuration.
-     *
-     * @return the seating model configuration
-     */
-    public SeatingModelConfiguration getSeatingModelConfiguration() {
-        return seatingModelConfiguration;
     }
 
 
@@ -219,17 +206,6 @@ public final class GeneratorConfiguration {
     public void setSeatGroupConfiguration(
             final SeatGroupConfiguration paramSeatGroupConfiguration) {
         seatGroupConfiguration = paramSeatGroupConfiguration;
-    }
-
-    /**
-     * Sets the seating model configuration.
-     *
-     * @param paramSeatingModelConfiguration
-     *            the new seating model configuration
-     */
-    public void setSeatingModelConfiguration(
-            final SeatingModelConfiguration paramSeatingModelConfiguration) {
-        seatingModelConfiguration = paramSeatingModelConfiguration;
     }
 
     /**

@@ -11,7 +11,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 
@@ -67,6 +67,7 @@ public class FlightGeneratorTest {
         final BaggagePricing baggagePricing = new BaggagePricing(3, 3, 3);
         final BaggageClass baggageClass = new BaggageClass(
                 "baggageClass",
+                1,
                 baggageLimits,
                 baggagePricing);
         final Compartment compartment = new Compartment('N', "name");
@@ -74,16 +75,16 @@ public class FlightGeneratorTest {
         baggageClasses.add(baggageClass);
         final Map<BaggageClass, Integer> includedBags = new HashMap<>();
         includedBags.put(baggageClass, 1);
+        final SeatGroup seatGroup = new SeatGroup("seatGroup", 1, 1);
+        final List<Service> services = new ArrayList<>();
+        services.add(seatGroup);
+        services.addAll(baggageClasses);
         final Product product = new Product(
                 "product",
                 compartment,
-                baggageClasses,
+                services,
                 includedBags);
-        final SeatGroup seatGroup = new SeatGroup("seatGroup", 1, 1);
-        final ArrayList<SeatGroup> seatGroups = new ArrayList<>();
-        seatGroups.add(seatGroup);
-        final SeatingModel seatingModel = new SeatingModel(seatGroups);
-        tariff = new Tariff(3, seatingModel, product, Market.CONTINENTAL);
+        tariff = new Tariff(3, product, Market.CONTINENTAL);
     }
 
     /**

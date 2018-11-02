@@ -3,11 +3,14 @@ package com.lhsystems.module.datageneratorancillary.service.generator.core;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ProductConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Generates products randomly.
@@ -18,7 +21,7 @@ import java.util.Map;
 public final class ProductGenerator extends DataGenerator {
 
     /** The baggage classes to be used for product generation. */
-    private final List<BaggageClass> baggageClasses;
+    private final List<Service> services;
 
     /** The compartments to be used product generation. */
     private final List<Compartment> compartments;
@@ -29,24 +32,32 @@ public final class ProductGenerator extends DataGenerator {
     /** The minimum number of baggage classes in a product. */
     private final int minNumberBaggageClasses;
 
+    /** The minimum number of seat groups offered in a product. */
+    private final int minNumberSeatGroups;
+
+    /** The maximum number of seat groups offered in a product. */
+    private final int maxNumberSeatGroups;
+
     /**
      * Instantiates a new product generator.
      *
      * @param paramCompartments
      *            the compartments to be used for product generation
-     * @param paramBaggageClasses
+     * @param paramServices
      *            the baggage classes to be used for product generation
      * @param productConfiguration
      *            the product configuration
      */
     public ProductGenerator(
             final List<Compartment> paramCompartments,
-            final List<BaggageClass> paramBaggageClasses,
+            final List<Service> paramServices,
             final ProductConfiguration productConfiguration) {
         compartments = paramCompartments;
-        baggageClasses = paramBaggageClasses;
+        services = paramServices;
         minNumberBaggageClasses = productConfiguration.getMinimumNumberBaggageClasses();
         maxNumberBaggageClasses = productConfiguration.getMaximumNumberBaggageClasses();
+        minNumberSeatGroups = productConfiguration.getMinimumNumberSeatGroups();
+        maxNumberSeatGroups = productConfiguration.getMaximumNumberSeatGroups();
     }
 
     /**
@@ -55,20 +66,35 @@ public final class ProductGenerator extends DataGenerator {
     @Override
     protected Product generate() {
         final Compartment compartment = getRandom().getOneRandomElement(compartments);
-        final List<BaggageClass> chosenClasses = getRandom().getRandomlyManyElements(
-                baggageClasses,
+
+        final List<Service> offeredServices = getRandom().getRandomlyManyElements(
+                services.stream().filter(
+                        e -> e.getClass().equals(BaggageClass.class)).collect(
+                                Collectors.toList()),
                 minNumberBaggageClasses,
                 maxNumberBaggageClasses);
         final StringBuilder nameBuilder = new StringBuilder();
-        final Map<BaggageClass, Integer> numberOfIncludedBags = randomIncludedBags(chosenClasses);
+        final Map<BaggageClass, Integer> numberOfIncludedBags = randomIncludedBags(
+                offeredServices.stream().filter(
+                        e -> e.getClass().equals(BaggageClass.class)).map(
+                                e -> (BaggageClass) e).collect(
+                                        Collectors.toList()));
+
         nameBuilder.append(compartment.getName()).append("_");
-        for (final BaggageClass baggageClass : chosenClasses){
-            nameBuilder.append(baggageClass.getName());
+        offeredServices.addAll(
+                getRandom().getRandomlyManyElements(
+                services.stream().filter(
+                        e -> e.getClass().equals(SeatGroup.class)).collect(
+                                Collectors.toList()),
+                minNumberSeatGroups,
+                maxNumberSeatGroups));
+        for (final Service service : offeredServices) {
+            nameBuilder.append(service.getName());
         }
         return new Product(
                 nameBuilder.toString(),
                 compartment,
-                chosenClasses,
+                offeredServices,
                 numberOfIncludedBags);
     }
 
@@ -85,7 +111,7 @@ public final class ProductGenerator extends DataGenerator {
     private Map<BaggageClass, Integer> randomIncludedBags(
             final List<BaggageClass> chosenBaggageClasses) {
         final HashMap<BaggageClass, Integer> includedBags = new HashMap<>();
-        for (final BaggageClass baggageClass : baggageClasses){
+        for (final BaggageClass baggageClass : chosenBaggageClasses) {
             includedBags.put(
                     baggageClass,
                     getRandom().nextInt(

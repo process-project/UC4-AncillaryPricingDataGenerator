@@ -2,6 +2,7 @@ package com.lhsystems.module.datageneratorancillary.service.data;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -11,8 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,10 +28,10 @@ import javax.persistence.Table;
 @Table(name = "Product")
 public final class Product {
 
-    /** The baggage classes that are offered in this product. */
-    @OneToMany
-    @JoinColumn(name = "BAGGAGE_CLASS")
-    private List<BaggageClass> baggageClasses;
+    /** The services that are offered in this product. */
+    @ManyToMany
+    @JoinTable(name = "PRODUCT_SERVICES")
+    private final List<Service> services;
 
     /** The compartment this product belongs to. */
     @OneToOne
@@ -59,6 +61,7 @@ public final class Product {
         name = null;
         compartment = null;
         numberOfIncludedBagsByBaggageClass = null;
+        services = null;
     }
 
     /**
@@ -68,28 +71,19 @@ public final class Product {
      *            the name
      * @param paramCompartment
      *            the compartment
-     * @param paramBaggageClasses
-     *            the baggage classes
+     * @param paramServices
+     *            the services offered
      * @param paramNumberOfIncludedBags
      *            the number of included bags
      */
     public Product(final String paramName,
             final Compartment paramCompartment,
-            final List<BaggageClass> paramBaggageClasses,
+            final List<Service> paramServices,
             final Map<BaggageClass, Integer> paramNumberOfIncludedBags) {
         name = paramName;
         compartment = paramCompartment;
-        baggageClasses = paramBaggageClasses;
+        services = paramServices;
         numberOfIncludedBagsByBaggageClass = paramNumberOfIncludedBags;
-    }
-
-    /**
-     * returns the baggage classes.
-     *
-     * @return the baggage classes
-     */
-    public List<BaggageClass> getBaggageClasses() {
-        return baggageClasses;
     }
 
     /**
@@ -128,4 +122,26 @@ public final class Product {
         return numberOfIncludedBagsByBaggageClass;
     }
 
+    /**
+     * Gets the services.
+     *
+     * @return the services
+     */
+    public List<Service> getServices() {
+        return services;
+    }
+
+    /**
+     * Gets the services of the given class.
+     *
+     * @param serviceClass
+     *            the service class
+     * @return the services
+     */
+    public List<Service> getServicesByClass(
+            final Class<? extends Service> serviceClass) {
+        return  services.stream().filter(
+                e -> e.getClass().equals(serviceClass)).collect(
+                        Collectors.toList());
+    }
 }

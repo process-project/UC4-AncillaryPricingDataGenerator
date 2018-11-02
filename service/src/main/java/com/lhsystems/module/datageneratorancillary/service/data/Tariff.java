@@ -55,19 +55,11 @@ public final class Tariff {
     private final double price;
 
     /**
-     * The seating model in this tariff.
-     */
-    @OneToOne
-    @JoinColumn(name = "SEATING_MODEL")
-    private final SeatingModel seating;
-
-    /**
      * Default Constructor needed for an Entity. Instantiates a new tariff
      * class.
      */
     public Tariff() {
         price = 0;
-        seating = null;
         product = null;
         market = null;
     }
@@ -76,14 +68,12 @@ public final class Tariff {
      * Instantiates a new tariff.
      *
      * @param paramPrice   the price
-     * @param paramSeating the seating
      * @param paramProduct the product
      * @param paramMarket  the available markets
      */
-    public Tariff(final double paramPrice, final SeatingModel paramSeating,
+    public Tariff(final double paramPrice,
             final Product paramProduct, final Market paramMarket) {
         price = paramPrice;
-        seating = paramSeating;
         product = paramProduct;
         market = paramMarket;
     }
@@ -122,15 +112,6 @@ public final class Tariff {
      */
     public Product getProduct() {
         return product;
-    }
-
-    /**
-     * returns the seating.
-     *
-     * @return the seating
-     */
-    public SeatingModel getSeating() {
-        return seating;
     }
 
     /**

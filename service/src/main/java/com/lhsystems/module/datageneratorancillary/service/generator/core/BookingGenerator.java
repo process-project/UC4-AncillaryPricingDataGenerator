@@ -1,13 +1,13 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageSelection;
 import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
+import com.lhsystems.module.datageneratorancillary.service.data.ServiceSelection;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 
@@ -19,7 +19,7 @@ import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.util.Precision;
 
 /**
- * Generates Bookings.
+ * Generates Bookings randomly.
  *
  * @author REJ
  * @version $Revision: 1.10 $
@@ -29,13 +29,13 @@ public final class BookingGenerator extends DataGenerator {
     /** The flights of which we chose during booking generation. */
     private final List<Flight> flights;
 
-    /** The maximum number of bags. */
+    /** The maximum number of bags per passenger. */
     private final int maximumNumberBags;
 
     /** The maximum number of passengers. */
     private final int maximumNumberPassengers;
 
-    /** The minimum number of bags. */
+    /** The minimum number of bags per passenger. */
     private final int minimumNumberBags;
 
     /** The minimum number of passengers. */
@@ -61,75 +61,176 @@ public final class BookingGenerator extends DataGenerator {
         rangeOfDaysBeforeDeparture = bookingConfiguration.getRangeOfDaysBeforeDeparture();
     }
 
+
     /**
-     * Creates a baggage selection object.
+     * chooses baggage for a booking.
      *
      * @param tariff
      *            the tariff
-     * @param bookingDaysBeforeDeparture
-     *            the days before departure of the respective booking
+     * @param numberPassengers
+     *            the number of passengers booking baggage
      * @return the baggage selection
      */
-    public BaggageSelection createBaggageSelection(final Tariff tariff,
-            final int bookingDaysBeforeDeparture) {
-        final HashMap<BaggageClass, Integer> chosenBags = new HashMap<>();
-        final List<BaggageClass> baggageClasses = tariff.getProduct().getBaggageClasses();
+    private HashMap<Service, Integer> chooseBaggage(
+            final Tariff tariff, final int numberPassengers) {
+        final HashMap<Service, Integer> chosenBags = new HashMap<>();
+        final List<Service> baggageClasses = tariff.getProduct().getServicesByClass(
+                BaggageClass.class);
         final Map<BaggageClass, Integer> includedBags = tariff.getProduct().getNumberOfIncludedBagsByBaggageClass();
         final int numberBags = getRandom().nextInt(
                 Math.max(
-                        minimumNumberBags,
+                        minimumNumberBags * numberPassengers,
                         includedBags.values().stream().mapToInt(
                                 Integer::intValue).sum()),
                 Math.max(
-                        maximumNumberBags,
+                        maximumNumberBags * numberPassengers,
                         includedBags.values().stream().mapToInt(
                                 Integer::intValue).sum())
                 + 1);
-        for (final BaggageClass baggageClass : baggageClasses) {
-            chosenBags.put(baggageClass, includedBags.get(baggageClass));
+        for (final Service baggageClass : baggageClasses) {
+            chosenBags.put(
+                    baggageClass,
+                    includedBags.get(baggageClass));
         }
         for (int bagCounter = includedBags.values().stream().mapToInt(
                 Integer::intValue).sum(); bagCounter < numberBags; bagCounter++) {
-            final BaggageClass chosenBaggageClass = baggageClasses.get(
+            final Service chosenBaggageClass = baggageClasses.get(
                     getRandom().nextInt(baggageClasses.size()));
             chosenBags.put(
                     chosenBaggageClass,
                     chosenBags.get(chosenBaggageClass) + 1);
         }
-        final int baggageDaysBeforeDeparture = getRandomDaysBeforeDeparture(
-                bookingDaysBeforeDeparture,
-                tariff.getMarket());
-        return new BaggageSelection(chosenBags, baggageDaysBeforeDeparture);
+        for (final Service baggageClass : baggageClasses) {
+            if (chosenBags.get(baggageClass) == 0) {
+                chosenBags.remove(baggageClass);
+            }
+        }
+        return chosenBags;
     }
 
+
     /**
-     * Creates a seat selection object.
+     * Choose seats for a given number of passengers.
+     *
+     * @param seatGroups
+     *            the seat groups being offered
+     * @param numberPassengers
+     *            the number passengers
+     * @return the seat selection
+     */
+    private HashMap<Service, Integer> chooseSeats(
+            final List<Service> seatGroups,
+            final int numberPassengers) {
+        final HashMap<Service, Integer> chosenSeats = new HashMap<>();
+        for (final Service seatGroup : seatGroups) {
+            chosenSeats.put(seatGroup, 0);
+        }
+
+        for (int passengerCounter = 0; passengerCounter < numberPassengers; passengerCounter++) {
+            final Service chosenGroup = seatGroups.get(
+                    getRandom().nextInt(chosenSeats.size()));
+            chosenSeats.put(chosenGroup, chosenSeats.get(chosenGroup) + 1);
+        }
+        for (final Service seatGroup : seatGroups) {
+            if (chosenSeats.get(seatGroup) == 0) {
+                chosenSeats.remove(seatGroup);
+            }
+        }
+        return chosenSeats;
+    }
+
+
+    /**
+     * Selects some Baggage for a booking.
      *
      * @param tariff
      *            the tariff
      * @param numberPassengers
      *            the number passengers
-     * @param bookingDaysBeforeDeparture
-     *            the days before departure of the respective booking
-     * @return the seat selection
+     * @param daysBeforeDeparture
+     *            the time of booking in days before departure
+     * @return the service selection
      */
-    public SeatSelection createSeatSelection(final Tariff tariff,
-            final int numberPassengers, final int bookingDaysBeforeDeparture) {
-        final HashMap<SeatGroup, Integer> chosenSeats = new HashMap<>();
-        final List<SeatGroup> seatGroups = tariff.getSeating().getSeatGroups();
-        for (final SeatGroup seatGroup : seatGroups) {
-            chosenSeats.put(seatGroup, 0);
-        }
-        for (int passengerCounter = 0; passengerCounter < numberPassengers; passengerCounter++) {
-            final SeatGroup chosenGroup = seatGroups.get(
-                    getRandom().nextInt(chosenSeats.size()));
-            chosenSeats.put(chosenGroup, chosenSeats.get(chosenGroup) + 1);
-        }
+    private ServiceSelection createBaggageSelection(final Tariff tariff,
+            final int numberPassengers, final int daysBeforeDeparture) {
+        final HashMap<Service, Integer> chosenBaggage = chooseBaggage(
+                tariff,
+                numberPassengers);
         final int seatDaysBeforeDeparture = getRandomDaysBeforeDeparture(
-                bookingDaysBeforeDeparture,
+                daysBeforeDeparture,
                 tariff.getMarket());
-        return new SeatSelection(chosenSeats, seatDaysBeforeDeparture);
+
+        final HashMap<Service, Integer> bagDBD = new HashMap<>();
+        for (final Service baggageClass : chosenBaggage.keySet()) {
+            bagDBD.put(baggageClass, seatDaysBeforeDeparture);
+        }
+        final HashMap<Service, Double> prices = new HashMap<>();
+        for (final Service baggageClass : chosenBaggage.keySet()) {
+            prices.put(
+                    baggageClass,
+                    baggageClass.getPrice(chosenBaggage.get(baggageClass)));
+        }
+        return new ServiceSelection(chosenBaggage, prices, bagDBD);
     }
+
+    /**
+     * Selects seats for a booking.
+     *
+     * @param tariff
+     *            the tariff
+     * @param numberPassengers
+     *            the number passengers
+     * @param daysBeforeDeparture
+     *            the time of booking in days before departure
+     * @return the service selection
+     */
+    private ServiceSelection createSeatSelection(final Tariff tariff,
+            final int numberPassengers, final int daysBeforeDeparture) {
+        final HashMap<Service, Integer> chosenSeats = chooseSeats(
+                tariff.getProduct().getServicesByClass(SeatGroup.class),
+                numberPassengers);
+        final int seatDaysBeforeDeparture = getRandomDaysBeforeDeparture(
+                daysBeforeDeparture,
+                tariff.getMarket());
+        final HashMap<Service, Integer> seatDBD = new HashMap<>();
+        for (final Service seatGroup : chosenSeats.keySet()) {
+            seatDBD.put(seatGroup, seatDaysBeforeDeparture);
+        }
+        final HashMap<Service, Double> prices = new HashMap<>();
+        for (final Service seatGroup : chosenSeats.keySet()) {
+            prices.put(
+                    seatGroup,
+                    seatGroup.getPrice(chosenSeats.get(seatGroup)));
+        }
+        return new ServiceSelection(chosenSeats, prices, seatDBD);
+
+    }
+
+    /**
+     * Creates a service selection for a booking.
+     *
+     * @param tariff
+     *            the tariff
+     * @param numberPassengers
+     *            the number of passengers
+     * @param daysBeforeDeparture
+     *            the time of booking in days before departure
+     * @return the service selection
+     */
+    private ServiceSelection createServiceSelection(final Tariff tariff,
+            final int numberPassengers, final int daysBeforeDeparture) {
+        final ServiceSelection serviceSelection = createBaggageSelection(
+                tariff,
+                numberPassengers,
+                daysBeforeDeparture);
+        serviceSelection.add(
+                createSeatSelection(
+                        tariff,
+                        numberPassengers,
+                        daysBeforeDeparture));
+        return serviceSelection;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -150,17 +251,13 @@ public final class BookingGenerator extends DataGenerator {
                 flight,
                 numberPassengers,
                 tariff);
-        final SeatSelection seatSelection = createSeatSelection(
+        final ServiceSelection serviceSelection = createServiceSelection(
                 tariff,
                 numberPassengers,
                 daysBeforeDeparture);
-        final BaggageSelection baggageSelection = createBaggageSelection(
-                tariff,
-                daysBeforeDeparture);
         return new Booking(
                 coreBooking,
-                seatSelection,
-                baggageSelection);
+                serviceSelection);
     }
 
     /**
@@ -170,7 +267,7 @@ public final class BookingGenerator extends DataGenerator {
      *            the max
      * @param market
      *            the market
-     * @return the random days before departure
+     * @return the randomized time of booking in days before departure
      */
     private int getRandomDaysBeforeDeparture(final int max,
             final Market market) {

@@ -2,9 +2,6 @@ package com.lhsystems.module.datageneratorancillary.service.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -15,16 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SeatGroup")
-public final class SeatGroup {
-
-    /** The id of the seat group. */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    /** The name of the seat group. */
-    @Column(name = "NAME")
-    private final String name;
+public final class SeatGroup extends Service {
 
     /** The number of seats in this group. */
     @Column(name = "NUMBER_SEATS")
@@ -39,7 +27,6 @@ public final class SeatGroup {
      * class.
      */
     public SeatGroup() {
-        name = null;
         numberSeats = 0;
         seatPrice = 0;
     }
@@ -56,27 +43,9 @@ public final class SeatGroup {
      */
     public SeatGroup(final String paramName,
             final int paramNumberSeats, final double paramSeatPrice) {
-        name = paramName;
+        super(paramName, paramNumberSeats);
         numberSeats = paramNumberSeats;
         seatPrice = paramSeatPrice;
-    }
-
-    /**
-     * returns the id.
-     *
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * returns the name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
     }
 
     /**
@@ -95,6 +64,11 @@ public final class SeatGroup {
      */
     public double getSeatPrice() {
         return seatPrice;
+    }
+
+    @Override
+    public double getPrice(final int number) {
+        return seatPrice * number;
     }
 
 }

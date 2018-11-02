@@ -55,7 +55,11 @@ public final class BaggageClassGenerator extends DataGenerator {
                 "f" + Double.toString(pricing.getFirstPrice()) +
                 "s" + Double.toString(pricing.getSecondPrice()) +
                 "a" + Double.toString(pricing.getAdditionalPrice());
-        return new BaggageClass(nameBuilder, limits, pricing);
+        return new BaggageClass(
+                nameBuilder,
+                Integer.MAX_VALUE,
+                limits,
+                pricing);
     }
 
 }

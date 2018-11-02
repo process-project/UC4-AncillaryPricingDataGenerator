@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Starts generating first airports, then routes entities from ssim file and save them into database.
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
+@org.springframework.stereotype.Service
 public final class RoutesGeneratorStarter {
     /** The pattern used for finding IATA codes in line. */
     private static final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");

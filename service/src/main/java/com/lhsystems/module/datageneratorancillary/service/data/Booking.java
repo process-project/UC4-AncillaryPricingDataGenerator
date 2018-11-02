@@ -28,15 +28,10 @@ public final class Booking {
     @JoinColumn(name = "CORE_BOOKING")
     private final CoreBooking coreBooking;
 
-    /** The seat selection. */
+    /** The service selection. */
     @OneToOne
-    @JoinColumn(name = "SEAT_SELECTION")
-    private final SeatSelection seatSelection;
-
-    /** The baggage selection. */
-    @OneToOne
-    @JoinColumn(name = "BAGGAGE_SELECTION")
-    private final BaggageSelection baggageSelection;
+    @JoinColumn(name = "SERVICE_SELECTION")
+    private final ServiceSelection serviceSelection;
 
     /**
      * Instantiates a new complete booking. DefaultConstructor needed for
@@ -44,8 +39,7 @@ public final class Booking {
      */
     public Booking() {
         coreBooking = null;
-        seatSelection = null;
-        baggageSelection = null;
+        serviceSelection = null;
     }
 
     /**
@@ -53,18 +47,14 @@ public final class Booking {
      *
      * @param paramCoreBooking
      *            the core booking field value
-     * @param paramSeatSelection
-     *            the seat selection field value
-     * @param paramBaggageSelection
-     *            the baggage selection field value
+     * @param paramServiceSelection
+     *            the service selection field value
      */
     public Booking(
             final CoreBooking paramCoreBooking,
-            final SeatSelection paramSeatSelection,
-            final BaggageSelection paramBaggageSelection) {
+            final ServiceSelection paramServiceSelection) {
         coreBooking = paramCoreBooking;
-        seatSelection = paramSeatSelection;
-        baggageSelection = paramBaggageSelection;
+        serviceSelection = paramServiceSelection;
     }
 
     /**
@@ -77,21 +67,12 @@ public final class Booking {
     }
 
     /**
-     * Gets the seat selection.
+     * Gets the service selection.
      *
-     * @return the seat selection
+     * @return the service selection
      */
-    public SeatSelection getSeatSelection() {
-        return seatSelection;
-    }
-
-    /**
-     * Gets the baggage selection.
-     *
-     * @return the baggage selection
-     */
-    public BaggageSelection getBaggageSelection() {
-        return baggageSelection;
+    public ServiceSelection getServiceSelection() {
+        return serviceSelection;
     }
 
 }

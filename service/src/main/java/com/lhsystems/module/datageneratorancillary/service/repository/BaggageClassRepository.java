@@ -1,8 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service.repository;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring Data repository used for save baggage class entities.
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Repository
-public interface BaggageClassRepository extends CrudRepository<BaggageClass, Long> {
+@Transactional
+public interface BaggageClassRepository
+extends ServiceBaseRepository<BaggageClass> {
 
 }

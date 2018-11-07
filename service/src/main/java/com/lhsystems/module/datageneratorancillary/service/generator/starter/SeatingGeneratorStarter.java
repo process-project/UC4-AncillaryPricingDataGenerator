@@ -2,7 +2,8 @@ package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
-import com.lhsystems.module.datageneratorancillary.service.generator.configuration.SeatConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.SeatGroupConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.SeatingModelConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.SeatGroupGenerator;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.SeatingModelGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.SeatGroupRepository;
@@ -21,15 +22,15 @@ import org.springframework.stereotype.Service;
  * @version $Revision: 1.10 $
  */
 @Service
-class SeatingGeneratorStarter {
+public final class SeatingGeneratorStarter {
     /** The repository used for saving seating models. */
     private final SeatingModelRepository seatingModelRepository;
 
-    /** The repository used for saving seating groups. */
+    /** The repository used for saving seat groups. */
     private final SeatGroupRepository seatGroupRepository;
 
     /**
-     * Instantiates a new seating generator starer with injected seating
+     * Instantiates a new seating generator starter with injected seating
      * repositories.
      *
      * @param seatingModelRepositoryParam
@@ -47,47 +48,59 @@ class SeatingGeneratorStarter {
     }
 
     /**
-     * @param seatConfiguration
-     *        the options used for seat generator
-     * @return
-     *       the list of generated seat models
+     * Generate seating model.
+     *
+     * @param seatingModelConfiguration
+     *            the seating model configuration
+     * @param seatGroupConfiguration
+     *            the seat group configuration
+     * @return the list of generated seat models
      */
-    List<SeatingModel> generateSeatingModelEntities(
-            final SeatConfiguration seatConfiguration) {
+    public List<SeatingModel> generateSeatingModel(
+            final SeatingModelConfiguration seatingModelConfiguration,
+            final SeatGroupConfiguration seatGroupConfiguration) {
         final List<SeatGroup> seatGroups = generateSeatGroups(
-                seatConfiguration.getSeatGroup());
+                seatGroupConfiguration);
         return generateSeatingModels(
                 seatGroups,
-                seatConfiguration.getSeatModel());
+                seatingModelConfiguration);
     }
 
     /**
-     * @param seatGroups
-     *        the seat groups from which we chose
-     * @param seatModelSize
-     *        the size of seat model that should be generated
-     * @return
-     *        the list of generated seat models
+     * Generate a list of seat groups as specified in configuration.
+     *
+     * @param seatGroupConfiguration
+     *            configures generation of seatGroups
+     * @return the list of generated seat groups
      */
-    private List<SeatingModel> generateSeatingModels(
-            final List<SeatGroup> seatGroups, final int seatModelSize) {
-        final SeatingModelGenerator seatingModelGenerator = new SeatingModelGenerator(
-                seatGroups);
-        final List<SeatingModel> seatingModels = seatingModelGenerator.generateList(seatModelSize);
-        seatingModelRepository.save(seatingModels);
-        return seatingModels;
-    }
-
-    /**
-     * @param seatGroupSize
-     *        the size of seat group that should be generated
-     * @return
-     *        the list of generated seat groups
-     */
-    private List<SeatGroup> generateSeatGroups(final int seatGroupSize) {
-        final SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator();
-        final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(seatGroupSize);
+    private List<SeatGroup> generateSeatGroups(
+            final SeatGroupConfiguration seatGroupConfiguration) {
+        final SeatGroupGenerator seatGroupGenerator = new SeatGroupGenerator(
+                seatGroupConfiguration);
+        final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(
+                seatGroupConfiguration.getNumberSeatGroup());
         seatGroupRepository.save(seatGroups);
         return seatGroups;
+    }
+
+    /**
+     * Generate seating models.
+     *
+     * @param seatGroups
+     *        the seat groups from which we chose
+     * @param seatingModelConfiguration
+     *            the seating model configuration
+     * @return the list of generated seat models
+     */
+    private List<SeatingModel> generateSeatingModels(
+            final List<SeatGroup> seatGroups,
+            final SeatingModelConfiguration seatingModelConfiguration) {
+        final SeatingModelGenerator seatingModelGenerator = new SeatingModelGenerator(
+                seatGroups,
+                seatingModelConfiguration);
+        final List<SeatingModel> seatingModels = seatingModelGenerator.generateList(
+                seatingModelConfiguration.getNumberSeatingModel());
+        seatingModelRepository.save(seatingModels);
+        return seatingModels;
     }
 }

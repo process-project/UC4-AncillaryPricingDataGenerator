@@ -6,6 +6,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ProductConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
 import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
@@ -62,11 +63,15 @@ public final class ProductGeneratorTest {
         final ExtendedRandom random = new ExtendedRandom();
         final List<BaggageClass> baggageClasses = new ArrayList<>();
         baggageClasses.add(baggageClass);
+        final ProductConfiguration productConfiguration = new ProductConfiguration();
+        productConfiguration.setMaximumNumberBaggageClasses(4);
+        productConfiguration.setMinimumNumberBaggageClasses(1);
         final List<Compartment> compartments = new ArrayList<>();
         compartments.add(compartment);
         final ProductGenerator productGenerator = new ProductGenerator(
                 compartments,
-                baggageClasses);
+                baggageClasses,
+                productConfiguration);
         final List<Product> testProducts = productGenerator.generateList(100);
         assertTrue(checkProducts(testProducts));
     }

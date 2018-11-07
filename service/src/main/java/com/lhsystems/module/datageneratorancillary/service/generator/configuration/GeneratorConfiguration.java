@@ -8,23 +8,35 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  */
 public final class GeneratorConfiguration {
 
+    /** Configuration for a baggage class generator. */
+    private BaggageClassConfiguration baggageClassConfiguration;
+
+    /** Configuration for a baggage limits generator. */
+    private BaggageLimitsConfiguration baggageLimitsConfiguration;
+
+    /** Configuration for a baggage pricing generator. */
+    private BaggagePricingConfiguration baggagePricingConfiguration;
+
+    /** Configuration for a baggage size generator. */
+    private BaggageSizeConfiguration baggageSizeConfiguration;
+
+    /** Configuration for a booking generator. */
+    private BookingConfiguration bookingConfiguration;
+
     /** Configuration for a flight generator. */
-    private FlightGeneratorConfiguration flightConfiguration;
+    private FlightConfiguration flightConfiguration;
 
-    /** Configuration for a baggage generator. */
-    private BaggageGeneratorConfiguration baggageConfiguration;
+    /** Configuration for a product generator. */
+    private ProductConfiguration productConfiguration;
 
-    /** Configuration for a seat generator. */
-    private SeatConfiguration seatConfiguration;
+    /** Configuration for a seat group generator. */
+    private SeatGroupConfiguration seatGroupConfiguration;
 
-    /** Number of products that should be generated. */
-    private int numberProducts;
+    /** Configuration for a seating model generator. */
+    private SeatingModelConfiguration seatingModelConfiguration;
 
-    /** Number of tariffs that should be generated. */
-    private int numberTariffs;
-
-    /** Number of bookings that should be generated. */
-    private int numberBookings;
+    /** Configuration for a tariff generator. */
+    private TariffConfiguration tariffConfiguration;
 
     /**
      * Instantiates a new generator configuration object.
@@ -32,79 +44,203 @@ public final class GeneratorConfiguration {
     public GeneratorConfiguration() {
     }
 
+
     /**
-     * Gets the baggage generator configuration.
+     * Gets the baggage class configuration.
      *
-     * @return baggage generator configuration
+     * @return the baggage class configuration
      */
-    public BaggageGeneratorConfiguration getBaggageConfiguration() {
-        return baggageConfiguration;
+    public BaggageClassConfiguration getBaggageClassConfiguration() {
+        return baggageClassConfiguration;
     }
 
     /**
-     * Gets the number of bookings.
+     * Gets the baggage limits configuration.
      *
-     * @return the number bookings
+     * @return the baggage limits configuration
      */
-    public int getNumberBookings() {
-        return numberBookings;
+    public BaggageLimitsConfiguration getBaggageLimitsConfiguration() {
+        return baggageLimitsConfiguration;
     }
+
+
+    /**
+     * Gets the baggage pricing configuration.
+     *
+     * @return the baggage pricing configuration
+     */
+    public BaggagePricingConfiguration getBaggagePricingConfiguration() {
+        return baggagePricingConfiguration;
+    }
+
+
+    /**
+     * Gets the baggage size configuration.
+     *
+     * @return the baggage size configuration
+     */
+    public BaggageSizeConfiguration getBaggageSizeConfiguration() {
+        return baggageSizeConfiguration;
+    }
+
+
+    /**
+     * Gets the booking configuration.
+     *
+     * @return the booking configuration
+     */
+    public BookingConfiguration getBookingConfiguration() {
+        return bookingConfiguration;
+    }
+
+
+    /**
+     * Gets the product configuration.
+     *
+     * @return the product configuration
+     */
+    public ProductConfiguration getProductConfiguration() {
+        return productConfiguration;
+    }
+
+
+    /**
+     * Gets the seat group configuration.
+     *
+     * @return the seat group configuration
+     */
+    public SeatGroupConfiguration getSeatGroupConfiguration() {
+        return seatGroupConfiguration;
+    }
+
+
+    /**
+     * Gets the seating model configuration.
+     *
+     * @return the seating model configuration
+     */
+    public SeatingModelConfiguration getSeatingModelConfiguration() {
+        return seatingModelConfiguration;
+    }
+
+
+    /**
+     * Gets the tariff configuration.
+     *
+     * @return the tariff configuration
+     */
+    public TariffConfiguration getTariffConfiguration() {
+        return tariffConfiguration;
+    }
+
 
     /**
      * Gets the flight generator configuration.
      *
      * @return flight generator configuration
      */
-    public FlightGeneratorConfiguration getFlightConfiguration() {
+    public FlightConfiguration getFlightConfiguration() {
         return flightConfiguration;
     }
 
+
     /**
-     * Gets the size of products.
+     * Sets the baggage class configuration.
      *
-     * @return products size
+     * @param paramBaggageClassConfiguration
+     *            the new baggage class configuration
      */
-    public int getNumberProducts() {
-        return numberProducts;
+    public void setBaggageClassConfiguration(
+            final BaggageClassConfiguration paramBaggageClassConfiguration) {
+        baggageClassConfiguration = paramBaggageClassConfiguration;
     }
 
     /**
-     * Gets the seat generator configuration.
-     * @return
-     *      seat generator configuration
+     * Sets the baggage limits configuration.
+     *
+     * @param paramBaggageLimitsConfiguration
+     *            the new baggage limits configuration
      */
-    public SeatConfiguration getSeatConfiguration() {
-        return seatConfiguration;
+    public void setBaggageLimitsConfiguration(
+            final BaggageLimitsConfiguration paramBaggageLimitsConfiguration) {
+        baggageLimitsConfiguration = paramBaggageLimitsConfiguration;
     }
 
     /**
-     * Gets the size of tariffs.
+     * Sets the baggage pricing configuration.
      *
-     * @return tariffs size
+     * @param paramBaggagePricingConfiguration
+     *            the new baggage pricing configuration
      */
-    public int getNumberTariffs() {
-        return numberTariffs;
+    public void setBaggagePricingConfiguration(
+            final BaggagePricingConfiguration paramBaggagePricingConfiguration) {
+        baggagePricingConfiguration = paramBaggagePricingConfiguration;
     }
 
     /**
-     * Set baggage configuration, used for reading yml file.
+     * Sets the baggage size configuration.
      *
-     * @param baggageParam
-     *            baggage configuration from zml file
+     * @param paramBaggageSizeConfiguration
+     *            the new baggage size configuration
      */
-    public void setBaggageConfiguration(
-            final BaggageGeneratorConfiguration baggageParam) {
-        baggageConfiguration = baggageParam;
+    public void setBaggageSizeConfiguration(
+            final BaggageSizeConfiguration paramBaggageSizeConfiguration) {
+        baggageSizeConfiguration = paramBaggageSizeConfiguration;
     }
 
     /**
-     * Sets the number of bookings.
+     * Sets the booking configuration.
      *
-     * @param numberBookingsParam
-     *            the new number bookings
+     * @param paramBookingConfiguration
+     *            the new booking configuration
      */
-    public void setNumberBookings(final int numberBookingsParam) {
-        numberBookings = numberBookingsParam;
+    public void setBookingConfiguration(
+            final BookingConfiguration paramBookingConfiguration) {
+        bookingConfiguration = paramBookingConfiguration;
+    }
+
+    /**
+     * Sets the product configuration.
+     *
+     * @param paramProductConfiguration
+     *            the new product configuration
+     */
+    public void setProductConfiguration(
+            final ProductConfiguration paramProductConfiguration) {
+        productConfiguration = paramProductConfiguration;
+    }
+
+    /**
+     * Sets the seat group configuration.
+     *
+     * @param paramSeatGroupConfiguration
+     *            the new seat group configuration
+     */
+    public void setSeatGroupConfiguration(
+            final SeatGroupConfiguration paramSeatGroupConfiguration) {
+        seatGroupConfiguration = paramSeatGroupConfiguration;
+    }
+
+    /**
+     * Sets the seating model configuration.
+     *
+     * @param paramSeatingModelConfiguration
+     *            the new seating model configuration
+     */
+    public void setSeatingModelConfiguration(
+            final SeatingModelConfiguration paramSeatingModelConfiguration) {
+        seatingModelConfiguration = paramSeatingModelConfiguration;
+    }
+
+    /**
+     * Sets the tariff configuration.
+     *
+     * @param paramTariffConfiguration
+     *            the new tariff configuration
+     */
+    public void setTariffConfiguration(
+            final TariffConfiguration paramTariffConfiguration) {
+        tariffConfiguration = paramTariffConfiguration;
     }
 
     /**
@@ -114,37 +250,9 @@ public final class GeneratorConfiguration {
      *            flight configuration from zml file
      */
     public void setFlightConfiguration(
-            final FlightGeneratorConfiguration flightParam) {
+            final FlightConfiguration flightParam) {
         flightConfiguration = flightParam;
     }
 
-    /**
-     * Set max number of products, used for reading yml file.
-     *
-     * @param productParam
-     *        product from zml file
-     */
-    public void setNumberProducts(final int productParam) {
-        numberProducts = productParam;
-    }
 
-    /**
-     * Set seat configuration, used for reading yml file.
-     *
-     * @param seatParam
-     *            seat configuration from zml file
-     */
-    public void setSeatConfiguration(final SeatConfiguration seatParam) {
-        seatConfiguration = seatParam;
-    }
-
-    /**
-     * Set max number of tariffs, used for reading yml file.
-     *
-     * @param tariffParam
-     *        tariff from zml file
-     */
-    public void setNumberTariffs(final int tariffParam) {
-        numberTariffs = tariffParam;
-    }
 }

@@ -65,4 +65,31 @@ public final class SeatSelection {
         chosenSeats = paramChosenSeats;
         daysBeforeDeparture = paramDaysBeforeDeparture;
     }
+
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Gets the chosen seats.
+     *
+     * @return the chosen seats
+     */
+    public Map<SeatGroup, Integer> getChosenSeats() {
+        return chosenSeats;
+    }
+
+    /**
+     * Gets the number of days before departure the seats were booked.
+     *
+     * @return the number of days before departure the seats were booked
+     */
+    public int getDaysBeforeDeparture() {
+        return daysBeforeDeparture;
+    }
 }

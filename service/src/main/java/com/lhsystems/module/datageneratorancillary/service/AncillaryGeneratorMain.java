@@ -20,7 +20,7 @@ public final class AncillaryGeneratorMain {
     }
 
     /**
-     * The main method.
+     * The main method. Starts up the main bean.
      *
      * @param args
      *            the arguments

@@ -5,6 +5,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BookingGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.BaggageSelectionRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.BookingRepository;
@@ -32,11 +33,11 @@ public final class BookingGeneratorStarter {
     /** Repository for storing complete bookings. */
     private final BookingRepository bookingRepository;
 
-    /** Repository for storing seat selections. */
-    private final SeatSelectionRepository seatSelectionRepository;
-
     /** Repository for simple bookings. */
     private final CoreBookingRepository coreBookingRepository;
+
+    /** Repository for storing seat selections. */
+    private final SeatSelectionRepository seatSelectionRepository;
 
     /**
      * Instantiates a new booking generator starter.
@@ -65,21 +66,21 @@ public final class BookingGeneratorStarter {
     /**
      * Generates booking entities and save all associated entities.
      *
-     * @param numberBookings
-     *            the number bookings
      * @param flights
-     *            flights, that can be booked
+     *            the flights to be used for generation
+     * @param bookingConfiguration
+     *            the booking configuration
      * @return a list of complete bookings
      */
     public List<Booking> generateBookingEntities(
-            final int numberBookings, final List<Flight> flights) {
+            final List<Flight> flights,
+            final BookingConfiguration bookingConfiguration) {
         final BookingGenerator bookingGenerator = new BookingGenerator(
-                flights);
+                flights,
+                bookingConfiguration);
         final List<Booking> bookings = bookingGenerator.generateList(
-                numberBookings);
-        final List<BaggageSelection> baggageSelections = bookings.stream().map(
-                booking -> booking.getBaggageSelection()).collect(
-                        Collectors.toList());
+                bookingConfiguration.getNumberBookings());
+        final List<BaggageSelection> baggageSelections = bookings.stream().map(booking -> booking.getBaggageSelection()).collect(Collectors.toList());
         final List<CoreBooking> coreBookings = bookings.stream().map(
                 booking -> booking.getCoreBooking()).collect(
                         Collectors.toList());

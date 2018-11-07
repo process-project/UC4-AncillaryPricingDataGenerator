@@ -9,6 +9,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BookingConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,33 +26,84 @@ import org.apache.commons.math3.util.Precision;
  */
 public final class BookingGenerator extends DataGenerator {
 
-    /** The minimum number of passengers. */
-    private static final int MINIMUM_NUMBER_PASSENGERS = 1;
-
-    /** The maximum number of passengers. */
-    private static final int MAXIMUM_NUMBER_PASSENGERS = 5;
-
-    /** The minimum number of bags. */
-    private static final int MINIMUM_NUMBER_BAGS = 0;
-
-    /** The maximum number of bags. */
-    private static final int MAXIMUM_NUMBER_BAGS = 2;
-
     /** The flights of which we chose during booking generation. */
     private final List<Flight> flights;
 
+    /** The maximum number of bags. */
+    private final int maximumNumberBags;
+
+    /** The maximum number of passengers. */
+    private final int maximumNumberPassengers;
+
+    /** The minimum number of bags. */
+    private final int minimumNumberBags;
+
+    /** The minimum number of passengers. */
+    private final int minimumNumberPassengers;
+
+    /** The range of days before departure. */
+    private final int rangeOfDaysBeforeDeparture;
+
     /**
-     * Instantiates a new complete booking generator.
+     * Instantiates a new booking generator.
      *
      * @param paramFlights
      *            the flights of wich bookings are chosen
+     * @param bookingConfiguration
+     *            the booking configuration
      */
-    public BookingGenerator(final List<Flight> paramFlights) {
+    public BookingGenerator(final List<Flight> paramFlights, final BookingConfiguration bookingConfiguration) {
         flights = paramFlights;
+        minimumNumberBags = bookingConfiguration.getMinimumNumberBags();
+        maximumNumberBags = bookingConfiguration.getMaximumNumberBags();
+        minimumNumberPassengers = bookingConfiguration.getMinimumNumberPassengers();
+        maximumNumberPassengers = bookingConfiguration.getMaximumNumberPassengers();
+        rangeOfDaysBeforeDeparture = bookingConfiguration.getRangeOfDaysBeforeDeparture();
     }
 
     /**
-     * Creates the seat selection.
+     * Creates a baggage selection object.
+     *
+     * @param tariff
+     *            the tariff
+     * @param bookingDaysBeforeDeparture
+     *            the days before departure of the respective booking
+     * @return the baggage selection
+     */
+    public BaggageSelection createBaggageSelection(final Tariff tariff,
+            final int bookingDaysBeforeDeparture) {
+        final HashMap<BaggageClass, Integer> chosenBags = new HashMap<>();
+        final List<BaggageClass> baggageClasses = tariff.getProduct().getBaggageClasses();
+        final Map<BaggageClass, Integer> includedBags = tariff.getProduct().getNumberOfIncludedBagsByBaggageClass();
+        final int numberBags = getRandom().nextInt(
+                Math.max(
+                        minimumNumberBags,
+                        includedBags.values().stream().mapToInt(
+                                Integer::intValue).sum()),
+                Math.max(
+                        maximumNumberBags,
+                        includedBags.values().stream().mapToInt(
+                                Integer::intValue).sum())
+                + 1);
+        for (final BaggageClass baggageClass : baggageClasses) {
+            chosenBags.put(baggageClass, includedBags.get(baggageClass));
+        }
+        for (int bagCounter = includedBags.values().stream().mapToInt(
+                Integer::intValue).sum(); bagCounter < numberBags; bagCounter++) {
+            final BaggageClass chosenBaggageClass = baggageClasses.get(
+                    getRandom().nextInt(baggageClasses.size()));
+            chosenBags.put(
+                    chosenBaggageClass,
+                    chosenBags.get(chosenBaggageClass) + 1);
+        }
+        final int baggageDaysBeforeDeparture = getRandomDaysBeforeDeparture(
+                bookingDaysBeforeDeparture,
+                tariff.getMarket());
+        return new BaggageSelection(chosenBags, baggageDaysBeforeDeparture);
+    }
+
+    /**
+     * Creates a seat selection object.
      *
      * @param tariff
      *            the tariff
@@ -80,47 +132,6 @@ public final class BookingGenerator extends DataGenerator {
     }
 
     /**
-     * Creates the baggage selection.
-     *
-     * @param tariff
-     *            the tariff
-     * @param bookingDaysBeforeDeparture
-     *            the days before departure of the respective booking
-     * @return the baggage selection
-     */
-    public BaggageSelection createBaggageSelection(final Tariff tariff,
-            final int bookingDaysBeforeDeparture) {
-        final HashMap<BaggageClass, Integer> chosenBags = new HashMap<>();
-        final List<BaggageClass> baggageClasses = tariff.getProduct().getBaggageClasses();
-        final Map<BaggageClass, Integer> includedBags = tariff.getProduct().getNumberOfIncludedBagsByBaggageClass();
-        final int numberBags = getRandom().nextInt(
-                Math.max(
-                        MINIMUM_NUMBER_BAGS,
-                        includedBags.values().stream().mapToInt(
-                                Integer::intValue).sum()),
-                Math.max(
-                        MAXIMUM_NUMBER_BAGS,
-                        includedBags.values().stream().mapToInt(
-                                Integer::intValue).sum())
-                + 1);
-        for (final BaggageClass baggageClass : baggageClasses) {
-            chosenBags.put(baggageClass, includedBags.get(baggageClass));
-        }
-        for (int bagCounter = includedBags.values().stream().mapToInt(
-                Integer::intValue).sum(); bagCounter < numberBags; bagCounter++) {
-            final BaggageClass chosenBaggageClass = baggageClasses.get(
-                    getRandom().nextInt(baggageClasses.size()));
-            chosenBags.put(
-                    chosenBaggageClass,
-                    chosenBags.get(chosenBaggageClass) + 1);
-        }
-        final int baggageDaysBeforeDeparture = getRandomDaysBeforeDeparture(
-                bookingDaysBeforeDeparture,
-                tariff.getMarket());
-        return new BaggageSelection(chosenBags, baggageDaysBeforeDeparture);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -129,11 +140,11 @@ public final class BookingGenerator extends DataGenerator {
         final Tariff tariff = getRandom().getOneRandomElement(
                 flight.getBookableTariffs());
         final int daysBeforeDeparture = getRandomDaysBeforeDeparture(
-                100,
+                rangeOfDaysBeforeDeparture,
                 flight.getRoute().getMarket());
         final int numberPassengers = getRandom().nextInt(
-                MINIMUM_NUMBER_PASSENGERS,
-                MAXIMUM_NUMBER_PASSENGERS);
+                minimumNumberPassengers,
+                maximumNumberPassengers + 1);
         final CoreBooking coreBooking = new CoreBooking(
                 daysBeforeDeparture,
                 flight,
@@ -153,7 +164,7 @@ public final class BookingGenerator extends DataGenerator {
     }
 
     /**
-     * Pulls a "day before Departure" from a modified Gamma Distribution.
+     * Draws a "day before Departure" from a modified Gamma Distribution.
      *
      * @param max
      *            the max

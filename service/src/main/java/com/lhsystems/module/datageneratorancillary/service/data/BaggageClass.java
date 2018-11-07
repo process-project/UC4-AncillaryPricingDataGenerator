@@ -44,7 +44,6 @@ public final class BaggageClass {
      */
     public BaggageClass() {
         name = "default";
-        id = 0L;
         baggagePricing = null;
         baggageLimits = null;
     }
@@ -52,7 +51,7 @@ public final class BaggageClass {
     /**
      * Instantiates a new baggage class.
      *
-     * 
+     *
      * @param paramName
      *            the name
      * @param paramBaggageLimits

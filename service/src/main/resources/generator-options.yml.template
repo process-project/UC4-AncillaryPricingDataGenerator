@@ -1,21 +1,66 @@
 ##GeneratorOptions
-#states the dates of which to chose departure dates and number of flights
+#flight configuration
 flightConfiguration:
-    minFlightDate: '2018-01-01'
-    maxFlightDate: '2019-12-31'
-    number: 60
-#states how many baggage objects should be generated
-baggageConfiguration:
-    baggageClass: 3
-    baggageLimits: 3
-    baggagePricing: 3
-    baggageSize: 2
-#states how many seat objects should be generated
-seatConfiguration:
-    seatGroup: 5
-    seatModel: 5
+    maximumFlightDate: '2019-12-31'
+    maximumNumberTariffs: 4
+    minimumFlightDate: '2018-01-01'
+    minimumNumberTariffs: 1
+    numberFlight: 200
 
-#states how many products and tariffs should be generated
-numberProducts: 3
-numberTariffs: 100
-numberBookings: 100
+#baggage configuration:
+baggageClassConfiguration:
+    numberBaggageClass: 4
+baggageLimitsConfiguration:
+    maximumCount: 5
+    maximumWeight: 40
+    minimumCount: 1
+    minimumWeight: 15
+    numberBaggageLimits: 4
+baggagePricingConfiguration:
+    maximumAdditionalPrice: 125
+    maximumFirstPrice: 30
+    maximumSecondPrice: 50
+    minimumAdditionalPrice: 15
+    minimumFirstPrice: 5
+    minimumSecondPrice: 10
+    numberBaggagePricing: 4
+baggageSizeConfiguration:
+    maximumCircumference: 165
+    maximumSideLength: 70
+    minimumCircumference: 30
+    minimumSideLength: 5
+    numberBaggageSize: 3
+
+#seat configuration:
+seatGroupConfiguration:
+    maximumNumberSeats: 20
+    maximumSeatPrice: 30
+    minimumNumberSeats: 6
+    minimumSeatPrice: 8
+    numberSeatGroup: 5
+
+seatingModelConfiguration:
+    maximumNumberSeatGroups: 4
+    minimumNumberSeatGroups: 1
+    numberSeatingModel: 5
+
+#product configuration
+productConfiguration:
+    maximumNumberBaggageClasses: 4
+    minimumNumberBaggageClasses: 1
+    numberProduct: 3
+
+#tariff configuration
+tariffConfiguration:
+    maximumPrice: 600
+    minimumPrice: 40
+    numberTariff: 100
+
+#bookingConfiguration:
+bookingConfiguration:
+    maximumNumberBags: 2
+    maximumNumberPassengers: 5
+    minimumNumberBags: 0
+    minimumNumberPassengers: 1
+    numberBookings: 10000
+    rangeOfDaysBeforeDeparture: 363

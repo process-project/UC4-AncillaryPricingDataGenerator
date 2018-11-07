@@ -53,7 +53,7 @@ public final class CoreBooking {
         numberPassengers = 0;
         tariff = null;
     }
-    
+
     /**
      * Instantiates a new core booking.
      *
@@ -74,5 +74,51 @@ public final class CoreBooking {
         flight = paramFlight;
         numberPassengers = paramNumberPassengers;
         tariff = paramTariff;
+    }
+
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+
+    /**
+     * Gets the days before departure.
+     *
+     * @return the days before departure
+     */
+    public int getDaysBeforeDeparture() {
+        return daysBeforeDeparture;
+    }
+
+    /**
+     * Gets the flight.
+     *
+     * @return the flight
+     */
+    public Flight getFlight() {
+        return flight;
+    }
+
+    /**
+     * Gets the number of passengers.
+     *
+     * @return the number of passengers
+     */
+    public int getNumberPassengers() {
+        return numberPassengers;
+    }
+
+    /**
+     * Gets the tariff.
+     *
+     * @return the tariff
+     */
+    public Tariff getTariff() {
+        return tariff;
     }
 }

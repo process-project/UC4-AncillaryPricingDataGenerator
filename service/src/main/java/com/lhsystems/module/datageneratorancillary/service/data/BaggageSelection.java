@@ -1,6 +1,8 @@
+/*
+ *
+ */
 package com.lhsystems.module.datageneratorancillary.service.data;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CollectionTable;
@@ -63,9 +65,36 @@ public final class BaggageSelection {
      *            the chosen baggage
      */
     public BaggageSelection(
-            final HashMap<BaggageClass, Integer> paramChosenBaggage,
+            final Map<BaggageClass, Integer> paramChosenBaggage,
             final int paramBaggageDaysBeforeDeparture) {
         baggageDaysBeforeDeparture = paramBaggageDaysBeforeDeparture;
         chosenBaggage = paramChosenBaggage;
+    }
+
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Gets the days before departure the baggage was booked.
+     *
+     * @return the days before departure
+     */
+    public int getBaggageDaysBeforeDeparture() {
+        return baggageDaysBeforeDeparture;
+    }
+
+    /**
+     * Gets the chosen baggage.
+     *
+     * @return the chosen baggage
+     */
+    public Map<BaggageClass, Integer> getChosenBaggage() {
+        return chosenBaggage;
     }
 }

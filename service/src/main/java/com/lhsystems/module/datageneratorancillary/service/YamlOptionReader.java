@@ -1,6 +1,3 @@
-/*
- *
- */
 package com.lhsystems.module.datageneratorancillary.service;
 
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;

@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,7 +43,6 @@ public final class Tariff {
     /**
      * The market the tariff is offered in.
      */
-    @Enumerated(EnumType.STRING)
     private final Market market;
 
     /**

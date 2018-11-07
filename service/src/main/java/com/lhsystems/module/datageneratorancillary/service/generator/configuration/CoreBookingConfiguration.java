@@ -14,9 +14,6 @@ public final class CoreBookingConfiguration {
     /** The minimum number of passengers. */
     private int minimumNumberPassengers;
 
-    /** The number of core bookings. */
-    private int numberCoreBookings;
-
     /** The range of days before departure. */
     private int rangeOfDaysBeforeDeparture;
 
@@ -42,15 +39,6 @@ public final class CoreBookingConfiguration {
      */
     public int getMinimumNumberPassengers() {
         return minimumNumberPassengers;
-    }
-
-    /**
-     * Gets the number of core bookings.
-     *
-     * @return the number of core bookings
-     */
-    public int getNumberCoreBookings() {
-        return numberCoreBookings;
     }
 
     /**
@@ -82,16 +70,6 @@ public final class CoreBookingConfiguration {
     public void setMinimumNumberPassengers(
             final int paramMinimumNumberPassengers) {
         minimumNumberPassengers = paramMinimumNumberPassengers;
-    }
-
-    /**
-     * Sets the number of core bookings.
-     *
-     * @param paramNumberCoreBookings
-     *            the new number of core bookings
-     */
-    public void setNumberCoreBookings(final int paramNumberCoreBookings) {
-        numberCoreBookings = paramNumberCoreBookings;
     }
 
     /**

@@ -127,20 +127,10 @@ public final class ServiceOrder {
     /**
      * Sets the booking.
      *
-     * @param booking
+     * @param paramBooking
      *            the new booking
      */
-    public void setBooking(final Booking booking) {
-        this.booking = booking;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param id
-     *            the new id
-     */
-    public void setId(final long id) {
-        this.id = id;
+    public void setBooking(final Booking paramBooking) {
+        booking = paramBooking;
     }
 }

@@ -2,14 +2,18 @@ package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
 import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
+import com.lhsystems.module.datageneratorancillary.service.data.Customer;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.ServiceOrder;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.CoreBookingConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.CustomerConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ServiceOrderConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.CoreBookingGenerator;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.CustomerGenerator;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ServiceOrderGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.BookingRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.CoreBookingRepository;
+import com.lhsystems.module.datageneratorancillary.service.repository.CustomerRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.ServiceOrderRepository;
 
 import java.util.ArrayList;
@@ -32,6 +36,9 @@ public final class BookingGeneratorStarter {
     /** Repository for core bookings. */
     private final CoreBookingRepository coreBookingRepository;
 
+    /** Repository for customers. */
+    private final CustomerRepository customerRepository;
+
     /** Repository for saving services. */
     private final ServiceOrderRepository serviceOrderRepository;
 
@@ -39,20 +46,24 @@ public final class BookingGeneratorStarter {
      * Instantiates a new booking generator starter.
      *
      * @param bookingRepositoryParam
-     *            the complete booking repository
+     *            the booking repository
      * @param serviceOrderRepositoryParam
      *            the service repository
      * @param coreBookingRepositoryParam
-     *            the simple booking repository
+     *            the core booking repository
+     * @param customerRepositoryParam
+     *            the customer repository
      */
     @Autowired
     public BookingGeneratorStarter(
             final BookingRepository bookingRepositoryParam,
             final ServiceOrderRepository serviceOrderRepositoryParam,
-            final CoreBookingRepository coreBookingRepositoryParam) {
+            final CoreBookingRepository coreBookingRepositoryParam,
+            final CustomerRepository customerRepositoryParam) {
+        coreBookingRepository = coreBookingRepositoryParam;
         bookingRepository = bookingRepositoryParam;
         serviceOrderRepository = serviceOrderRepositoryParam;
-        coreBookingRepository = coreBookingRepositoryParam;
+        customerRepository = customerRepositoryParam;
     }
 
     /**
@@ -60,6 +71,8 @@ public final class BookingGeneratorStarter {
      *
      * @param flights
      *            the flights to be used for generation
+     * @param customerConfiguration
+     *            the customer configuration
      * @param coreBookingConfiguration
      *            the core booking configuration
      * @param serviceOrderConfiguration
@@ -68,26 +81,39 @@ public final class BookingGeneratorStarter {
      */
     public List<Booking> generateBookingEntities(
             final List<Flight> flights,
+            final CustomerConfiguration customerConfiguration,
             final CoreBookingConfiguration coreBookingConfiguration,
             final ServiceOrderConfiguration serviceOrderConfiguration) {
+        final CustomerGenerator customerGenerator = new CustomerGenerator(
+                customerConfiguration);
+        final List<Customer> customers = customerGenerator.generateList(
+                customerConfiguration.getNumberCustomers());
+        customerRepository.save(customers);
+
         final CoreBookingGenerator coreBookingGenerator = new CoreBookingGenerator(
                 flights,
-
+                customers,
                 coreBookingConfiguration);
-        final List<CoreBooking> coreBookings = coreBookingGenerator.generateList(
-                coreBookingConfiguration.getNumberCoreBookings());
         final ServiceOrderGenerator serviceOrderGenerator = new ServiceOrderGenerator(
                 serviceOrderConfiguration);
+        final List<CoreBooking> coreBookings = coreBookingGenerator.generateList(
+                customers.size());
         final List<ServiceOrder> allServiceOrders = new ArrayList<>();
         final List<Booking> bookings = new ArrayList<>();
+
         for (final CoreBooking coreBooking : coreBookings) {
             final List<ServiceOrder> serviceOrders = serviceOrderGenerator.generateOrders(
                     coreBooking);
             allServiceOrders.addAll(serviceOrders);
-            bookings.add(new Booking(coreBooking, serviceOrders));
+            bookings.add(
+                    new Booking(
+                            coreBooking,
+                            coreBooking.getCustomer(),
+                            serviceOrders));
         }
         coreBookingRepository.save(coreBookings);
         serviceOrderRepository.save(allServiceOrders);
+        bookingRepository.save(bookings);
         return bookings;
     }
 

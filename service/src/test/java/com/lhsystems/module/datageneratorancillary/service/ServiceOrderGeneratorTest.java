@@ -7,7 +7,9 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
+import com.lhsystems.module.datageneratorancillary.service.data.Customer;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
+import com.lhsystems.module.datageneratorancillary.service.data.Gender;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
@@ -15,6 +17,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.ServiceOrder;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.data.TravelType;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ServiceOrderConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ServiceOrderGenerator;
 
@@ -75,7 +78,12 @@ public class ServiceOrderGeneratorTest {
         tariffs.add(tariff);
         final Route route = new Route(new Airport("TAD","Test Airport Domestic", Market.DOMESTIC), new Airport("TAI","Test Airport Intercontinental", Market.INTERCONTINENTAL));
         final Flight flight = new Flight(1, LocalDateTime.of(2018, 11, 11, 6, 6), route, tariffs);
-        coreBooking = new CoreBooking(1, flight, 3, tariff);
+        final Customer customer = new Customer(
+                40,
+                Gender.FEMALE,
+                TravelType.BUSINESS,
+                3);
+        coreBooking = new CoreBooking(1, flight, 3, tariff, customer);
     }
 
     @Test

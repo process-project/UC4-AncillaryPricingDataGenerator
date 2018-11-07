@@ -1,9 +1,11 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
+import com.lhsystems.module.datageneratorancillary.service.data.Customer;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.data.TravelType;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.CoreBookingConfiguration;
 
 import java.util.List;
@@ -19,6 +21,12 @@ public final class CoreBookingGenerator extends DataGenerator {
     /** The flights of which we chose during booking generation. */
     private final List<Flight> flights;
 
+    /**
+     * The customers for whom bookings are generated. Used for simulating
+     * dependencies of bookings on customers.
+     */
+    private final List<Customer> customers;
+
     /** The maximum number of passengers. */
     private final int maximumNumberPassengers;
 
@@ -32,23 +40,52 @@ public final class CoreBookingGenerator extends DataGenerator {
      * Instantiates a new core booking generator.
      *
      * @param paramFlights
-     *            the param flights
+     *            the flights
+     * @param paramCustomers
+     *            the customers
      * @param coreBookingConfiguration
      *            the core booking configuration
      */
     public CoreBookingGenerator(final List<Flight> paramFlights,
+            final List<Customer> paramCustomers,
             final CoreBookingConfiguration coreBookingConfiguration) {
         flights = paramFlights;
+        customers = paramCustomers;
         maximumNumberPassengers = coreBookingConfiguration.getMaximumNumberPassengers();
         minimumNumberPassengers = coreBookingConfiguration.getMinimumNumberPassengers();
         rangeOfDaysBeforeDeparture = coreBookingConfiguration.getRangeOfDaysBeforeDeparture();
     }
 
+    /**
+     * Returns a random number of passengers for one booking depending on the
+     * customer. Business travelers have a higher chance to fly alone.
+     *
+     * @param customer
+     *            the customer
+     * @return the number passengers
+     */
+    private int getNumberPassengers(final Customer customer) {
+        int numberPassengers = getRandom().nextInt(
+                minimumNumberPassengers,
+                maximumNumberPassengers + 1);
+        if (customer.getTravelType() == TravelType.BUSINESS) {
+            if (getRandom().nextDouble() < 0.4) {
+                numberPassengers = 1;
+            }
+        }
+        return numberPassengers;
+    }
+
     @Override
     protected CoreBooking generate() {
+        if (customers.isEmpty()) {
+            throw new RuntimeException(
+                    "no more customers for booking available");
+        }
         final Flight flight = getRandom().getOneRandomElement(flights);
         final Tariff tariff = getRandom().getOneRandomElement(
                 flight.getBookableTariffs());
+        final Customer customer = customers.remove(getRandom().nextInt(customers.size()));
         final double shape;
         final double scale;
         if (tariff.getMarket().compareTo(Market.DOMESTIC) <= 0) {
@@ -64,14 +101,14 @@ public final class CoreBookingGenerator extends DataGenerator {
                 0,
                 shape,
                 scale);
-        final int numberPassengers = getRandom().nextInt(
-                minimumNumberPassengers,
-                maximumNumberPassengers + 1);
+        final int numberPassengers = getNumberPassengers(customer);
         return new CoreBooking(
                 daysBeforeDeparture,
                 flight,
                 numberPassengers,
-                tariff);
+                tariff,
+                customer);
     }
-
 }
+
+

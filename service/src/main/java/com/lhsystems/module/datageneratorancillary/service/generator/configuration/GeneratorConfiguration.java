@@ -23,6 +23,9 @@ public final class GeneratorConfiguration {
     /** Configuration for a core booking generator. */
     private CoreBookingConfiguration coreBookingConfiguration;
 
+    /** Configuration for a customer Generator. */
+    private CustomerConfiguration customerConfiguration;
+
     /** Configuration for a flight generator. */
     private FlightConfiguration flightConfiguration;
 
@@ -94,6 +97,15 @@ public final class GeneratorConfiguration {
         return coreBookingConfiguration;
     }
 
+
+    /**
+     * Gets the customer configuration.
+     *
+     * @return the customer configuration
+     */
+    public CustomerConfiguration getCustomerConfiguration() {
+        return customerConfiguration;
+    }
 
     /**
      * Gets the product configuration.
@@ -199,6 +211,17 @@ public final class GeneratorConfiguration {
     public void setCoreBookingConfiguration(
             final CoreBookingConfiguration paramCoreBookingConfiguration) {
         this.coreBookingConfiguration = paramCoreBookingConfiguration;
+    }
+
+    /**
+     * Sets the customer configuration.
+     *
+     * @param paramCustomerConfiguration
+     *            the new customer configuration
+     */
+    public void setCustomerConfiguration(
+            final CustomerConfiguration paramCustomerConfiguration) {
+        customerConfiguration = paramCustomerConfiguration;
     }
 
     /**

@@ -32,9 +32,13 @@ public final class Booking {
     @JoinColumn(name = "CORE_BOOKING")
     private final CoreBooking coreBooking;
 
+    /** The customer, who books. */
+    @OneToOne
+    @JoinColumn(name = "CUSTOMER")
+    private final Customer customer;
 
     /** The service orders. */
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.MERGE)
     private final List<ServiceOrder> serviceOrders;
 
     /**
@@ -42,6 +46,7 @@ public final class Booking {
      * entity.
      */
     public Booking() {
+        customer = null;
         coreBooking = null;
         serviceOrders = null;
     }
@@ -51,13 +56,17 @@ public final class Booking {
      *
      * @param paramCoreBooking
      *            the core booking field value
+     * @param paramCustomer
+     *            the customer field value
      * @param paramServiceOrders
      *            the service orders of this booking
      */
     public Booking(
             final CoreBooking paramCoreBooking,
+            final Customer paramCustomer,
             final List<ServiceOrder> paramServiceOrders) {
         coreBooking = paramCoreBooking;
+        customer = paramCustomer;
         serviceOrders = paramServiceOrders;
     }
 
@@ -68,6 +77,16 @@ public final class Booking {
      */
     public CoreBooking getCoreBooking() {
         return coreBooking;
+    }
+
+
+    /**
+     * Gets the customer.
+     *
+     * @return the customer
+     */
+    public Customer getCustomer() {
+        return customer;
     }
 
 }

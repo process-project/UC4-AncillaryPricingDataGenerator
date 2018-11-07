@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -75,6 +77,56 @@ public final class ExtendedRandom extends Random {
     }
 
     /**
+     * Choose one element out of the keys of a given map randomly according to
+     * frequencies passed as map.
+     *
+     * @param <T>
+     *            the generic type of the elements in the list
+     * @param frequencyByElement
+     *            the frequency of each element. This is taken as basis for the
+     *            probabilities
+     * @return the chosen element
+     */
+    public <T> T getOneRandomElement(
+            final Map<T, Double> frequencyByElement) {
+        final Double summedFrequency = frequencyByElement.values().stream().mapToDouble(
+                Double::doubleValue).sum();
+        final double draw = nextDouble() * summedFrequency;
+        double currentThreshold = 0;
+        for (final T element : frequencyByElement.keySet()) {
+            currentThreshold += frequencyByElement.get(element);
+            if (draw < currentThreshold) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Choose multiple elements out of the keys of a given map randomly
+     * according to frequencies passed as map.
+     *
+     * @param <T>
+     *            the generic type of the list
+     * @param frequencyByElement
+     *            the frequency of each element. This is taken as basis for the
+     *            probabilities
+     * @param numberOfElements
+     *            the number of elements to be returned
+     * @return a list containing random elements of <code>someList</code>
+     */
+    public <T> List<T> getMultipleRandomElements(
+            final Map<T, Double> frequencyByElement,
+            final int numberOfElements) {
+        final HashMap<T,Double> chosenElements = new HashMap<>(
+                frequencyByElement);
+        while (chosenElements.size() > numberOfElements) {
+            chosenElements.remove(getOneRandomElement(chosenElements));
+        }
+        return new ArrayList<>(chosenElements.keySet());
+    }
+
+    /**
      * Choose a random number of elements of a given list randomly.
      *
      * @param <T>
@@ -93,6 +145,30 @@ public final class ExtendedRandom extends Random {
                 nextInt(min, max + 1),
                 someList.size());
         return getMultipleRandomElements(someList, numberOfElements);
+    }
+
+    /**
+     * Choose a random number out of the keys of a given map randomly according
+     * to frequencies passed as map.
+     *
+     * @param <T>
+     *            the generic type of the list
+     * @param frequencyByElement
+     *            the frequency of each element. This is taken as basis for the
+     *            probabilities
+     * @param max
+     *            the maximum number of elements
+     * @param min
+     *            the minimum number of elements
+     * @return the list
+     */
+    public <T> List<T> getRandomlyManyElements(
+            final Map<T, Double> frequencyByElement,
+            final int min, final int max) {
+        final int numberOfElements = Integer.min(
+                min + nextInt(max - min),
+                frequencyByElement.size());
+        return getMultipleRandomElements(frequencyByElement, numberOfElements);
     }
 
     /**

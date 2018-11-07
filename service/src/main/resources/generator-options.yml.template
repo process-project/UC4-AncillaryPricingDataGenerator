@@ -54,10 +54,20 @@ tariffConfiguration:
     numberTariff: 100
 
 #bookingConfiguration:
+customerConfiguration:
+    businessProbability: 0.3
+    femaleProbability: 0.6
+    maxCustomerAge: 80
+    maxSatisfaction: 5
+    meanAge: 40
+    meanSatisfaction: 3
+    minCustomerAge: 18
+    numberCustomers: 1000
+    sdAge: 15
+    sdSatisfaction: 1
 coreBookingConfiguration:
     maximumNumberPassengers: 5
     minimumNumberPassengers: 1
-    numberCoreBookings: 1000
     rangeOfDaysBeforeDeparture: 363
 serviceOrderConfiguration:
     maximumNumberBags: 3

@@ -8,7 +8,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  */
 public final class CoreBookingConfiguration {
 
-    /** The maximum number of passengers. */
+    /** The maximum number of passengers in one booking. */
     private int maximumNumberPassengers;
 
     /** The minimum number of passengers. */

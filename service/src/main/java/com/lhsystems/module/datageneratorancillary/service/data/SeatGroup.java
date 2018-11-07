@@ -27,6 +27,7 @@ public final class SeatGroup extends Service {
      * class.
      */
     public SeatGroup() {
+        super();
         numberSeats = 0;
         seatPrice = 0;
     }
@@ -67,7 +68,7 @@ public final class SeatGroup extends Service {
     }
 
     @Override
-    public double getPrice(final int number) {
+    public double getPrice(final int number, final CoreBooking coreBooking) {
         return seatPrice * number;
     }
 

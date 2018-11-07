@@ -44,7 +44,7 @@ public final class SeatGroupGenerator extends DataGenerator {
     protected SeatGroup generate() {
         final int numberSeats = getRandom().nextInt(
                 minNumberSeats,
-                maxNumberSeats);
+                maxNumberSeats+1);
         final double seatPrice = getRandom().getRandomRoundedDouble(
                 minSeatPrice,
                 maxSeatPrice,

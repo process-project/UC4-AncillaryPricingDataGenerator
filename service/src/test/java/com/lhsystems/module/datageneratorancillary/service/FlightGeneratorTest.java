@@ -165,7 +165,6 @@ public class FlightGeneratorTest {
         routes.add(new Route(airports.get(0), airports.get(1)));
         routes.add(new Route(airports.get(2), airports.get(1)));
         routes.add(new Route(airports.get(1), airports.get(2)));
-        
         final FlightConfiguration flightConfiguration = new FlightConfiguration();
         flightConfiguration.setMaximumFlightDate(
                 Date.from(MAX_DATE.atStartOfDay().toInstant(ZoneOffset.UTC)));

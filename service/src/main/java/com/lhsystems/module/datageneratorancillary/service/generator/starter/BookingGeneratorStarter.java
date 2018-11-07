@@ -100,7 +100,6 @@ public final class BookingGeneratorStarter {
                 customers.size());
         final List<ServiceOrder> allServiceOrders = new ArrayList<>();
         final List<Booking> bookings = new ArrayList<>();
-
         for (final CoreBooking coreBooking : coreBookings) {
             final List<ServiceOrder> serviceOrders = serviceOrderGenerator.generateOrders(
                     coreBooking);
@@ -111,8 +110,8 @@ public final class BookingGeneratorStarter {
                             coreBooking.getCustomer(),
                             serviceOrders));
         }
-        coreBookingRepository.save(coreBookings);
         serviceOrderRepository.save(allServiceOrders);
+        coreBookingRepository.save(coreBookings);
         bookingRepository.save(bookings);
         return bookings;
     }

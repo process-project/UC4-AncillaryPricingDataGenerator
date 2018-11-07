@@ -1,6 +1,5 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
-import com.lhsystems.module.datageneratorancillary.service.data.Airport;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
@@ -11,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -127,55 +125,6 @@ public final class FlightGenerator extends DataGenerator {
             marketSet.add(tariff.getMarket());
         }
         return new ArrayList<>(marketSet);
-    }
-
-    /**
-     * Returns the airports.
-     *
-     * @return the airports
-     */
-    private List<Airport> getAirports() {
-        return Collections.emptyList();
-    }
-
-
-    /**
-     * Returns a random <code>Airport</code> which is different from
-     * <code>originAirport</code> and also lies in <code>market</code>.
-     *
-     * @param originAirport
-     *            some <code>Airport</code>
-     * @param market
-     *            the market of the desired route
-     * @return destinationAirport which is different from originAirport
-     */
-    private Airport getRandomDestinationAirport(final Airport originAirport,
-            final Market market) {
-        Airport destinationAirport = getRandomAirport(market);
-        while (originAirport == destinationAirport) {
-            destinationAirport = getRandomAirport(market);
-        }
-        return destinationAirport;
-    }
-
-
-    /**
-     * Returns a randomly chosen <code>Airport</code> out of the airport list
-     * such that the airport lies in the given market.
-     *
-     * @param market
-     *            the market of the desired route
-     * @return a randomly chosen <code>Airport</code> out of
-     *         <code>AIRPORTS</code>
-     */
-    private Airport getRandomAirport(final Market market) {
-        final ArrayList<Airport> tempAirports = new ArrayList<>();
-        for (final Airport airport: getAirports()){
-            if (airport.getMarket().compareTo(market)<=0){
-                tempAirports.add(airport);
-            }
-        }
-        return tempAirports.get(getRandom().nextInt(tempAirports.size()));
     }
 
     /**

@@ -20,6 +20,8 @@ import javax.persistence.Table;
 public final class CoreBooking {
 
     /** The customer who booked. */
+    @OneToOne
+    @JoinColumn(name = "CUSTOMER")
     private final Customer customer;
 
     /**
@@ -47,11 +49,6 @@ public final class CoreBooking {
     @JoinColumn(name = "TARIFF")
     private final Tariff tariff;
 
-    /** The customer who booked. */
-    @OneToOne
-    @JoinColumn(name = "CUSTOMER")
-    private final Customer customer;
-
     /**
      * Instantiates a new core booking. Default constructor needed for entity.
      */
@@ -76,7 +73,7 @@ public final class CoreBooking {
      * @param paramTariff
      *            the chosen tariff
      * @param paramCustomer
-     *            the customer making the order
+     *             the customer making the order
      */
     public CoreBooking(final int paramDaysBeforeDeparture,
             final Flight paramFlight,

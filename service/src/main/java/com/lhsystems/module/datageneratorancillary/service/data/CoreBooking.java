@@ -19,6 +19,9 @@ import javax.persistence.Table;
 @Table(name = "CoreBooking")
 public final class CoreBooking {
 
+    /** The customer who booked. */
+    private final Customer customer;
+
     /**
      * The number of days between the date of booking and the day of departure.
      */

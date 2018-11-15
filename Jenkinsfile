@@ -34,7 +34,7 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
         }
         failure {
-            mail    to: 'janek.reichardt@lhsystems.com',
+            mail    to: 'janek.reichardt@lhsystems.com,balazs.somoskoi@lhsystems.com',
                     cc: 'joerg.pancake-steeg@lhsystems.com',
                     subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                     body: "Something is wrong with ${env.BUILD_URL}"

@@ -23,11 +23,11 @@ public class DataGeneratorTest {
     @Test
     public void testIncreaseIdCounter() {
         final DataGenerator dataGenerator = new DataGenerator(
-        ) {
+                ) {
 
             @Override
             protected Object generate() {
-                return 1;
+                return (long) 1;
             }
         };
         assertEquals((long) 1, dataGenerator.generateList(1).get(0));

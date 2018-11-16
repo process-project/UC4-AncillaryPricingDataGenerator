@@ -167,11 +167,8 @@ public final class ExtendedRandom extends Random {
 
 
     /**
-     * Draws a random value from a modified gamma distribution. Random values
-     * are drawn from a gamma distribution defined by shape and scale and
-     * rounded afterwards until a value between min and max (both included) is
-     * drawn. Note that this has a poor running time if the probability of
-     * drawing a number between min and max is low.
+     * Draws a random value from a modified gamma distribution.The value
+     * is drawn from a limited gamma distribution defined by shape, scale as well as a lower and upper bound. Afterwards the drawn value is rounded
      *
      * @param min
      *            a lower limit on values returned
@@ -188,15 +185,15 @@ public final class ExtendedRandom extends Random {
     public double getCutOffGammaDistributedDouble(final double min,
             final double max, final int precision, final double shape,
             final double scale) {
-        final double roundedMax = Precision.round(
-                max,
-                precision,
-                BigDecimal.ROUND_DOWN);
+        final GammaDistribution gammaDistribution = new GammaDistribution(shape, scale);
         final double roundedMin = Precision.round(
                 min,
                 precision,
                 BigDecimal.ROUND_UP);
-        final GammaDistribution distribution = new GammaDistribution(shape, scale);
+        final double roundedMax = Precision.round(
+                max,
+                precision,
+                BigDecimal.ROUND_DOWN);
         if (roundedMax < roundedMin) {
             throw new RuntimeException(
                     "the maximal value is not greater than the minimal value after rounding");
@@ -204,15 +201,13 @@ public final class ExtendedRandom extends Random {
         if (roundedMax == roundedMin) {
             return roundedMax;
         }
-        double randomDouble = Precision.round(
+        final LimitedRealDistribution distribution = new LimitedRealDistribution(
+                gammaDistribution,
+                roundedMin,
+                roundedMax);
+        return Precision.round(
                 distribution.sample(),
                 precision);
-        while (randomDouble < min || randomDouble > max) {
-            randomDouble = Precision.round(
-                    distribution.sample(),
-                    precision);
-        }
-        return randomDouble;
 
     }
 }

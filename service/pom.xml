@@ -23,11 +23,13 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <excludes>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.configuration</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.DataGeneratorMain</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.AncillaryGeneratorMain</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.repository.*</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.configuration.*</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.YamlOptionReader</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.utils.OptionFileKeys</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageClass</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.utils.PathOptions</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageSize</exclude>

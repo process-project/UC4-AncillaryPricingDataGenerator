@@ -5,6 +5,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightConfiguration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,26 +58,20 @@ public final class FlightGenerator extends DataGenerator {
      *            the routes to be used for flight generation
      * @param paramTariffs
      *            the tariffs to be used for flight generation
-     * @param paramMinDate
-     *            the first date of the generation interval
-     * @param paramMaxDate
-     *            the last date of the generation interval
-     * @param paramMinimumNumberTariffs
-     *            the param minimum number tariffs
-     * @param paramMaximumNumberTariffs
-     *            the param maximum number tariffs
+     * @param configuration
+     *            the configuration containing limits on number of tariffs as
+     *            well as dates
      */
     public FlightGenerator(final List<Route> paramRoutes,
-            final List<Tariff> paramTariffs, final LocalDate paramMinDate,
-            final LocalDate paramMaxDate, final int paramMinimumNumberTariffs,
-            final int paramMaximumNumberTariffs) {
+            final List<Tariff> paramTariffs,
+            final FlightConfiguration configuration) {
         super();
         tariffs = paramTariffs;
-        minimumDate = paramMinDate;
+        minimumDate = configuration.getMinimumFlightDateAsLocalDate();
         routes = paramRoutes;
-        maximumDate = paramMaxDate;
-        minimumNumberTariffs = paramMinimumNumberTariffs;
-        maximumNumberTariffs = paramMaximumNumberTariffs;
+        maximumDate = configuration.getMaximumFlightDateAsLocalDate();
+        minimumNumberTariffs = configuration.getMinimumNumberTariffs();
+        maximumNumberTariffs = configuration.getMaximumNumberTariffs();
     }
 
 

@@ -23,6 +23,7 @@
                                 <rule>
                                     <element>CLASS</element>
                                     <excludes>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.MainBean</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.AncillaryGeneratorMain</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.repository.*</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.generator.configuration.*</exclude>
@@ -33,13 +34,19 @@
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.BaggageSize</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.Booking</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.Compartment</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.CoreBooking</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.Product</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.Flight</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.Route</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatGroup</exclude>
-                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.SeatingModel</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.data.ServiceOrder</exclude>
                                         <exclude>com.lhsystems.module.datageneratorancillary.service.data.Tariff</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.core.SeatGroupGenerator</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.core.BaggageLimitsGenerator</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.core.BaggageSizeGenerator</exclude>
+                                        <exclude>com.lhsystems.module.datageneratorancillary.service.generator.core.BaggagePricingGenerator</exclude>
                                         <exclude>*Test*</exclude>
                                     </excludes>
                                 </rule>

@@ -38,7 +38,7 @@ public final class FlightGeneratorStarter {
     /**
      * Generate flight entities in flight generator and save them.
      *
-     * @param flightGeneratorConfiguration
+     * @param flightConfiguration
      *        the options used for flight generator
      * @param tariffs
      *        the tariffs to be used for flight generation
@@ -48,18 +48,14 @@ public final class FlightGeneratorStarter {
      *        the list of generated flights
      */
     public List<Flight> generateFlightsEntities(
-            final FlightConfiguration flightGeneratorConfiguration,
+            final FlightConfiguration flightConfiguration,
             final List<Tariff> tariffs, final List<Route> routes) {
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
-                flightGeneratorConfiguration.getMinimumFlightDateAsLocalDate(),
-                flightGeneratorConfiguration.getMaximumFlightDateAsLocalDate(),
-                flightGeneratorConfiguration.getMinimumNumberTariffs(),
-                flightGeneratorConfiguration.getMaximumNumberTariffs());
-
+                flightConfiguration);
         final List<Flight> flights = flightGenerator.generateList(
-                flightGeneratorConfiguration.getNumberFlight());
+                flightConfiguration.getNumberFlight());
         return flights.stream()
                 .map(flightRepository::save)
                 .collect(Collectors.toList());

@@ -90,7 +90,7 @@ public final class ExtendedRandom extends Random {
     public <T> List<T> getRandomlyManyElements(final List<T> someList,
             final int min, final int max) {
         final int numberOfElements = Integer.min(
-                min + nextInt(max - min),
+                nextInt(min, max + 1),
                 someList.size());
         return getMultipleRandomElements(someList, numberOfElements);
     }

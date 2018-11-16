@@ -35,7 +35,6 @@ public final class BaggageSizeConfiguration {
      * Instantiates a new baggage size configuration.
      */
     public BaggageSizeConfiguration() {
-        // TODO Auto-generated constructor stub
     }
 
     /**

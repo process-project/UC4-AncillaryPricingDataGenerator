@@ -39,15 +39,12 @@ seatGroupConfiguration:
     minimumSeatPrice: 8
     numberSeatGroup: 5
 
-seatingModelConfiguration:
-    maximumNumberSeatGroups: 4
-    minimumNumberSeatGroups: 1
-    numberSeatingModel: 5
-
 #product configuration
 productConfiguration:
     maximumNumberBaggageClasses: 4
     minimumNumberBaggageClasses: 1
+    maximumNumberSeatGroups: 4
+    minimumNumberSeatGroups: 1
     numberProduct: 3
 
 #tariff configuration
@@ -57,10 +54,11 @@ tariffConfiguration:
     numberTariff: 100
 
 #bookingConfiguration:
-bookingConfiguration:
-    maximumNumberBags: 2
+coreBookingConfiguration:
     maximumNumberPassengers: 5
-    minimumNumberBags: 0
     minimumNumberPassengers: 1
-    numberBookings: 10000
+    numberCoreBookings: 1000
     rangeOfDaysBeforeDeparture: 363
+serviceOrderConfiguration:
+    maximumNumberBags: 3
+    minimumNumberBags: 0

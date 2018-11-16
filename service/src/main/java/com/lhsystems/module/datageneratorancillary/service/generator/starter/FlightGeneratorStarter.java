@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Starts generating flight entities and save them into database.
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
+@org.springframework.stereotype.Service
 public final class FlightGeneratorStarter {
 
     /** The repository used for saving flights. */

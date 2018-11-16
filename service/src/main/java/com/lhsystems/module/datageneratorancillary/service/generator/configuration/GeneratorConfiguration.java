@@ -20,8 +20,8 @@ public final class GeneratorConfiguration {
     /** Configuration for a baggage size generator. */
     private BaggageSizeConfiguration baggageSizeConfiguration;
 
-    /** Configuration for a booking generator. */
-    private BookingConfiguration bookingConfiguration;
+    /** Configuration for a core booking generator. */
+    private CoreBookingConfiguration coreBookingConfiguration;
 
     /** Configuration for a flight generator. */
     private FlightConfiguration flightConfiguration;
@@ -32,8 +32,9 @@ public final class GeneratorConfiguration {
     /** Configuration for a seat group generator. */
     private SeatGroupConfiguration seatGroupConfiguration;
 
-    /** Configuration for a seating model generator. */
-    private SeatingModelConfiguration seatingModelConfiguration;
+
+    /** Configuration for a service order generator. */
+    private ServiceOrderConfiguration serviceOrderConfiguration;
 
     /** Configuration for a tariff generator. */
     private TariffConfiguration tariffConfiguration;
@@ -85,12 +86,12 @@ public final class GeneratorConfiguration {
 
 
     /**
-     * Gets the booking configuration.
+     * Gets the core booking configuration.
      *
-     * @return the booking configuration
+     * @return the core booking configuration
      */
-    public BookingConfiguration getBookingConfiguration() {
-        return bookingConfiguration;
+    public CoreBookingConfiguration getCoreBookingConfiguration() {
+        return coreBookingConfiguration;
     }
 
 
@@ -115,12 +116,13 @@ public final class GeneratorConfiguration {
 
 
     /**
-     * Gets the seating model configuration.
+
+     * Gets the service order configuration.
      *
-     * @return the seating model configuration
+     * @return the service order configuration
      */
-    public SeatingModelConfiguration getSeatingModelConfiguration() {
-        return seatingModelConfiguration;
+    public ServiceOrderConfiguration getServiceOrderConfiguration() {
+        return serviceOrderConfiguration;
     }
 
 
@@ -189,14 +191,14 @@ public final class GeneratorConfiguration {
     }
 
     /**
-     * Sets the booking configuration.
+     * Sets the core booking configuration.
      *
-     * @param paramBookingConfiguration
-     *            the new booking configuration
+     * @param paramCoreBookingConfiguration
+     *            the new core booking configuration
      */
-    public void setBookingConfiguration(
-            final BookingConfiguration paramBookingConfiguration) {
-        bookingConfiguration = paramBookingConfiguration;
+    public void setCoreBookingConfiguration(
+            final CoreBookingConfiguration paramCoreBookingConfiguration) {
+        this.coreBookingConfiguration = paramCoreBookingConfiguration;
     }
 
     /**
@@ -222,15 +224,17 @@ public final class GeneratorConfiguration {
     }
 
     /**
-     * Sets the seating model configuration.
+
+     * Sets the service order configuration.
      *
-     * @param paramSeatingModelConfiguration
-     *            the new seating model configuration
+     * @param paramServiceOrderConfiguration
+     *            the new service order configuration
      */
-    public void setSeatingModelConfiguration(
-            final SeatingModelConfiguration paramSeatingModelConfiguration) {
-        seatingModelConfiguration = paramSeatingModelConfiguration;
+    public void setServiceOrderConfiguration(
+            final ServiceOrderConfiguration paramServiceOrderConfiguration) {
+        this.serviceOrderConfiguration = paramServiceOrderConfiguration;
     }
+
 
     /**
      * Sets the tariff configuration.

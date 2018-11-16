@@ -1,7 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.repository;
 
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @version $Revision: 1.10 $
  */
 @Repository
-public interface SeatGroupRepository extends CrudRepository<SeatGroup, Long> {
+public interface SeatGroupRepository extends ServiceBaseRepository<SeatGroup> {
 
 }
 

@@ -1,17 +1,18 @@
 package com.lhsystems.module.datageneratorancillary.service.repository;
 
-import com.lhsystems.module.datageneratorancillary.service.data.SeatSelection;
+import com.lhsystems.module.datageneratorancillary.service.data.ServiceOrder;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Spring Data repository used for saving seat selection entities.
+ * Spring Data repository used for save tariff entities.
  *
  * @author REJ
  * @version $Revision: 1.10 $
  */
 @Repository
-public interface SeatSelectionRepository
-extends CrudRepository<SeatSelection, Long> {
+public interface ServiceOrderRepository
+        extends CrudRepository<ServiceOrder, Long> {
 }
+

@@ -6,12 +6,14 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ProductConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
 import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +52,7 @@ public final class ProductGeneratorTest {
         final BaggagePricing baggagePricing = new BaggagePricing(3, 3, 3);
         baggageClass = new BaggageClass(
                 "bag",
+                1,
                 baggageLimits,
                 baggagePricing);
         compartment = new Compartment('N', "compartment");
@@ -61,7 +64,7 @@ public final class ProductGeneratorTest {
     @Test
     public void testGenerateList() {
         final ExtendedRandom random = new ExtendedRandom();
-        final List<BaggageClass> baggageClasses = new ArrayList<>();
+        final List<Service> baggageClasses = new ArrayList<>();
         baggageClasses.add(baggageClass);
         final ProductConfiguration productConfiguration = new ProductConfiguration();
         productConfiguration.setMaximumNumberBaggageClasses(4);
@@ -85,7 +88,11 @@ public final class ProductGeneratorTest {
      */
     private boolean checkProducts(final List<Product> testProducts) {
         for (final Product product: testProducts){
-            for (final BaggageClass baggageClass: product.getBaggageClasses()){
+            for (final BaggageClass baggageClass : Service.getServicesByServiceClass(
+                    product.getServices(),
+                    BaggageClass.class).stream().map(
+                            e -> (BaggageClass) e).collect(
+                                    Collectors.toList())) {
                 if (baggageClass.getBaggageLimits().getCountMax()< product.getNumberOfIncludedBagsByBaggageClass().get(baggageClass)){
                     return false;
                 }

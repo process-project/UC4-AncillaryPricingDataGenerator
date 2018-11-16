@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.utils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -161,5 +163,56 @@ public final class ExtendedRandom extends Random {
      */
     public int nextInt(final int min, final int max) {
         return nextInt(max - min) + min;
+    }
+
+
+    /**
+     * Draws a random value from a modified gamma distribution. Random values
+     * are drawn from a gamma distribution defined by shape and scale and
+     * rounded afterwards until a value between min and max (both included) is
+     * drawn. Note that this has a poor running time if the probability of
+     * drawing a number between min and max is low.
+     *
+     * @param min
+     *            a lower limit on values returned
+     * @param max
+     *            an upper limit on values returned
+     * @param precision
+     *            the precision
+     * @param shape
+     *            the shape
+     * @param scale
+     *            the scale
+     * @return the cut off gamma distributed double
+     */
+    public double getCutOffGammaDistributedDouble(final double min,
+            final double max, final int precision, final double shape,
+            final double scale) {
+        final double roundedMax = Precision.round(
+                max,
+                precision,
+                BigDecimal.ROUND_DOWN);
+        final double roundedMin = Precision.round(
+                min,
+                precision,
+                BigDecimal.ROUND_UP);
+        final GammaDistribution distribution = new GammaDistribution(shape, scale);
+        if (roundedMax < roundedMin) {
+            throw new RuntimeException(
+                    "the maximal value is not greater than the minimal value after rounding");
+        }
+        if (roundedMax == roundedMin) {
+            return roundedMax;
+        }
+        double randomDouble = Precision.round(
+                distribution.sample(),
+                precision);
+        while (randomDouble < min || randomDouble > max) {
+            randomDouble = Precision.round(
+                    distribution.sample(),
+                    precision);
+        }
+        return randomDouble;
+
     }
 }

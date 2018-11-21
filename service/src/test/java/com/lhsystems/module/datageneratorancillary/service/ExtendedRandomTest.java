@@ -1,15 +1,18 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
+import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
+
 import java.text.MessageFormat;
 import java.time.LocalDate;
 
-import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests the class ExtendedRandom.
@@ -50,6 +53,49 @@ public final class ExtendedRandomTest {
     public ExtendedRandomTest() {
 
     }
+
+    /**
+     * Test GetCutOffGammaDistributedDouble. In particular, test if the random
+     * numbers comply to the bounds set by <code>min</code> and <code>max</code>
+     * on a sampleSize of <code>SAMPLE_SIZE</code>.
+     */
+    @Test
+    public void testGetCutOffGammaDistributedDoubleBounds() {
+        for (int counter = 0; counter < SAMPLE_SIZE; counter++) {
+            for (int precision = -1; precision < 3; precision++) {
+                final double someDouble = random.getCutOffGammaDistributedDouble(
+                        min,
+                        max,
+                        precision,
+                        1,
+                        1);
+                assertTrue(someDouble >= min);
+                assertTrue(someDouble <= max);
+            }
+        }
+    }
+
+    /**
+     * Test GetCutOffGammaDistributedDouble. In particular, test if the random
+     * numbers comply to the bounds set by <code>min</code> and <code>max</code>
+     * on a sampleSize of <code>SAMPLE_SIZE</code>.
+     */
+    @Test
+    public void testGetCutOffGammaDistributedDoubleMinEqualsMax() {
+        final double someDouble = random.getCutOffGammaDistributedDouble(
+                3,
+                3,
+                1,
+                1,
+                1);
+        assertEquals(3, someDouble, 0.1);
+        try{
+            random.getCutOffGammaDistributedDouble(3, 3, -1, 1, 1);
+            fail("should have thrown exception");
+        } catch (final Exception expectedException) {
+        }
+    }
+
 
     /**
      * Test getRandomDay. In particular, test if the random date complies to the

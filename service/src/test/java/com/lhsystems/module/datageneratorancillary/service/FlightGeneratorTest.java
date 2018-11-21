@@ -45,6 +45,7 @@ public class FlightGeneratorTest {
     /** The maximal date for testing. */
     private static final LocalDate MAX_DATE = LocalDate.of(2018, 7, 9);
 
+    private static final int SAMPLE_SIZE = 200;
     /** some tariff. */
     private Tariff tariff;
 
@@ -170,7 +171,7 @@ public class FlightGeneratorTest {
                 1,
                 4);
         final List<Flight> flights = flightGenerator.generateList(
-                500);
+                SAMPLE_SIZE);
         assertTrue(checkAirports(flights));
         assertTrue(checkDates(flights));
         assertTrue(checkFlightNumbers(flights));

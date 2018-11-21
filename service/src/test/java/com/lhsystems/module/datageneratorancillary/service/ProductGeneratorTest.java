@@ -6,10 +6,10 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ProductConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
-import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,10 @@ import static org.junit.Assert.assertTrue;
 public final class ProductGeneratorTest {
 
     /** The name of a product used for testing. */
-    private static String PRODUCT_NAME = "compartment_bag";
+    private static String PRODUCT_NAME = "compartment_bagseatGroup";
 
+    /** The other possible name of a product used for testing. */
+    private static String SECOND_PRODUCT_NAME = "compartment_seatGroupbag";
 
     /** The baggage class. */
     private BaggageClass baggageClass;
@@ -38,6 +40,9 @@ public final class ProductGeneratorTest {
 
     /** The compartment. */
     private Compartment compartment;
+
+    /** The seatGroup. */
+    private SeatGroup seatGroup;
 
     /**
      * sets up the behavior of mocked objects. .
@@ -55,6 +60,7 @@ public final class ProductGeneratorTest {
                 1,
                 baggageLimits,
                 baggagePricing);
+        seatGroup = new SeatGroup("seatGroup", 3, 3.0);
         compartment = new Compartment('N', "compartment");
     }
 
@@ -63,19 +69,21 @@ public final class ProductGeneratorTest {
      */
     @Test
     public void testGenerateList() {
-        final ExtendedRandom random = new ExtendedRandom();
-        final List<Service> baggageClasses = new ArrayList<>();
-        baggageClasses.add(baggageClass);
+        final List<Service> services = new ArrayList<>();
+        services.add(baggageClass);
+        services.add(seatGroup);
         final ProductConfiguration productConfiguration = new ProductConfiguration();
         productConfiguration.setMaximumNumberBaggageClasses(4);
         productConfiguration.setMinimumNumberBaggageClasses(1);
+        productConfiguration.setMaximumNumberSeatGroups(4);
+        productConfiguration.setMinimumNumberSeatGroups(1);
         final List<Compartment> compartments = new ArrayList<>();
         compartments.add(compartment);
         final ProductGenerator productGenerator = new ProductGenerator(
                 compartments,
-                baggageClasses,
+                services,
                 productConfiguration);
-        final List<Product> testProducts = productGenerator.generateList(100);
+        final List<Product> testProducts = productGenerator.generateList(1);
         assertTrue(checkProducts(testProducts));
     }
 
@@ -96,7 +104,8 @@ public final class ProductGeneratorTest {
                 if (baggageClass.getBaggageLimits().getCountMax()< product.getNumberOfIncludedBagsByBaggageClass().get(baggageClass)){
                     return false;
                 }
-                if (!product.getName().equals(PRODUCT_NAME)) {
+                if (!(product.getName().equals(PRODUCT_NAME)
+                        || product.getName().equals(SECOND_PRODUCT_NAME))) {
                     return false;
                 }
             }

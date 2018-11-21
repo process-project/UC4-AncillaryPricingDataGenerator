@@ -53,7 +53,9 @@ public final class BaggageLimitsGenerator extends DataGenerator {
     @Override
     protected BaggageLimits generate() {
 
-        final int countMax = getRandom().nextInt(minimumCount, maximumCount);
+        final int countMax = getRandom().nextInt(
+                minimumCount,
+                maximumCount + 1);
         final double weightMax = getRandom().getRandomRoundedDouble(
                 minimumWeight,
                 maximumWeight,

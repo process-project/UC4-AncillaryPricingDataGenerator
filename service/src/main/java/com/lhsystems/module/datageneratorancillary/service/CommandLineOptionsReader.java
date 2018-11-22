@@ -1,7 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
 import com.lhsystems.module.datageneratorancillary.service.utils.PathOptions;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -22,12 +21,12 @@ public final class CommandLineOptionsReader {
 
 
     /** The compartment options Path to be used if no path option is given. */
-    public static final String DEFAULT_COMPARTMENT_FILE = "/compartments.yml";
+    static final String DEFAULT_COMPARTMENT_FILE = "/compartments.yml";
 
     /**
      * The generator options Path to be used if no path option is given.
      */
-    public static final String DEFAULT_GENERATOR_OPTIONS_FILE = "/generator-options.yml";
+    static final String DEFAULT_GENERATOR_OPTIONS_FILE = "/generator-options.yml";
 
     /**
      * The SSIM Path to be used if no path option is given.

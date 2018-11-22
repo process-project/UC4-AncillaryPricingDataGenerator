@@ -2,9 +2,12 @@ package com.lhsystems.module.datageneratorancillary.service;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -12,7 +15,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.*;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.DRIVER;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.GENERATE_DDL;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.PASSWORD;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.SHOW_SQL;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.URL;
+import static com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName.USERNAME;
 
 /**
  * Configuration, initializes component scan,
@@ -26,7 +34,7 @@ import static com.lhsystems.module.datageneratorancillary.service.DatabaseProper
 @Configuration
 @PropertySources({
         @PropertySource("classpath:database.properties"),
-        @PropertySource(value = "file:${database-properties}", ignoreResourceNotFound=true),
+        @PropertySource(value = "file:${database-properties}", ignoreResourceNotFound=true)
 })
 @ComponentScan
 @EnableJpaRepositories("com.lhsystems.module.datageneratorancillary.service.repository")

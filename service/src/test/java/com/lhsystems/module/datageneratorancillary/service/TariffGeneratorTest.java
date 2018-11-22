@@ -7,8 +7,9 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.TariffConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.TariffGenerator;
 
 import java.util.ArrayList;
@@ -31,8 +32,6 @@ public final class TariffGeneratorTest {
 
     private Product product;
 
-    private SeatingModel seatingModel;
-
     @Before
     public void setUp() {
         final BaggageSize baggageSize = new BaggageSize(3, 3, 3, 3);
@@ -43,6 +42,7 @@ public final class TariffGeneratorTest {
         final BaggagePricing baggagePricing = new BaggagePricing(3, 3, 3);
         final BaggageClass baggageClass = new BaggageClass(
                 "baggageClass",
+                1,
                 baggageLimits,
                 baggagePricing);
         final Compartment compartment = new Compartment('N', "name");
@@ -50,15 +50,17 @@ public final class TariffGeneratorTest {
         baggageClasses.add(baggageClass);
         final Map<BaggageClass, Integer> includedBags = new HashMap<>();
         includedBags.put(baggageClass, 1);
+        final SeatGroup seatGroup = new SeatGroup("seatGroup", 1, 1);
+        final List<Service> services = new ArrayList<>();
+        services.add(seatGroup);
+        services.addAll(baggageClasses);
         product = new Product(
                 "product",
                 compartment,
-                baggageClasses,
+                services,
                 includedBags);
-        final SeatGroup seatGroup = new SeatGroup("seatGroup", 1, 1);
         final ArrayList<SeatGroup> seatGroups = new ArrayList<>();
         seatGroups.add(seatGroup);
-        seatingModel = new SeatingModel(seatGroups);
     }
 
     /**
@@ -68,11 +70,12 @@ public final class TariffGeneratorTest {
     public void testGenerateList() {
         final List<Product> products = new ArrayList<>();
         products.add(product);
-        final List<SeatingModel> seatingModels = new ArrayList<>();
-        seatingModels.add(seatingModel);
+        final TariffConfiguration tariffConfiguration = new TariffConfiguration();
+        tariffConfiguration.setMaximumPrice(200);
+        tariffConfiguration.setMinimumPrice(50);
         final TariffGenerator tariffGenerator = new TariffGenerator(
                 products,
-                seatingModels);
+                tariffConfiguration);
         final List<Tariff> testTariffs = tariffGenerator.generateList(100);
         assertTrue(checkTariffs(testTariffs));
 
@@ -81,9 +84,6 @@ public final class TariffGeneratorTest {
     private boolean checkTariffs(final List<Tariff> testTariffs) {
         for (final Tariff tariff : testTariffs) {
             if (!tariff.getProduct().equals(product)) {
-                return false;
-            }
-            if (!tariff.getSeating().equals(seatingModel)) {
                 return false;
             }
         }

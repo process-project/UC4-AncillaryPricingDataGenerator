@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.utils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -88,7 +90,7 @@ public final class ExtendedRandom extends Random {
     public <T> List<T> getRandomlyManyElements(final List<T> someList,
             final int min, final int max) {
         final int numberOfElements = Integer.min(
-                min + nextInt(max - min),
+                nextInt(min, max + 1),
                 someList.size());
         return getMultipleRandomElements(someList, numberOfElements);
     }
@@ -161,5 +163,51 @@ public final class ExtendedRandom extends Random {
      */
     public int nextInt(final int min, final int max) {
         return nextInt(max - min) + min;
+    }
+
+
+    /**
+     * Draws a random value from a modified gamma distribution.The value
+     * is drawn from a limited gamma distribution defined by shape, scale as well as a lower and upper bound. Afterwards the drawn value is rounded
+     *
+     * @param min
+     *            a lower limit on values returned
+     * @param max
+     *            an upper limit on values returned
+     * @param precision
+     *            the precision
+     * @param shape
+     *            the shape
+     * @param scale
+     *            the scale
+     * @return the cut off gamma distributed double
+     */
+    public double getCutOffGammaDistributedDouble(final double min,
+            final double max, final int precision, final double shape,
+            final double scale) {
+        final GammaDistribution gammaDistribution = new GammaDistribution(shape, scale);
+        final double roundedMin = Precision.round(
+                min,
+                precision,
+                BigDecimal.ROUND_UP);
+        final double roundedMax = Precision.round(
+                max,
+                precision,
+                BigDecimal.ROUND_DOWN);
+        if (roundedMax < roundedMin) {
+            throw new RuntimeException(
+                    "the maximal value is not greater than the minimal value after rounding");
+        }
+        if (roundedMax == roundedMin) {
+            return roundedMax;
+        }
+        final LimitedRealDistribution distribution = new LimitedRealDistribution(
+                gammaDistribution,
+                roundedMin,
+                roundedMax);
+        return Precision.round(
+                distribution.sample(),
+                precision);
+
     }
 }

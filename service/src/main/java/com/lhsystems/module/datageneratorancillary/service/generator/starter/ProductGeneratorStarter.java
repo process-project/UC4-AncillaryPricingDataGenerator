@@ -1,8 +1,9 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ProductConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ProductGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.CompartmentRepository;
 import com.lhsystems.module.datageneratorancillary.service.repository.ProductRepository;
@@ -10,7 +11,7 @@ import com.lhsystems.module.datageneratorancillary.service.repository.ProductRep
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 /**
  * Starts generating product entities and save them into database.
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
-class ProductGeneratorStarter {
+@org.springframework.stereotype.Service
+public final class ProductGeneratorStarter {
     /** The repository used for saving products. */
     private final ProductRepository productRepository;
 
@@ -43,43 +44,48 @@ class ProductGeneratorStarter {
     }
 
     /**
-     * Generate products entities save them.
+     * Generate products entities and save them.
      *
-     * @param baggageClasses
-     *            the tariffs to be used for flight generation
-     * @param productsSize
-     *            the size of products that should be generated
      * @param compartments
      *            the compartments to be used for product generation
+     * @param services
+     *            the services of which some are chosen to be offered
+     * @param productConfiguration
+     *            configures generation of products
      * @return the list of generated products
      */
-    List<Product> generateProductsEntities(
-            final List<BaggageClass> baggageClasses, final int productsSize,
-            final List<Compartment> compartments) {
+    public List<Product> generateProductEntities(
+            final List<Compartment> compartments,
+            final List<Service> services,
+            final ProductConfiguration productConfiguration) {
         compartmentRepository.save(compartments);
-        return generateProducts(compartments, baggageClasses, productsSize);
+        return generateProducts(
+                compartments,
+                services,
+                productConfiguration);
     }
 
     /**
      * Generate products entities and save them into database.
      *
      * @param compartments
-     *        the compartments to be used for product generation
-     * @param baggageClasses
-     *        the baggage classes to be used for product generation
-     * @param productsSize
-     *        the size of products that should be generated
-     * @return
-     *        the list of generated products
+     *            the compartments to be used for product generation
+     * @param services
+     *            the services of which some are chosen to be offered
+     * @param productConfiguration
+     *            the product configuration
+     * @return the list of generated products
      */
     private List<Product> generateProducts(
             final List<Compartment> compartments,
-            final List<BaggageClass> baggageClasses,
-            final int productsSize) {
+            final List<Service> services,
+            final ProductConfiguration productConfiguration) {
         final ProductGenerator productGenerator = new ProductGenerator(
                 compartments,
-                baggageClasses);
-        final List<Product> products = productGenerator.generateList(productsSize);
+                services,
+                productConfiguration);
+        final List<Product> products = productGenerator.generateList(
+                productConfiguration.getNumberProduct());
         productRepository.save(products);
         return products;
     }

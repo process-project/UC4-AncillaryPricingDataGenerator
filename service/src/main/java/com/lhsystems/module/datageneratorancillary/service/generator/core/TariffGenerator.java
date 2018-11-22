@@ -2,8 +2,8 @@ package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatingModel;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.TariffConfiguration;
 
 import java.util.List;
 
@@ -16,34 +16,31 @@ import java.util.List;
 public final class TariffGenerator extends DataGenerator {
 
     /** The maximal price of a flight. */
-    private static final double MAXIMUM_PRICE = 600;
+    private final double maximumPrice;
 
     /** The minimal price of a flight. */
-    private static final double MINIMUM_PRICE = 40;
-
-    /** The products to be used for tariff generation. */
-    private final List<Product> products;
+    private final double minimumPrice;
 
     /** The markets to be used for tariff generation. */
     private final List<Market> markets = Market.getAllMarkets();
 
-    /** The seating models to be used for tariff generation. */
-    private final List<SeatingModel> seatingModels;
+    /** The products to be used for tariff generation. */
+    private final List<Product> products;
 
     /**
      * Instantiates a new tariff generator.
      *
      * @param paramProducts
      *            the products to be used for tariff generation
-     * @param paramSeatingModels
-     *            the seating models to be used for tariff generation
+     * @param tariffConfiguration
+     *            the tariff configuration
      */
     public TariffGenerator(
             final List<Product> paramProducts,
-            final List<SeatingModel> paramSeatingModels) {
-        super();
+            final TariffConfiguration tariffConfiguration) {
         products = paramProducts;
-        seatingModels = paramSeatingModels;
+        maximumPrice = tariffConfiguration.getMaximumPrice();
+        minimumPrice = tariffConfiguration.getMinimumPrice();
     }
 
     /**
@@ -52,13 +49,11 @@ public final class TariffGenerator extends DataGenerator {
     @Override
     protected Tariff generate() {
         final double price = getRandom().getRandomRoundedDouble(
-                MINIMUM_PRICE,
-                MAXIMUM_PRICE,
+                minimumPrice,
+                maximumPrice,
                 2);
         final Product product = getRandom().getOneRandomElement(products);
-        final SeatingModel seatingModel = getRandom().getOneRandomElement(
-                seatingModels);
         final Market market = getRandom().getOneRandomElement(markets);
-        return new Tariff(price, seatingModel, product, market);
+        return new Tariff(price, product, market);
     }
 }

@@ -20,15 +20,17 @@ public final class AncillaryGeneratorMain {
     }
 
     /**
-     * The main method.
+     * The main method. Starts up the main bean.
      *
      * @param args
      *            the arguments
      */
     public static void main(final String[] args) {
-        final AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
+                AppConfiguration.class);
         final MainBean bean = context.getBean(MainBean.class);
         bean.start(args);
+        context.close();
     }
 
 }

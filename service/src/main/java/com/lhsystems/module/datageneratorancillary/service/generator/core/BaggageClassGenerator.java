@@ -14,11 +14,15 @@ import java.util.List;
  */
 public final class BaggageClassGenerator extends DataGenerator {
 
-    /** The baggage limits from which one is chosen per baggage class. */
+    /**
+     * The list of baggage limits from which one is chosen when generating a
+     * baggage class.
+     */
     private final List<BaggageLimits> baggageLimits;
 
     /**
-     * The baggage pricing models from which one is chosen per baggage class.
+     * The baggage pricing models from which one is chosen when generating a
+     * baggage class.
      */
     private final List<BaggagePricing> baggagePricingModels;
 
@@ -51,7 +55,11 @@ public final class BaggageClassGenerator extends DataGenerator {
                 "f" + Double.toString(pricing.getFirstPrice()) +
                 "s" + Double.toString(pricing.getSecondPrice()) +
                 "a" + Double.toString(pricing.getAdditionalPrice());
-        return new BaggageClass(nameBuilder, limits, pricing);
+        return new BaggageClass(
+                nameBuilder,
+                Integer.MAX_VALUE,
+                limits,
+                pricing);
     }
 
 }

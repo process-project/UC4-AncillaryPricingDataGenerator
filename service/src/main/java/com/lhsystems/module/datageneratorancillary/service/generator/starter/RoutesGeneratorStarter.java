@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Starts generating first airports, then routes entities from ssim file and save them into database.
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
+@org.springframework.stereotype.Service
 public final class RoutesGeneratorStarter {
     /** The pattern used for finding IATA codes in line. */
     private static final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
@@ -53,6 +52,25 @@ public final class RoutesGeneratorStarter {
     }
 
     /**
+     * Iterate through lines and create routes and airports from each line.
+     *
+     * @param markets
+     *        list of possible markets to used as airport market
+     * @param ssimLines
+     *        list of lines from ssim file
+     * @return
+     *        list of routes
+     */
+    public List<Route> generateRoutesAndAirportEntities(
+            final List<Market> markets, final List<String> ssimLines) {
+        return ssimLines
+                .stream()
+                .map(e -> generateRoute(e, markets))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Find iata codes in ssim line, then generate airports from them and add new route if necessary.
      *
      * @param line
@@ -73,40 +91,10 @@ public final class RoutesGeneratorStarter {
         if(airports.size() != 2) {
             return null;
         }
-    
+
         airports.forEach(this::saveAirportIfNotExits);
-    
+
         return getOrCreateRouteIfNotExists(airports.get(0), airports.get(1));
-    }
-
-    /**
-     * Iterate through lines and create routes and airports from each line.
-     *
-     * @param markets
-     *        list of possible markets to used as airport market
-     * @param ssimLines
-     *        list of lines from ssim file
-     * @return
-     *        list of routes
-     */
-    List<Route> generateRoutesAndAirportEntities(final List<Market> markets, final List<String> ssimLines){
-        return ssimLines
-                .stream()
-                .map(e -> generateRoute(e, markets))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Check that airport is existing in database, if not, save new one.
-     *
-     * @param airport
-     *        airport to check
-     */
-    private void saveAirportIfNotExits(final Airport airport) {
-        if (!airportRepository.exists(airport.getIata())) {
-            airportRepository.save(airport);
-        }
     }
 
     /**
@@ -126,5 +114,17 @@ public final class RoutesGeneratorStarter {
             currentRoute = routeRepository.save(route);
         }
         return currentRoute;
+    }
+
+    /**
+     * Check that airport is existing in database, if not, save new one.
+     *
+     * @param airport
+     *        airport to check
+     */
+    private void saveAirportIfNotExits(final Airport airport) {
+        if (!airportRepository.exists(airport.getIata())) {
+            airportRepository.save(airport);
+        }
     }
 }

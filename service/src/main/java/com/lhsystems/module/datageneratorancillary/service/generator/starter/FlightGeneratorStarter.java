@@ -3,7 +3,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightGeneratorConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 import com.lhsystems.module.datageneratorancillary.service.repository.FlightRepository;
 
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Starts generating flight entities and save them into database.
@@ -19,8 +18,8 @@ import org.springframework.stereotype.Service;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Service
-class FlightGeneratorStarter {
+@org.springframework.stereotype.Service
+public final class FlightGeneratorStarter {
 
     /** The repository used for saving flights. */
     private final FlightRepository flightRepository;
@@ -39,7 +38,7 @@ class FlightGeneratorStarter {
     /**
      * Generate flight entities in flight generator and save them.
      *
-     * @param flightGeneratorConfiguration
+     * @param flightConfiguration
      *        the options used for flight generator
      * @param tariffs
      *        the tariffs to be used for flight generation
@@ -48,15 +47,15 @@ class FlightGeneratorStarter {
      * @return
      *        the list of generated flights
      */
-    List<Flight> generateFlightsEntities(
-            final FlightGeneratorConfiguration flightGeneratorConfiguration,
+    public List<Flight> generateFlightsEntities(
+            final FlightConfiguration flightConfiguration,
             final List<Tariff> tariffs, final List<Route> routes) {
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
-                flightGeneratorConfiguration.getMinFlightDateAsLocalDate(),
-                flightGeneratorConfiguration.getMaxFlightDateAsLocalDate());
-        final List<Flight> flights = flightGenerator.generateList(flightGeneratorConfiguration.getNumber());
+                flightConfiguration);
+        final List<Flight> flights = flightGenerator.generateList(
+                flightConfiguration.getNumberFlight());
         return flights.stream()
                 .map(flightRepository::save)
                 .collect(Collectors.toList());

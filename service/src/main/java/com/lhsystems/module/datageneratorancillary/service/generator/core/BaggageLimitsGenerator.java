@@ -2,6 +2,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.BaggageLimitsConfiguration;
 
 import java.util.List;
 
@@ -13,17 +14,17 @@ import java.util.List;
  */
 public final class BaggageLimitsGenerator extends DataGenerator {
 
-    /** The maximum count of a baggage limits object. */
-    private static int MAXIMUM_COUNT = 5;
+    /** The maximum count of bags. */
+    private final int maximumCount;
 
-    /** The maximum weight of a baggage limits object. */
-    private static double MAXIMUM_WEIGHT = 40;
+    /** The maximum weight of bags. */
+    private final double maximumWeight;
 
-    /** The minimum count of a baggage limits object. */
-    private static int MINIMUM_COUNT = 1;
+    /** The minimum count of bags. */
+    private final int minimumCount;
 
-    /** The minimum weight of a baggage limits object. */
-    private static double MINIMUM_WEIGHT = 15;
+    /** The minimum weight of bags. */
+    private final double minimumWeight;
 
     /** The baggage sizes of which on is chosen during generation. */
     private final List<BaggageSize> baggageSizes;
@@ -33,10 +34,16 @@ public final class BaggageLimitsGenerator extends DataGenerator {
      *
      * @param paramBaggageSizes
      *            baggage sizes used for generation
+     * @param baggageLimitsConfiguration
+     *            the baggage limits configuration
      */
-    public BaggageLimitsGenerator(final List<BaggageSize> paramBaggageSizes) {
-        super();
+    public BaggageLimitsGenerator(final List<BaggageSize> paramBaggageSizes,
+            final BaggageLimitsConfiguration baggageLimitsConfiguration) {
         baggageSizes = paramBaggageSizes;
+        maximumCount = baggageLimitsConfiguration.getMaximumCount();
+        minimumCount = baggageLimitsConfiguration.getMinimumCount();
+        maximumWeight = baggageLimitsConfiguration.getMaximumWeight();
+        minimumWeight = baggageLimitsConfiguration.getMinimumWeight();
     }
 
 
@@ -46,10 +53,12 @@ public final class BaggageLimitsGenerator extends DataGenerator {
     @Override
     protected BaggageLimits generate() {
 
-        final int countMax = getRandom().nextInt(MINIMUM_COUNT, MAXIMUM_COUNT);
+        final int countMax = getRandom().nextInt(
+                minimumCount,
+                maximumCount + 1);
         final double weightMax = getRandom().getRandomRoundedDouble(
-                MINIMUM_WEIGHT,
-                MAXIMUM_WEIGHT,
+                minimumWeight,
+                maximumWeight,
                 1);
         final BaggageSize baggageSize = getRandom().getOneRandomElement(
                 baggageSizes);

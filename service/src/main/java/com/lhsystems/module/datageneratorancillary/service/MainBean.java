@@ -35,7 +35,7 @@ public class MainBean {
     private final YamlOptionReader optionReader;
 
     /**
-     * Reads ssim file for generate airports and routes.
+     * Reads ssim file to generate airports and routes.
      */
     private final SSIMFileReader ssimReader;
 

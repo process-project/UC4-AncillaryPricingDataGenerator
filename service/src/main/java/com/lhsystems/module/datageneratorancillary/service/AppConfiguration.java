@@ -57,7 +57,8 @@ public class AppConfiguration {
     }
 
     /**
-     * Data source bean.
+     * Data source bean. declares the data source used for reading and writing
+     * data.
      *
      * @return bean with data source connection
      */

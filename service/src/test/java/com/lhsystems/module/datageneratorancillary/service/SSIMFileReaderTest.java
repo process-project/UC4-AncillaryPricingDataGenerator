@@ -1,21 +1,21 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
-import junitx.framework.ListAssert;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
+
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import junitx.framework.ListAssert;
 
 /**
  * Tests the class SSIMFileReaderTest.
@@ -37,22 +37,21 @@ public class SSIMFileReaderTest {
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     /** Ssim file reader class to test. */
-    @Autowired
-    private SSIMFileReader ssimFileReader;
+    private final SSIMFileReader ssimFileReader = new SSIMFileReader();
 
     /**
      * Test that ssim file is read in proper way and filter wrong lines.
      */
     @Test
     public void getSsimFileLines() {
-        String testFileName = "/ssim-test.ssim";
-        String firstLine = "3 LH 4321xxxxJ01APR1402APR141234567 KRK15001500+0100  FRA17001700+0100  M1F                                                     YF                  L                       PP26                  000003";
-        String secondLine = "3 LH  631xxxxJ01APR1401APR141234567 FRA19001900+0100  TXL20002000+0100  M1F                                                     YF                  L                       PP26                  000003";
-        List<String> expectedResult = new ArrayList<>();
+        final String testFileName = "/ssim-test.ssim";
+        final String firstLine = "3 LH 4321xxxxJ01APR1402APR141234567 KRK15001500+0100  FRA17001700+0100  M1F                                                     YF                  L                       PP26                  000003";
+        final String secondLine = "3 LH  631xxxxJ01APR1401APR141234567 FRA19001900+0100  TXL20002000+0100  M1F                                                     YF                  L                       PP26                  000003";
+        final List<String> expectedResult = new ArrayList<>();
         expectedResult.add(firstLine);
         expectedResult.add(secondLine);
 
-        List<String> ssimFileLines = ssimFileReader.getSsimFileLines(testFileName);
+        final List<String> ssimFileLines = ssimFileReader.getSsimFileLines(testFileName);
 
         ListAssert.assertEquals(expectedResult, ssimFileLines);
     }
@@ -65,7 +64,7 @@ public class SSIMFileReaderTest {
      */
     @Test
     @Parameters(method = "startedLineData")
-    public void isLineStartedWithProperNumber(String line, boolean result)  {
+    public void isLineStartedWithProperNumber(final String line, final boolean result)  {
         assertEquals(result, ssimFileReader.isLineStartedWithProperNumber(line));
     }
 

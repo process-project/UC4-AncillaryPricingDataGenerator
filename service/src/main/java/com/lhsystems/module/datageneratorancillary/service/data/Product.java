@@ -11,8 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,10 +27,10 @@ import javax.persistence.Table;
 @Table(name = "Product")
 public final class Product {
 
-    /** The baggage classes that are offered in this product. */
-    @OneToMany
-    @JoinColumn(name = "BAGGAGE_CLASS")
-    private List<BaggageClass> baggageClasses;
+    /** The services that are offered in this product. */
+    @ManyToMany
+    @JoinTable(name = "PRODUCT_SERVICES")
+    private final List<Service> serviceOffer;
 
     /** The compartment this product belongs to. */
     @OneToOne
@@ -59,6 +60,7 @@ public final class Product {
         name = null;
         compartment = null;
         numberOfIncludedBagsByBaggageClass = null;
+        serviceOffer = null;
     }
 
     /**
@@ -68,28 +70,19 @@ public final class Product {
      *            the name
      * @param paramCompartment
      *            the compartment
-     * @param paramBaggageClasses
-     *            the baggage classes
+     * @param paramServices
+     *            the services offered
      * @param paramNumberOfIncludedBags
      *            the number of included bags
      */
     public Product(final String paramName,
             final Compartment paramCompartment,
-            final List<BaggageClass> paramBaggageClasses,
+            final List<Service> paramServices,
             final Map<BaggageClass, Integer> paramNumberOfIncludedBags) {
         name = paramName;
         compartment = paramCompartment;
-        baggageClasses = paramBaggageClasses;
+        serviceOffer = paramServices;
         numberOfIncludedBagsByBaggageClass = paramNumberOfIncludedBags;
-    }
-
-    /**
-     * returns the baggage classes.
-     *
-     * @return the baggage classes
-     */
-    public List<BaggageClass> getBaggageClasses() {
-        return baggageClasses;
     }
 
     /**
@@ -128,4 +121,12 @@ public final class Product {
         return numberOfIncludedBagsByBaggageClass;
     }
 
+    /**
+     * Gets the services.
+     *
+     * @return the services
+     */
+    public List<Service> getServices() {
+        return serviceOffer;
+    }
 }

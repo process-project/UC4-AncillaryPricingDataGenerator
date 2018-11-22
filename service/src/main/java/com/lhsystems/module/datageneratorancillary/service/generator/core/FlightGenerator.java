@@ -5,6 +5,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightConfiguration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,17 +23,27 @@ import java.util.List;
  */
 public final class FlightGenerator extends DataGenerator {
 
-    /** The maximum number of tariffs that can be booked on a flight. */
-    private static final int MAX_NUMBER_TARIFFS = 4;
 
-    /** The minimum number of tariffs that can be booked on a flight. */
-    private static final int MIN_NUMBER_TARIFFS = 1;
-
-    /** The first date of the generation interval. */
-    private final LocalDate minDate;
+    /**
+     * Counter to remember which numbers have been used as
+     * <code>flightNumber</code> already.
+     */
+    private int flightNumberCounter;
 
     /** The last date of the generation interval. */
-    private final LocalDate maxDate;
+    private final LocalDate maximumDate;
+
+    /** The maximum number of bookable tariffs for one flight. */
+    private final int maximumNumberTariffs;
+
+    /** The first date of the generation interval. */
+    private final LocalDate minimumDate;
+
+    /** The minimum number of bookable tariffs for one flight. */
+    private final int minimumNumberTariffs;
+
+    /** The tariffs to be used for flight generation. */
+    private final List<Tariff> tariffs;
 
     /**
      * list of <code>routes</code> objects to be used for the generation of
@@ -41,34 +52,26 @@ public final class FlightGenerator extends DataGenerator {
     private final List<Route> routes;
 
     /**
-     * Counter to remember which numbers have been used as
-     * <code>flightNumber</code> already.
-     */
-    private int flightNumberCounter;
-
-    /** The tariffs to be used for flight generation. */
-    private final List<Tariff> tariffs;
-
-    /**
      * Constructor.
      *
      * @param paramRoutes
      *            the routes to be used for flight generation
      * @param paramTariffs
      *            the tariffs to be used for flight generation
-     * @param paramMinDate
-     *            the first date of the generation interval
-     * @param paramMaxDate
-     *            the last date of the generation interval
+     * @param configuration
+     *            the configuration containing limits on number of tariffs as
+     *            well as dates
      */
     public FlightGenerator(final List<Route> paramRoutes,
-            final List<Tariff> paramTariffs, final LocalDate paramMinDate,
-            final LocalDate paramMaxDate) {
+            final List<Tariff> paramTariffs,
+            final FlightConfiguration configuration) {
         super();
         tariffs = paramTariffs;
-        minDate = paramMinDate;
+        minimumDate = configuration.getMinimumFlightDateAsLocalDate();
         routes = paramRoutes;
-        maxDate = paramMaxDate;
+        maximumDate = configuration.getMaximumFlightDateAsLocalDate();
+        minimumNumberTariffs = configuration.getMinimumNumberTariffs();
+        maximumNumberTariffs = configuration.getMaximumNumberTariffs();
     }
 
 
@@ -79,8 +82,8 @@ public final class FlightGenerator extends DataGenerator {
     protected Flight generate() {
         final int flightNumber = increaseFlightNumberCounter();
         final LocalDate departureDate = getRandom().getRandomDay(
-                minDate,
-                maxDate);
+                minimumDate,
+                maximumDate);
         final LocalTime departureTime = getRandom().getRandomDaytime();
         final Route route = getRandom().getOneRandomElement(routes);
         final List<Tariff> chosenTariffs = chooseTariffs(route.getMarket());
@@ -108,8 +111,8 @@ public final class FlightGenerator extends DataGenerator {
         }
         return getRandom().getRandomlyManyElements(
                 tariffsOfMarket,
-                MIN_NUMBER_TARIFFS,
-                MAX_NUMBER_TARIFFS);
+                minimumNumberTariffs,
+                maximumNumberTariffs);
     }
 
     /**

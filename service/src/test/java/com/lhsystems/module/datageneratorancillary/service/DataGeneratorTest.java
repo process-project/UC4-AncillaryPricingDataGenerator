@@ -30,8 +30,8 @@ public class DataGeneratorTest {
                 return (long) 1;
             }
         };
-        assertEquals(1, dataGenerator.generateList(1).get(0));
-        assertEquals(1, dataGenerator.generateList(1).get(0));
+        assertEquals(1L, dataGenerator.generateList(1).get(0));
+        assertEquals(1L, dataGenerator.generateList(1).get(0));
 
     }
 }

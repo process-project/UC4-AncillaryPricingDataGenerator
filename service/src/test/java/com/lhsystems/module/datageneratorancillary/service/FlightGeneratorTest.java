@@ -13,10 +13,13 @@ import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -162,14 +165,18 @@ public class FlightGeneratorTest {
         routes.add(new Route(airports.get(0), airports.get(1)));
         routes.add(new Route(airports.get(2), airports.get(1)));
         routes.add(new Route(airports.get(1), airports.get(2)));
-
+        final FlightConfiguration flightConfiguration = new FlightConfiguration();
+        flightConfiguration.setMaximumFlightDate(
+                Date.from(MAX_DATE.atStartOfDay().toInstant(ZoneOffset.UTC)));
+        flightConfiguration.setMinimumFlightDate(
+                Date.from(
+                        MIN_DATE.atStartOfDay().toInstant(ZoneOffset.UTC)));
+        flightConfiguration.setMaximumNumberTariffs(4);
+        flightConfiguration.setMinimumNumberTariffs(1);
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
-                MIN_DATE,
-                MAX_DATE,
-                1,
-                4);
+                flightConfiguration);
         final List<Flight> flights = flightGenerator.generateList(
                 SAMPLE_SIZE);
         assertTrue(checkAirports(flights));

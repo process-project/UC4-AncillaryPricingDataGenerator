@@ -176,10 +176,7 @@ public class FlightGeneratorTest {
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
-                MIN_DATE,
-                MAX_DATE,
-                1,
-                4);
+                flightConfiguration);
         final List<Flight> flights = flightGenerator.generateList(
                 SAMPLE_SIZE);
         assertTrue(checkAirports(flights));

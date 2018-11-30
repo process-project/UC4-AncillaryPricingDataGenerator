@@ -17,8 +17,14 @@ import com.lhsystems.module.datageneratorancillary.service.generator.configurati
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,10 +43,10 @@ import static org.junit.Assert.assertTrue;
 public class FlightGeneratorTest {
 
     /** The minimal date for testing. */
-    private static final LocalDate MIN_DATE = LocalDate.of(2018, 1, 1);
+    private static final LocalDate MIN_DATE = LocalDate.of(2017, 4, 6);
 
     /** The maximal date for testing. */
-    private static final LocalDate MAX_DATE = LocalDate.of(2019, 12, 31);
+    private static final LocalDate MAX_DATE = LocalDate.of(2018, 7, 9);
 
     private static final int SAMPLE_SIZE = 200;
     /** some tariff. */
@@ -133,12 +139,13 @@ public class FlightGeneratorTest {
      */
     private boolean checkFlightNumbers(final List<Flight> flights) {
         final Set<Integer> usedFlightNumbers = new HashSet<>();
+        boolean result = true;
         for (final Flight flight : flights) {
             if (!usedFlightNumbers.add(flight.getFlightNumber())) {
-                return false;
+                result = false;
             }
         }
-        return true;
+        return result;
     }
 
     /**
@@ -158,32 +165,25 @@ public class FlightGeneratorTest {
         routes.add(new Route(airports.get(0), airports.get(1)));
         routes.add(new Route(airports.get(2), airports.get(1)));
         routes.add(new Route(airports.get(1), airports.get(2)));
-        FlightConfiguration flightConfiguration = new FlightConfiguration();
-        flightConfiguration.setMaximumFlightDate(createDateFromLocalDate(MAX_DATE));
-        flightConfiguration.setMinimumFlightDate(createDateFromLocalDate(MIN_DATE));
-        flightConfiguration.setMinimumNumberTariffs(1);
+        final FlightConfiguration flightConfiguration = new FlightConfiguration();
+        flightConfiguration.setMaximumFlightDate(
+                Date.from(MAX_DATE.atStartOfDay().toInstant(ZoneOffset.UTC)));
+        flightConfiguration.setMinimumFlightDate(
+                Date.from(
+                        MIN_DATE.atStartOfDay().toInstant(ZoneOffset.UTC)));
         flightConfiguration.setMaximumNumberTariffs(4);
-
+        flightConfiguration.setMinimumNumberTariffs(1);
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
-                flightConfiguration);
+                MIN_DATE,
+                MAX_DATE,
+                1,
+                4);
         final List<Flight> flights = flightGenerator.generateList(
                 SAMPLE_SIZE);
         assertTrue(checkAirports(flights));
         assertTrue(checkDates(flights));
         assertTrue(checkFlightNumbers(flights));
-    }
-
-
-    /**
-     * Generate Date object from local date to set flight configuration
-     * @param date
-     *      local date to convert
-     * @return
-     *      converted date object
-     */
-    private Date createDateFromLocalDate(LocalDate date) {
-        return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 }

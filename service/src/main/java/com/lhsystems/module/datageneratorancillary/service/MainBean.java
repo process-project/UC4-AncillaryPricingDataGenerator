@@ -61,8 +61,7 @@ public class MainBean {
     /**
      * Reads options needed for Generation out of a Yaml file as well as a
      * SQLite database. Generates a number of flights specified in the Yaml file
-     * by using a <code>flightGenerator</code> object. Afterwards saves the
-     * generated flights in a SQLite dataBase.
+     * by using a <code>flightGenerator</code> object.
      *
      * @param args default parameter for main method. No use for now.
      */

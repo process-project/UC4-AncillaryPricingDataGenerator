@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @org.springframework.stereotype.Service
 public final class RoutesGeneratorStarter {
     /** The pattern used for finding IATA codes in line. */
-    private static final Pattern iataPattern = Pattern.compile("\\s[A-Z]{3}");
+    private static final Pattern IATA_PATTERN = Pattern.compile("\\s[A-Z]{3}");
 
     /** The repository used for saving airports. */
     private final AirportRepository airportRepository;
@@ -81,7 +81,7 @@ public final class RoutesGeneratorStarter {
      *        route
      */
     private Route generateRoute(final String line, final List<Market> markets) {
-        final Matcher matcher = iataPattern.matcher(line);
+        final Matcher matcher = IATA_PATTERN.matcher(line);
         final List<Airport> airports = new ArrayList<>();
         while (matcher.find()) {
             final String iataCode = matcher.group(0).trim();

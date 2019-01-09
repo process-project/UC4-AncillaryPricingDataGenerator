@@ -129,6 +129,7 @@ public final class GeneratorStarter {
                 routes);
         bookingGeneratorStarter.generateBookingEntities(
                 flights,
+                generatorConfiguration.getCustomerConfiguration(),
                 generatorConfiguration.getCoreBookingConfiguration(),
                 generatorConfiguration.getServiceOrderConfiguration());
 

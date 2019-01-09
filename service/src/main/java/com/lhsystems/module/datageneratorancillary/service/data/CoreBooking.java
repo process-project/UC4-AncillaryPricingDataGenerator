@@ -44,6 +44,11 @@ public final class CoreBooking {
     @JoinColumn(name = "TARIFF")
     private final Tariff tariff;
 
+    /** The customer who booked. */
+    @OneToOne
+    @JoinColumn(name = "CUSTOMER")
+    private final Customer customer;
+
     /**
      * Instantiates a new core booking. Default constructor needed for entity.
      */
@@ -52,6 +57,7 @@ public final class CoreBooking {
         flight = null;
         numberPassengers = 0;
         tariff = null;
+        customer = null;
     }
 
     /**
@@ -66,25 +72,28 @@ public final class CoreBooking {
      *            the number of passengers
      * @param paramTariff
      *            the chosen tariff
+     * @param paramCustomer
+     *            the customer making the order
      */
     public CoreBooking(final int paramDaysBeforeDeparture,
             final Flight paramFlight,
-            final int paramNumberPassengers, final Tariff paramTariff) {
+            final int paramNumberPassengers, final Tariff paramTariff,
+            final Customer paramCustomer) {
         daysBeforeDeparture = paramDaysBeforeDeparture;
         flight = paramFlight;
         numberPassengers = paramNumberPassengers;
         tariff = paramTariff;
+        customer = paramCustomer;
     }
 
     /**
-     * Gets the id.
+     * Gets the customer.
      *
-     * @return the id
+     * @return the customer
      */
-    public long getId() {
-        return id;
+    public Customer getCustomer() {
+        return customer;
     }
-
 
     /**
      * Gets the days before departure.
@@ -102,6 +111,15 @@ public final class CoreBooking {
      */
     public Flight getFlight() {
         return flight;
+    }
+
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public long getId() {
+        return id;
     }
 
     /**

@@ -27,7 +27,7 @@ public final class AncillaryGeneratorMain {
      */
     public static void main(final String[] args) {
         final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
-                AppConfiguration.class);
+                CassandraConfig.class);
         final MainBean bean = context.getBean(MainBean.class);
         bean.start(args);
         context.close();

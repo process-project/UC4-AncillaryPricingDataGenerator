@@ -25,7 +25,7 @@ import junitx.framework.ListAssert;
  */
 
 @RunWith(value = JUnitParamsRunner.class)
-@ContextConfiguration(classes = AppConfiguration.class)
+@ContextConfiguration(classes = CassandraConfig.class)
 public class SSIMFileReaderTest {
 
     /** Object used for ensure that spring will run without using SpringRunner */

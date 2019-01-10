@@ -58,7 +58,7 @@ public final class ProductGeneratorStarter {
             final List<Compartment> compartments,
             final List<Service> services,
             final ProductConfiguration productConfiguration) {
-        compartmentRepository.save(compartments);
+        //compartmentRepository.save(compartments);
         return generateProducts(
                 compartments,
                 services,
@@ -86,7 +86,7 @@ public final class ProductGeneratorStarter {
                 productConfiguration);
         final List<Product> products = productGenerator.generateList(
                 productConfiguration.getNumberProduct());
-        productRepository.save(products);
+        //productRepository.save(products);
         return products;
     }
 }

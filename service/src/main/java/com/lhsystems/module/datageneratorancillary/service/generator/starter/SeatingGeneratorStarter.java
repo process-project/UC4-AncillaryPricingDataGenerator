@@ -50,7 +50,7 @@ public final class SeatingGeneratorStarter {
                 seatGroupConfiguration);
         final List<SeatGroup> seatGroups = seatGroupGenerator.generateList(
                 seatGroupConfiguration.getNumberSeatGroup());
-        seatGroupRepository.save(seatGroups);
+       // seatGroupRepository.save(seatGroups);
         return seatGroups;
     }
 

@@ -49,7 +49,7 @@ public final class TariffGeneratorStarter {
                 tariffConfiguration);
         final List<Tariff> tariffs = tariffGenerator.generateList(
                 tariffConfiguration.getNumberTariff());
-        tariffRepository.save(tariffs);
+        //tariffRepository.save(tariffs);
         return tariffs;
     }
 }

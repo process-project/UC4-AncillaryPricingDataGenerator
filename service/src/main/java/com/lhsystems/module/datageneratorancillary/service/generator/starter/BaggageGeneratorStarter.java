@@ -116,7 +116,7 @@ public final class BaggageGeneratorStarter {
                 new BaggageClassGenerator(baggageLimits, baggagePricings);
         final List<BaggageClass> baggageClasses = baggageClassGenerator.generateList(
                 baggageClassConfiguration.getNumberBaggageClass());
-        baggageClassRepository.save(baggageClasses);
+        //baggageClassRepository.save(baggageClasses);
         return baggageClasses;
     }
 
@@ -137,7 +137,7 @@ public final class BaggageGeneratorStarter {
                 baggageLimitsConfiguration);
         final List<BaggageLimits> baggageLimits = baggageLimitsGenerator.generateList(
                 baggageLimitsConfiguration.getNumberBaggageLimits());
-        baggageLimitsRepository.save(baggageLimits);
+        //baggageLimitsRepository.save(baggageLimits);
         return baggageLimits;
     }
 
@@ -154,7 +154,7 @@ public final class BaggageGeneratorStarter {
                 baggagePricingConfiguration);
         final List<BaggagePricing> baggagePricingModels = baggagePricingGenerator.generateList(
                 baggagePricingConfiguration.getNumberBaggagePricing());
-        baggagePricingRepository.save(baggagePricingModels);
+        //baggagePricingRepository.save(baggagePricingModels);
         return baggagePricingModels;
     }
 
@@ -171,7 +171,7 @@ public final class BaggageGeneratorStarter {
                 baggageSizeConfiguration);
         final List<BaggageSize> baggageSizes = baggageSizeGenerator.generateList(
                 baggageSizeConfiguration.getNumberBaggageSize());
-        baggageSizeRepository.save(baggageSizes);
+        //baggageSizeRepository.save(baggageSizes);
         return baggageSizes;
     }
 

@@ -4,6 +4,7 @@ import com.lhsystems.module.datageneratorancillary.service.data.Customer;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  * Spring Data repository used for saving customer entities.
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-@Repository
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+@Service
+public class CustomerRepository  {
 }
 

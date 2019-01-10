@@ -3,6 +3,7 @@ package com.lhsystems.module.datageneratorancillary.service.repository;
 import com.lhsystems.module.datageneratorancillary.service.data.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  * Spring Data repository used for save product entities.
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @version $Revision: 1.10 $
  */
 
-@Repository
-public interface ProductRepository extends CrudRepository<Product, Long> {
+@Service
+public class ProductRepository {
 }
 

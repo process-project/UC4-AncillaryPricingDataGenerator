@@ -1,14 +1,14 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
+import com.lhsystems.module.datageneratorancillary.service.data.FlightCassandra;
+import com.lhsystems.module.datageneratorancillary.service.cassandra.FlightCassandraRepository;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.FlightConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
-import com.lhsystems.module.datageneratorancillary.service.repository.FlightRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,17 +22,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 public final class FlightGeneratorStarter {
 
     /** The repository used for saving flights. */
-    private final FlightRepository flightRepository;
+    //private final FlightRepository flightRepository;
+    private final FlightCassandraRepository flightCassandraRepository;
 
     /**
      * Instantiates a new flight generator starer with injected flight repository.
      *
      * @param flightRepositoryParam
      *              repository responsible for crud operations on flight entities
+     * @param flightCassandraRepositoryParam
+     *          repository responsible for crud operations on flight entities
      */
     @Autowired
-    public FlightGeneratorStarter(final FlightRepository flightRepositoryParam) {
-        flightRepository = flightRepositoryParam;
+    public FlightGeneratorStarter(final FlightCassandraRepository flightCassandraRepositoryParam) {
+       // flightRepository = flightRepositoryParam;
+        flightCassandraRepository = flightCassandraRepositoryParam;
     }
 
     /**
@@ -56,8 +60,12 @@ public final class FlightGeneratorStarter {
                 flightConfiguration);
         final List<Flight> flights = flightGenerator.generateList(
                 flightConfiguration.getNumberFlight());
-        return flights.stream()
+        flights.stream()
+                .map(FlightCassandra::new)
+                .forEach(flightCassandraRepository::save);
+        return flights;
+        /*return flights.stream()
                 .map(flightRepository::save)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())*/
     }
 }

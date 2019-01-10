@@ -7,9 +7,7 @@ import com.lhsystems.module.datageneratorancillary.service.repository.AirportRep
 import com.lhsystems.module.datageneratorancillary.service.repository.RouteRepository;
 import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,6 +33,9 @@ public final class RoutesGeneratorStarter {
 
     /** Generates a stream of pseudo random numbers used for generating flights.*/
     private final ExtendedRandom random = new ExtendedRandom();
+
+    private final List<Airport> airports = new ArrayList<>();
+    private final List<Route> routes = new ArrayList<>();
 
     /**
      * Instantiates a new route generator starer with injected repositories.
@@ -108,12 +109,14 @@ public final class RoutesGeneratorStarter {
      *      route, new or from database
      */
     private Route getOrCreateRouteIfNotExists(final Airport origin, final Airport destination){
-        Route currentRoute = routeRepository.isRouteExists(origin, destination);
-        if(Objects.isNull(currentRoute)) {
+        Optional<Route> currentRoute = routes.stream().filter(route -> route.getDestinationAirport().equals(destination)
+                && route.getOriginAirport().equals(origin)).findAny();
+        if(!currentRoute.isPresent()) {
             final Route route = new Route(origin, destination);
-            currentRoute = routeRepository.save(route);
+            routes.add(route);
+            return route;
         }
-        return currentRoute;
+        return currentRoute.get();
     }
 
     /**
@@ -123,8 +126,8 @@ public final class RoutesGeneratorStarter {
      *        airport to check
      */
     private void saveAirportIfNotExits(final Airport airport) {
-        if (!airportRepository.exists(airport.getIata())) {
-            airportRepository.save(airport);
+        if (airports.stream().noneMatch(a -> a.getIata().equals(airport.getIata()))) {
+            airports.add(airport);
         }
     }
 }

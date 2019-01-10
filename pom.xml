@@ -295,14 +295,16 @@
                 <artifactId>sqlite-jdbc</artifactId>
                 <version>3.23.1</version>
             </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.0.36.Final</version>
+            </dependency>
+
 
 
             <!-- Spring Data JPA -->
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-jpa</artifactId>
-                <version>${version.spring.datajpa}</version>
-            </dependency>
+
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons</artifactId>

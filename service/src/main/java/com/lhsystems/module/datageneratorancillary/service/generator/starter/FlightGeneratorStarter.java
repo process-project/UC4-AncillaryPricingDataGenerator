@@ -1,7 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
-import com.lhsystems.module.datageneratorancillary.service.data.FlightCassandra;
-import com.lhsystems.module.datageneratorancillary.service.cassandra.FlightCassandraRepository;
+import com.lhsystems.module.datageneratorancillary.service.cassandra.data.FlightCassandra;
+import com.lhsystems.module.datageneratorancillary.service.cassandra.repository.FlightCassandraRepository;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;

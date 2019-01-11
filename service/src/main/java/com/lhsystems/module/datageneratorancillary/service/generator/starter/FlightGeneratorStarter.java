@@ -1,5 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
+import com.lhsystems.module.datageneratorancillary.service.cassandra.data.FlightCassandra;
+import com.lhsystems.module.datageneratorancillary.service.cassandra.repository.FlightCassandraRepository;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
@@ -23,16 +25,19 @@ public final class FlightGeneratorStarter {
 
     /** The repository used for saving flights. */
     private final FlightRepository flightRepository;
+    private final FlightCassandraRepository flightCassandraRepository;
 
     /**
      * Instantiates a new flight generator starer with injected flight repository.
      *
      * @param flightRepositoryParam
      *              repository responsible for crud operations on flight entities
+     * @param flightCassandraRepository
      */
     @Autowired
-    public FlightGeneratorStarter(final FlightRepository flightRepositoryParam) {
+    public FlightGeneratorStarter(final FlightRepository flightRepositoryParam, FlightCassandraRepository flightCassandraRepository) {
         flightRepository = flightRepositoryParam;
+        this.flightCassandraRepository = flightCassandraRepository;
     }
 
     /**
@@ -56,6 +61,10 @@ public final class FlightGeneratorStarter {
                 flightConfiguration);
         final List<Flight> flights = flightGenerator.generateList(
                 flightConfiguration.getNumberFlight());
+        flights.stream()
+                .map(FlightCassandra::new)
+                .forEach(flightCassandraRepository::save);
+
         return flights.stream()
                 .map(flightRepository::save)
                 .collect(Collectors.toList());

@@ -301,12 +301,28 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
-                <version>${version.spring.datajpa}</version>
+                <version>1.11.7.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons</artifactId>
-                <version>1.11.0.RELEASE</version>
+                <version>1.13.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-cassandra</artifactId>
+                <version>1.5.7.RELEASE</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-cql -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-cql</artifactId>
+                <version>1.5.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.cassandra</groupId>
+                <artifactId>cassandra-driver-core</artifactId>
+                <version>3.6.0</version>
             </dependency>
 
             <!-- Hibernate -->

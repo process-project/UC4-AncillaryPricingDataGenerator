@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+      <groupId>com.lhsystems.module</groupId>
+      <artifactId>data-generator-ancillary</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>data-generator-package</artifactId>
+
+    <name>DataGen - Package</name>
+
+    <properties>
+
+        <docker.skip>false</docker.skip>
+        <!--docker.registry.url>dockerhub.lsy.fra.dlh.de</docker.registry.url-->
+        <docker.image.namespace>${project.groupId}</docker.image.namespace>
+        <!--docker.image.name>${docker.registry.url}/${docker.image.namespace}/${project.artifactId}</docker.image.name-->
+		<docker.image.name>${docker.image.namespace}/${project.artifactId}</docker.image.name>
+        <docker.base.image>openjdk:8-jre</docker.base.image>
+        <docker.maven.plugin.version>0.27.2</docker.maven.plugin.version>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+        <replacer.version>1.5.3</replacer.version>
+    </properties>
+
+    <dependencies>
+		<dependency>	
+			<groupId>com.lhsystems.module</groupId>
+			<artifactId>service</artifactId>
+		</dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/banner.txt</include>
+                    <include>**/application.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/application.properties</exclude>
+                    <exclude>**/banner.txt</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.16</version>
+                <executions>
+                    <execution>
+                        <id>licenses</id>
+                        <goals>
+                            <goal>add-third-party</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>${project.artifactId}</alias>
+                            <name>${docker.image.name}</name>
+                            <build>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                    <tag>latest</tag>
+                                </tags>
+                                <from>${docker.base.image}</from>
+                                <maintainer>lhsystems</maintainer>
+                                <!--dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir-->
+                                <entryPoint>java -Xmx1024m $JVM_ARGS -jar /app/${project.build.finalName}.jar</entryPoint>
+                                <!--ports>
+                                    <port>8080</port>
+                                </ports-->
+                                <assembly>
+                                    <basedir>/app</basedir>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

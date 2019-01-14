@@ -16,7 +16,10 @@ import org.springframework.data.cassandra.repository.config.EnableCassandraRepos
 @EnableCassandraRepositories("com.lhsystems.module.datageneratorancillary.service.cassandra.repository")
 public class CassandraConfig extends AbstractCassandraConfiguration {
 
-    @Override
+    private static final String CASSANDRA_HOST = "cassandra.host";
+	private static final String CASSANDRA_PORT = "cassandra.port";
+
+	@Override
     protected String getKeyspaceName() {
         return "bookings";
     }
@@ -24,8 +27,8 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     @Bean
     public CassandraClusterFactoryBean cluster() {
         CassandraClusterFactoryBean cluster = new CassandraClusterFactoryBean();
-        cluster.setContactPoints("127.0.0.1");
-        cluster.setPort(9042);
+        cluster.setContactPoints( System.getProperty(CASSANDRA_HOST,"cassandra") );
+        cluster.setPort(Integer.parseInt(System.getProperty(CASSANDRA_PORT,"9042")));
         return cluster;
     }
 

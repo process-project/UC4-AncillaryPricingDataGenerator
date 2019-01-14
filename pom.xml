@@ -33,6 +33,7 @@
 
     <modules>
         <module>service</module>
+		<module>package</module>
     </modules>
 
     <build>
@@ -125,6 +126,12 @@
     <dependencyManagement>
         <dependencies>
 
+			<dependency>
+				<groupId>com.lhsystems.module</groupId>
+                <artifactId>service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+		
             <!-- jackson dependencies -->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>

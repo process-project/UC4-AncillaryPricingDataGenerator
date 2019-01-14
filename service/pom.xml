@@ -9,6 +9,19 @@
     </parent>
     <artifactId>service</artifactId>
 
+	<properties>
+
+        <docker.skip>false</docker.skip>
+        <!--docker.registry.url>dockerhub.lsy.fra.dlh.de</docker.registry.url-->
+        <docker.image.namespace>${project.groupId}</docker.image.namespace>
+        <!--docker.image.name>${docker.registry.url}/${docker.image.namespace}/${project.artifactId}</docker.image.name-->
+		<docker.image.name>datagen</docker.image.name>
+        <docker.base.image>openjdk:8-jre</docker.base.image>
+        <docker.maven.plugin.version>0.27.2</docker.maven.plugin.version>
+
+    </properties>
+	
+	
     <build>
         <plugins>
             <plugin>
@@ -104,6 +117,52 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+			<plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>${project.artifactId}</alias>
+                            <name>${docker.image.name}</name>
+                            <build>
+                                <tags>
+                                    <!--tag>${project.version}</tag-->
+                                    <tag>latest</tag>
+                                </tags>
+                                <from>${docker.base.image}</from>
+                                <maintainer>lhsystems</maintainer>
+                                <!--dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir-->
+                                <entryPoint>java -Xmx1024m $JVM_ARGS -jar /app/generator-jar-with-dependencies.jar</entryPoint>
+                                <!--entryPoint>/bin/ls /app/</entryPoint-->
+								<!--ports>
+                                    <port>8080</port>
+                                </ports-->
+                                <assembly>
+                                    <basedir>/app</basedir>
+                                    <!--descriptorRef>artifact</descriptorRef-->
+									<!--descriptorRef>artifact-with-dependencies</descriptorRef-->
+									                            
+                                <mode>dir</mode>
+                                <inline>
+                                    <id>middleware-rest</id>
+                                    <files>
+                                        <file>
+                                            <source>${project.build.directory}/generator-jar-with-dependencies.jar</source>
+                                            <!--outputDirectory>/app</outputDirectory-->
+                                            <destName>generator-jar-with-dependencies.jar</destName>
+                                        </file>
+                                    </files>
+                                </inline>
+                          
+							
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
     </build>

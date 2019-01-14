@@ -1,6 +1,10 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import org.springframework.context.annotation.*;
+import com.datastax.driver.extras.codecs.jdk8.LocalDateCodec;
+import com.datastax.driver.extras.codecs.jdk8.LocalTimeCodec;
+import org.springframework.cassandra.config.ClusterBuilderConfigurer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
 import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.mapping.BasicCassandraMappingContext;
@@ -8,11 +12,6 @@ import org.springframework.data.cassandra.mapping.CassandraMappingContext;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 @Configuration
-@PropertySources({
-        @PropertySource("classpath:database.properties"),
-        @PropertySource(value = "file:${database-properties}", ignoreResourceNotFound=true)
-})
-@ComponentScan
 @EnableCassandraRepositories("com.lhsystems.module.datageneratorancillary.service.cassandra.repository")
 public class CassandraConfig extends AbstractCassandraConfiguration {
 
@@ -29,10 +28,17 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
         return cluster;
     }
 
-    @Bean
-    public CassandraMappingContext cassandraMapping() throws ClassNotFoundException {
-        return new BasicCassandraMappingContext();
+    @Override
+    protected ClusterBuilderConfigurer getClusterBuilderConfigurer() {
+        return clusterBuilder -> {
+            clusterBuilder.getConfiguration().getCodecRegistry()
+                    .register(LocalDateCodec.instance, LocalTimeCodec.instance);
+            return clusterBuilder;
+        };
     }
 
-
+    @Bean
+    public CassandraMappingContext cassandraMapping() {
+        return new BasicCassandraMappingContext();
+    }
 }

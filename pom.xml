@@ -25,6 +25,8 @@
         <version.spring>4.3.11.RELEASE</version.spring>
         <version.spring.datajpa>1.9.0.RELEASE</version.spring.datajpa>
         <version.hibernate>5.0.9.Final</version.hibernate>
+        <version.cassandra.datasax>3.5.0</version.cassandra.datasax>
+        <version.cassandra-unit-spring>3.5.0.0</version.cassandra-unit-spring>
 
         <!-- Empty or prefix of the repositories ended with dash -->
         <distributionManagement.repository />
@@ -296,6 +298,11 @@
                 <version>3.23.1</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.11</version>
+            </dependency>
 
             <!-- Spring Data JPA -->
             <dependency>
@@ -322,8 +329,14 @@
             <dependency>
                 <groupId>com.datastax.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
-                <version>3.6.0</version>
+                <version>${version.cassandra.datasax}</version>
             </dependency>
+            <dependency>
+                <groupId>com.datastax.cassandra</groupId>
+                <artifactId>cassandra-driver-extras</artifactId>
+                <version>${version.cassandra.datasax}</version>
+            </dependency>
+
 
             <!-- Hibernate -->
             <dependency>
@@ -348,11 +361,7 @@
                 <version>8.0.12</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.6.1</version>
-            </dependency>
+
 
             <!-- Test Dependencies -->
             <dependency>
@@ -385,6 +394,19 @@
                 <version>${version.spring}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.cassandraunit</groupId>
+                <artifactId>cassandra-unit-spring</artifactId>
+                <version>${version.cassandra-unit-spring}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.cassandraunit</groupId>
+                <artifactId>cassandra-unit-shaded</artifactId>
+                <version>${version.cassandra-unit-spring}</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

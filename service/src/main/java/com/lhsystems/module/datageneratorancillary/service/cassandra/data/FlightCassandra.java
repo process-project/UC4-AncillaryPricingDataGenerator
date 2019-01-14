@@ -12,7 +12,10 @@ import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.mapping.Table;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,24 +26,24 @@ import java.util.UUID;
  * @version $Revision: 1.10 $
  */
 
-@Table("flights")
+@Table("flight")
 public final class FlightCassandra {
 
     /** The tariffs bookable on this flight. */
     /*@Column
     private final List<Tariff> bookableTariffs;*/
 
-   /* *//**
+   /**
      * Date of departure in local time.
-     *//*
+     */
     @Column("DEPARTURE_DATE")
     private final LocalDate departureDate;
 
-    *//**
+    /**
      * Time of day of departure in local time.
-     *//*
+     */
     @Column("DEPARTURE_TIME")
-    private final LocalTime departureTime;*/
+    private final LocalTime departureTime;
 
     /**
      * Flight number of the flight.
@@ -78,37 +81,30 @@ public final class FlightCassandra {
      */
     public FlightCassandra() {
         flightNumber = 0;
-        //departureTime = null;
-        //departureDate = null;
+        departureTime = null;
+        departureDate = null;
         id = UUID.randomUUID();
     }
 
-    /**
-     * Constructor.
-     *
-     * @param paramFlightNumber
-     *            flight number of the flight
-     * @param departureDateTime
-     *            time of day and day of departure in local time
-     * @param paramRoute
-     *            the route of the flight
-     * @param tariffs
-     *            the tariffs that are bookable on this flight
-     */
-    public FlightCassandra(final Integer paramFlightNumber,
-                           final LocalDateTime departureDateTime,
-                           final Route paramRoute, final List<Tariff> tariffs) {
-        flightNumber = paramFlightNumber;
-        //departureTime = departureDateTime.toLocalTime();
-        //departureDate = LocalDate.fromMillisSinceEpoch(departureDateTime.toEpochSecond(ZoneOffset.UTC));
-        id = UUID.randomUUID();
+    public FlightCassandra(final LocalDateTime departureDateTimeParam,
+                           final int flightNumberParam,
+                           final UUID idParam,
+                           final String iataCodeDestinationAirportParam,
+                           final String iataCodeOriginAirportParam,
+                           final String marketParam) {
+        departureDate = departureDateTimeParam.toLocalDate();
+        departureTime = departureDateTimeParam.toLocalTime();
+        flightNumber = flightNumberParam;
+        iataCodeDestinationAirport = iataCodeDestinationAirportParam;
+        iataCodeOriginAirport = iataCodeOriginAirportParam;
+        market = marketParam;
+        id = idParam;
     }
-
 
     public FlightCassandra(final Flight flight) {
         flightNumber = flight.getFlightNumber();
-        //departureTime = flight.getDepartureTime();
-        //departureDate = LocalDate.fromMillisSinceEpoch(flight.getDepartureDate().toEpochDay());
+        departureDate = flight.getDepartureDate();
+        departureTime = flight.getDepartureTime();
         id = UUID.randomUUID();
         market = flight.getRoute().getMarket().name();
         iataCodeDestinationAirport = flight.getRoute().getDestinationAirport().getIata();
@@ -120,20 +116,20 @@ public final class FlightCassandra {
      * object.
      *
      * @return <code>departureDate</code> of the flight object
-     *//*
+     */
     public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    *//**
+    /**
      * Returns the <code>departureTime</code> (in local time) of the flight
      * object.
      *
      * @return <code>departureTime</code> of the flight object
-     *//*
+     */
     public LocalTime getDepartureTime() {
         return departureTime;
-    }*/
+    }
 
     /**
      * Returns the <code>flightNumber</code> of the flight object.

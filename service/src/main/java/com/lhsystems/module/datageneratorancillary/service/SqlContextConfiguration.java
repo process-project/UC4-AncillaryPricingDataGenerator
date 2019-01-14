@@ -2,13 +2,12 @@ package com.lhsystems.module.datageneratorancillary.service;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+
+import com.lhsystems.module.datageneratorancillary.service.DatabasePropertyName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -38,7 +37,7 @@ import static com.lhsystems.module.datageneratorancillary.service.DatabaseProper
 })
 @ComponentScan
 @EnableJpaRepositories("com.lhsystems.module.datageneratorancillary.service.repository")
-public class AppConfiguration {
+public class SqlContextConfiguration {
 
     /**
      * Environment used for getting database.properties.
@@ -52,7 +51,7 @@ public class AppConfiguration {
      *       injected spring environment to get database properties
      */
     @Autowired
-    public AppConfiguration(final Environment environmentParam) {
+    public SqlContextConfiguration(final Environment environmentParam) {
         this.environment = environmentParam;
     }
 

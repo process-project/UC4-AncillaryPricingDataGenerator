@@ -1,21 +1,15 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.rules.SpringClassRule;
-import org.springframework.test.context.junit4.rules.SpringMethodRule;
-
-import static org.junit.Assert.assertEquals;
-
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import junitx.framework.ListAssert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the class SSIMFileReaderTest.
@@ -25,16 +19,7 @@ import junitx.framework.ListAssert;
  */
 
 @RunWith(value = JUnitParamsRunner.class)
-@ContextConfiguration(classes = AppConfiguration.class)
 public class SSIMFileReaderTest {
-
-    /** Object used for ensure that spring will run without using SpringRunner */
-    @ClassRule
-    public static final SpringClassRule SCR = new SpringClassRule();
-
-    /** Object used for ensure that spring will run without using SpringRunner */
-    @Rule
-    public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     /** Ssim file reader class to test. */
     private final SSIMFileReader ssimFileReader = new SSIMFileReader();

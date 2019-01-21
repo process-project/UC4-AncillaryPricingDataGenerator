@@ -1,21 +1,13 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
-import com.lhsystems.module.datageneratorancillary.service.data.Flight;
-import com.lhsystems.module.datageneratorancillary.service.data.Market;
-import com.lhsystems.module.datageneratorancillary.service.data.Product;
-import com.lhsystems.module.datageneratorancillary.service.data.Route;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.Service;
-import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
+import com.lhsystems.module.datageneratorancillary.service.data.*;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.serializer.CoreBookingSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Starts generating all entities in the proper order.
@@ -47,32 +39,35 @@ public final class GeneratorStarter {
     /** Starts generating tariff entities. */
     private final TariffGeneratorStarter tariffGeneratorStarter;
 
+
+    private final CoreBookingSerializer coreBookingSerializer;
+
     /**
      * Instantiates a new Generator starter.
-     *
-     * @param productGeneratorStarterParam
+     *  @param productGeneratorStarterParam
      *            the product generator starter
      * @param baggageGeneratorStarterParam
      *            the baggage generator starter
      * @param seatingGeneratorStarterParam
-     *            the seating generator starter
+ *            the seating generator starter
      * @param tariffGeneratorStarterParam
-     *            the tariff generator starter
+*            the tariff generator starter
      * @param flightGeneratorStarterParam
-     *            the flight generator starter
+*            the flight generator starter
      * @param routesGeneratorStarterParam
-     *            the routes generator starter
+*            the routes generator starter
      * @param bookingGeneratorStarterParam
-     *            the booking generator starter
+     * @param coreBookingSerializer
      */
     @Autowired
     public GeneratorStarter(final ProductGeneratorStarter productGeneratorStarterParam,
-            final BaggageGeneratorStarter baggageGeneratorStarterParam,
-            final SeatingGeneratorStarter seatingGeneratorStarterParam,
-            final TariffGeneratorStarter tariffGeneratorStarterParam,
-            final FlightGeneratorStarter flightGeneratorStarterParam,
-            final RoutesGeneratorStarter routesGeneratorStarterParam,
-            final BookingGeneratorStarter bookingGeneratorStarterParam) {
+                            final BaggageGeneratorStarter baggageGeneratorStarterParam,
+                            final SeatingGeneratorStarter seatingGeneratorStarterParam,
+                            final TariffGeneratorStarter tariffGeneratorStarterParam,
+                            final FlightGeneratorStarter flightGeneratorStarterParam,
+                            final RoutesGeneratorStarter routesGeneratorStarterParam,
+                            final BookingGeneratorStarter bookingGeneratorStarterParam,
+                            final CoreBookingSerializer coreBookingSerializerParam) {
         productGeneratorStarter = productGeneratorStarterParam;
         baggageGeneratorStarter = baggageGeneratorStarterParam;
         seatingGeneratorStarter = seatingGeneratorStarterParam;
@@ -80,6 +75,7 @@ public final class GeneratorStarter {
         flightGeneratorStarter = flightGeneratorStarterParam;
         routesGeneratorStarter = routesGeneratorStarterParam;
         bookingGeneratorStarter = bookingGeneratorStarterParam;
+        this.coreBookingSerializer = coreBookingSerializerParam;
     }
 
     /**
@@ -104,12 +100,8 @@ public final class GeneratorStarter {
         final List<SeatGroup> seatGroups = seatingGeneratorStarter.generateSeatGroupEntities(
                 generatorConfiguration.getSeatGroupConfiguration());
         final List<Service> services = new ArrayList<>();
-        for (final BaggageClass baggageClass : baggageClasses) {
-            services.add(baggageClass);
-        }
-        for (final SeatGroup seatGroup : seatGroups) {
-            services.add(seatGroup);
-        }
+        services.addAll(baggageClasses);
+        services.addAll(seatGroups);
         final List<Product> products = productGeneratorStarter.generateProductEntities(
                 compartments,
                 services,
@@ -127,11 +119,12 @@ public final class GeneratorStarter {
                 generatorConfiguration.getFlightConfiguration(),
                 tariffs,
                 routes);
-        bookingGeneratorStarter.generateBookingEntities(
+        final List<Booking> bookings = bookingGeneratorStarter.generateBookingEntities(
                 flights,
                 generatorConfiguration.getCustomerConfiguration(),
                 generatorConfiguration.getCoreBookingConfiguration(),
                 generatorConfiguration.getServiceOrderConfiguration());
+        coreBookingSerializer.generateFlattenData(bookings);
 
     }
 

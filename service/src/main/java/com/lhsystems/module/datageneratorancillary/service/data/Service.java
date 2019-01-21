@@ -1,5 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -110,5 +112,8 @@ public abstract class Service {
                 e -> e.getClass().equals(serviceClass)).collect(
                         Collectors.toList());
     }
+
+    public abstract ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(
+            final ServiceSerializedEntity.ServiceSerializedEntityBuilder serviceSerializedEntityBuilder);
 }
 

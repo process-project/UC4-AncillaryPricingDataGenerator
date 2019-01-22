@@ -11,13 +11,13 @@ flightConfiguration:
 baggageClassConfiguration:
     numberBaggageClass: 4
 baggageLimitsConfiguration:
-    maximumCount: 5
+    maximumCount: 4
     maximumWeight: 40
     minimumCount: 1
     minimumWeight: 15
     numberBaggageLimits: 4
 baggagePricingConfiguration:
-    maximumAdditionalPrice: 125
+    maximumAdditionalPrice: 105
     maximumFirstPrice: 30
     maximumSecondPrice: 50
     minimumAdditionalPrice: 15
@@ -39,13 +39,32 @@ seatGroupConfiguration:
     minimumSeatPrice: 8
     numberSeatGroup: 5
 
+serviceConfiguration:
+    donationMean: 20
+    donationName: 'donation'
+    donationStandardDeviation: 10
+    entertainmentOnBoardPriceMean: 10
+    flowersCapacity: 60
+    flowersFixedPrice: 20
+    flowersName: 'flowers'
+    hotelMeanPrice: 40
+    hotelName: 'hotel'
+    parkingCapacity: 30
+    parkingFixedPrice: 40
+    wiFiPriceIntercontinental: 14
+    wiFiPriceShortRange: 4
+
 #product configuration
 productConfiguration:
     maximumNumberBaggageClasses: 4
     minimumNumberBaggageClasses: 1
     maximumNumberSeatGroups: 4
     minimumNumberSeatGroups: 1
+    maximumNumberAddedServices: 3
+    minimumNumberAddedServices: 1
+    maxNumberIncludedBags: 2
     numberProduct: 3
+
 
 #tariff configuration
 tariffConfiguration:
@@ -70,5 +89,6 @@ coreBookingConfiguration:
     minimumNumberPassengers: 1
     rangeOfDaysBeforeDeparture: 363
 serviceOrderConfiguration:
-    maximumNumberBags: 3
+    maximumNumberBags: 2
     minimumNumberBags: 0
+    serviceProbability: 0.1

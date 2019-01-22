@@ -15,14 +15,14 @@ import java.util.List;
  */
 public final class TariffGenerator extends DataGenerator {
 
+    /** The markets to be used for tariff generation. */
+    private final List<Market> markets = Market.getAllMarkets();
+
     /** The maximal price of a flight. */
     private final double maximumPrice;
 
     /** The minimal price of a flight. */
     private final double minimumPrice;
-
-    /** The markets to be used for tariff generation. */
-    private final List<Market> markets = Market.getAllMarkets();
 
     /** The products to be used for tariff generation. */
     private final List<Product> products;

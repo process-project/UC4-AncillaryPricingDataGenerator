@@ -15,6 +15,12 @@ public final class ServiceOrderConfiguration {
     private int minimumNumberBags;
 
     /**
+     * The probability of any additional service to be included in a service
+     * order.
+     */
+    private double serviceProbability;
+
+    /**
      * Instantiates a new service order configuration.
      */
     public ServiceOrderConfiguration() {
@@ -30,6 +36,24 @@ public final class ServiceOrderConfiguration {
     }
 
     /**
+     * Gets the minimum number bags.
+     *
+     * @return the minimum number bags
+     */
+    public int getMinimumNumberBags() {
+        return minimumNumberBags;
+    }
+
+    /**
+     * Gets the service probability.
+     *
+     * @return the service probability
+     */
+    public double getServiceProbability() {
+        return serviceProbability;
+    }
+
+    /**
      * Sets the maximum number bags.
      *
      * @param paramMaximumNumberBags
@@ -40,15 +64,6 @@ public final class ServiceOrderConfiguration {
     }
 
     /**
-     * Gets the minimum number bags.
-     *
-     * @return the minimum number bags
-     */
-    public int getMinimumNumberBags() {
-        return minimumNumberBags;
-    }
-
-    /**
      * Sets the minimum number bags.
      *
      * @param paramMinimumNumberBags
@@ -56,6 +71,16 @@ public final class ServiceOrderConfiguration {
      */
     public void setMinimumNumberBags(final int paramMinimumNumberBags) {
         minimumNumberBags = paramMinimumNumberBags;
+    }
+
+    /**
+     * Sets the service probability.
+     *
+     * @param paramServiceProbability
+     *            the new service probability
+     */
+    public void setServiceProbability(final double paramServiceProbability) {
+        this.serviceProbability = paramServiceProbability;
     }
 
 }

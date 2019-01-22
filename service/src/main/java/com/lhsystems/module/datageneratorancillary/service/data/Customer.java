@@ -87,7 +87,7 @@ public final class Customer {
     public TravelType getTravelType() {
         return travelType;
     }
-
+ 
     /**
      * Gets the satisfaction.
      *

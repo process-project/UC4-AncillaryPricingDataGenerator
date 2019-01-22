@@ -58,9 +58,33 @@ public final class ExtendedRandom extends Random {
         final List<T> chosenElements = new ArrayList<>(
                 someList);
         while (chosenElements.size() > numberOfElements) {
-            chosenElements.remove(nextInt(chosenElements.size() - 1));
+            chosenElements.remove(nextInt(chosenElements.size()));
         }
         return chosenElements;
+    }
+
+    /**
+     * Choose multiple elements out of the keys of a given map randomly
+     * according to frequencies passed as map.
+     *
+     * @param <T>
+     *            the generic type of the list
+     * @param frequencyByElement
+     *            the frequency of each element. This is taken as basis for the
+     *            probabilities
+     * @param numberOfElements
+     *            the number of elements to be returned
+     * @return a list containing random elements of <code>someList</code>
+     */
+    public <T> List<T> getMultipleRandomElements(
+            final Map<T, Double> frequencyByElement,
+            final int numberOfElements) {
+        final HashMap<T,Double> chosenElements = new HashMap<>(
+                frequencyByElement);
+        while (chosenElements.size() > numberOfElements) {
+            chosenElements.remove(getOneRandomElement(chosenElements));
+        }
+        return new ArrayList<>(chosenElements.keySet());
     }
 
     /**
@@ -103,30 +127,6 @@ public final class ExtendedRandom extends Random {
     }
 
     /**
-     * Choose multiple elements out of the keys of a given map randomly
-     * according to frequencies passed as map.
-     *
-     * @param <T>
-     *            the generic type of the list
-     * @param frequencyByElement
-     *            the frequency of each element. This is taken as basis for the
-     *            probabilities
-     * @param numberOfElements
-     *            the number of elements to be returned
-     * @return a list containing random elements of <code>someList</code>
-     */
-    public <T> List<T> getMultipleRandomElements(
-            final Map<T, Double> frequencyByElement,
-            final int numberOfElements) {
-        final HashMap<T,Double> chosenElements = new HashMap<>(
-                frequencyByElement);
-        while (chosenElements.size() > numberOfElements) {
-            chosenElements.remove(getOneRandomElement(chosenElements));
-        }
-        return new ArrayList<>(chosenElements.keySet());
-    }
-
-    /**
      * Choose a random number of elements of a given list randomly.
      *
      * @param <T>
@@ -149,7 +149,7 @@ public final class ExtendedRandom extends Random {
 
     /**
      * Choose a random number out of the keys of a given map randomly according
-     * to frequencies passed as map.
+     * to frequencies passed as map. The list contains <code>min</code> to <code>max</code> many elements
      *
      * @param <T>
      *            the generic type of the list
@@ -166,7 +166,7 @@ public final class ExtendedRandom extends Random {
             final Map<T, Double> frequencyByElement,
             final int min, final int max) {
         final int numberOfElements = Integer.min(
-                min + nextInt(max - min),
+                min + nextInt(max - min+1),
                 frequencyByElement.size());
         return getMultipleRandomElements(frequencyByElement, numberOfElements);
     }
@@ -188,7 +188,7 @@ public final class ExtendedRandom extends Random {
         return LocalDate.ofEpochDay(
                 minDate.toEpochDay()
                 + nextInt(
-                        (int) (maxDate.toEpochDay()
+                        (int) (1+maxDate.toEpochDay()
                                 - minDate.toEpochDay())));
 
     }
@@ -205,8 +205,9 @@ public final class ExtendedRandom extends Random {
     }
 
     /**
-     * Returns a random double between <code>min</code> and <code>max</code>
-     * rounded to a certain amount of places.
+     * Returns a random double drawn from a uniform distribution between
+     * <code>min</code> and <code>max</code> rounded to a certain amount of
+     * places.
      *
      * @param min
      *            The minimal value of a double
@@ -221,8 +222,23 @@ public final class ExtendedRandom extends Random {
      */
     public double getRandomRoundedDouble(final double min, final double max,
             final int decimalPoints) {
+        final double roundedMin = Precision.round(
+                min,
+                decimalPoints,
+                BigDecimal.ROUND_UP);
+        final double roundedMax = Precision.round(
+                max,
+                decimalPoints,
+                BigDecimal.ROUND_DOWN);
+        if (roundedMax < roundedMin) {
+            throw new RuntimeException(
+                    "There is no number with the desired number of decimal points between "
+                            + min
+                            + " and "
+                            + max);
+        }
         return Precision.round(
-                min + nextDouble() * (max - min),
+                roundedMin + nextDouble() * (roundedMax - roundedMin),
                 decimalPoints);
     }
 

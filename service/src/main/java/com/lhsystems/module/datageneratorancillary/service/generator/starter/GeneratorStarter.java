@@ -44,6 +44,12 @@ public final class GeneratorStarter {
     /** Starts generating seat entities. */
     private final SeatingGeneratorStarter seatingGeneratorStarter;
 
+    /**
+     * Starts generating additional service entities besides seatGroups and
+     * baggage.
+     */
+    private final ServiceGeneratorStarter serviceGeneratorStarter;
+
     /** Starts generating tariff entities. */
     private final TariffGeneratorStarter tariffGeneratorStarter;
 
@@ -56,6 +62,8 @@ public final class GeneratorStarter {
      *            the baggage generator starter
      * @param seatingGeneratorStarterParam
      *            the seating generator starter
+     * @param serviceGeneratorStarterParam
+     *            the service generator starter
      * @param tariffGeneratorStarterParam
      *            the tariff generator starter
      * @param flightGeneratorStarterParam
@@ -69,6 +77,7 @@ public final class GeneratorStarter {
     public GeneratorStarter(final ProductGeneratorStarter productGeneratorStarterParam,
             final BaggageGeneratorStarter baggageGeneratorStarterParam,
             final SeatingGeneratorStarter seatingGeneratorStarterParam,
+            final ServiceGeneratorStarter serviceGeneratorStarterParam,
             final TariffGeneratorStarter tariffGeneratorStarterParam,
             final FlightGeneratorStarter flightGeneratorStarterParam,
             final RoutesGeneratorStarter routesGeneratorStarterParam,
@@ -76,6 +85,7 @@ public final class GeneratorStarter {
         productGeneratorStarter = productGeneratorStarterParam;
         baggageGeneratorStarter = baggageGeneratorStarterParam;
         seatingGeneratorStarter = seatingGeneratorStarterParam;
+        serviceGeneratorStarter = serviceGeneratorStarterParam;
         tariffGeneratorStarter = tariffGeneratorStarterParam;
         flightGeneratorStarter = flightGeneratorStarterParam;
         routesGeneratorStarter = routesGeneratorStarterParam;
@@ -103,7 +113,8 @@ public final class GeneratorStarter {
                 generatorConfiguration.getBaggageSizeConfiguration());
         final List<SeatGroup> seatGroups = seatingGeneratorStarter.generateSeatGroupEntities(
                 generatorConfiguration.getSeatGroupConfiguration());
-        final List<Service> services = new ArrayList<>();
+        final List<Service> services = serviceGeneratorStarter.generateServiceEntities(
+                generatorConfiguration.getServiceConfiguration());
         for (final BaggageClass baggageClass : baggageClasses) {
             services.add(baggageClass);
         }

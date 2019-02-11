@@ -1,0 +1,31 @@
+stages:
+- build_application
+- build_image
+
+cache:
+  paths:
+  - .m2/
+
+before_script:
+- mv /builds/PROCESS/uc4-AncillaryPricingDataGenerator/service/src/main/resources/compartments.yml.template /builds/PROCESS/uc4-AncillaryPricingDataGenerator/service/src/main/resources/compartments.yml
+- mv /builds/PROCESS/uc4-AncillaryPricingDataGenerator/service/src/main/resources/generator-options.yml.template /builds/PROCESS/uc4-AncillaryPricingDataGenerator/service/src/main/resources/generator-options.yml
+- mv /builds/PROCESS/uc4-AncillaryPricingDataGenerator/service/src/main/resources/database.properties.template /builds/PROCESS/uc4-AncillaryPricingDataGenerator/service/src/main/resources/database.properties
+
+build_application:
+  image: maven:3.3.9-jdk-8
+  stage: build_application
+  script:
+  - mvn clean package
+  artifacts:
+    paths:
+    - service/target/generator-jar-with-dependencies.jar
+
+build_image:
+  stage: build_image
+  image: docker:latest
+  dependencies: 
+    - build_application
+  services:
+    - docker:dind
+  script:
+    - docker build -t generator-image .

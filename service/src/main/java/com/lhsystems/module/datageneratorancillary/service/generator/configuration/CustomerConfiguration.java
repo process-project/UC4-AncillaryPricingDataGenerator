@@ -8,7 +8,7 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  */
 public final class CustomerConfiguration {
 
-    /** The probability, that a generated customer is a business traveler . */
+    /** The probability, that a generated customer is a business traveler. */
     private double businessProbability;
 
     /** The probability, that a generated customer is female. */
@@ -24,7 +24,7 @@ public final class CustomerConfiguration {
      * The mean age used for the distribution sampling the ages of the
      * customers. Due to how the lower and upper limit on the age distort the
      * distribution, this is in general not the mean age of the generated
-     * customers
+     * customers.
      */
     private double meanAge;
 
@@ -32,7 +32,7 @@ public final class CustomerConfiguration {
      * The mean satisfaction used for the distribution sampling the satisfaction
      * of the customers. Due to how the lower and upper limit on the
      * satisfaction distort the distribution, this is in general not the mean
-     * satisfaction of the generated customers
+     * satisfaction of the generated customers.
      */
     private double meanSatisfaction;
 
@@ -42,7 +42,7 @@ public final class CustomerConfiguration {
     /** The lower limit on the satisfaction of a customer. */
     private int minSatisfaction;
 
-    /** The number of customers. */
+    /** The number of customers to be generated. */
     private int numberCustomers;
 
     /**

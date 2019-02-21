@@ -122,7 +122,7 @@ public final class ExtendedRandomTest {
         for (int counter = 0; counter < SAMPLE_SIZE; counter++) {
             final int someInt = random.nextInt(min, max);
             assertTrue(someInt >= min);
-            assertTrue(someInt <= max);
+            assertTrue(someInt < max);
         }
     }
 

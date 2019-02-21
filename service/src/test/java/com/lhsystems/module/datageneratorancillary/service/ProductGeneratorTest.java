@@ -77,6 +77,7 @@ public final class ProductGeneratorTest {
         productConfiguration.setMinimumNumberBaggageClasses(1);
         productConfiguration.setMaximumNumberSeatGroups(4);
         productConfiguration.setMinimumNumberSeatGroups(1);
+        productConfiguration.setMaxNumberIncludedBags(4);
         final List<Compartment> compartments = new ArrayList<>();
         compartments.add(compartment);
         final ProductGenerator productGenerator = new ProductGenerator(

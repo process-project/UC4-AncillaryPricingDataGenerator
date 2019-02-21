@@ -88,7 +88,7 @@ public final class BookingGeneratorStarter {
                 customerConfiguration);
         final List<Customer> customers = customerGenerator.generateList(
                 customerConfiguration.getNumberCustomers());
-        //customerRepository.save(customers);
+        customerRepository.save(customers);
 
         final CoreBookingGenerator coreBookingGenerator = new CoreBookingGenerator(
                 flights,
@@ -100,7 +100,6 @@ public final class BookingGeneratorStarter {
                 customers.size());
         final List<ServiceOrder> allServiceOrders = new ArrayList<>();
         final List<Booking> bookings = new ArrayList<>();
-
         for (final CoreBooking coreBooking : coreBookings) {
             final List<ServiceOrder> serviceOrders = serviceOrderGenerator.generateOrders(
                     coreBooking);
@@ -111,9 +110,9 @@ public final class BookingGeneratorStarter {
                             coreBooking.getCustomer(),
                             serviceOrders));
         }
-      /*  coreBookingRepository.save(coreBookings);
         serviceOrderRepository.save(allServiceOrders);
-        bookingRepository.save(bookings);*/
+        coreBookingRepository.save(coreBookings);
+        bookingRepository.save(bookings);
         return bookings;
     }
 

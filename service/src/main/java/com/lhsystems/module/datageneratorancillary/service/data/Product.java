@@ -29,7 +29,7 @@ public final class Product {
 
     /** The services that are offered in this product. */
     @ManyToMany
-    @JoinTable(name = "PRODUCT_SERVICES")
+    @JoinTable(name = "PRODUCT_SERVICES", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "SERVICE_ID"))
     private final List<Service> serviceOffer;
 
     /** The compartment this product belongs to. */

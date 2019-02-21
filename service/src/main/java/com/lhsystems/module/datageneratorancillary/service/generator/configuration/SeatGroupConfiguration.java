@@ -12,13 +12,13 @@ public final class SeatGroupConfiguration {
     private int maximumNumberSeats;
 
     /** The maximum seat price. */
-    private int maximumSeatPrice;
+    private double maximumSeatPrice;
 
     /** The minimum number of seats in one seat group. */
     private int minimumNumberSeats;
 
     /** The minimum seat price. */
-    private int minimumSeatPrice;
+    private double minimumSeatPrice;
 
     /** The number seat group. */
     private int numberSeatGroup;
@@ -43,7 +43,7 @@ public final class SeatGroupConfiguration {
      *
      * @return the maximum seat price
      */
-    public int getMaximumSeatPrice() {
+    public double getMaximumSeatPrice() {
         return maximumSeatPrice;
     }
 
@@ -61,7 +61,7 @@ public final class SeatGroupConfiguration {
      *
      * @return the minimum seat price
      */
-    public int getMinimumSeatPrice() {
+    public double getMinimumSeatPrice() {
         return minimumSeatPrice;
     }
 
@@ -81,7 +81,7 @@ public final class SeatGroupConfiguration {
      *            the new maximum number of seats
      */
     public void setMaximumNumberSeats(final int paramMaximumNumberSeats) {
-        this.maximumNumberSeats = paramMaximumNumberSeats;
+        maximumNumberSeats = paramMaximumNumberSeats;
     }
 
     /**
@@ -90,8 +90,8 @@ public final class SeatGroupConfiguration {
      * @param paramMaximumSeatPrice
      *            the new maximum seat price
      */
-    public void setMaximumSeatPrice(final int paramMaximumSeatPrice) {
-        this.maximumSeatPrice = paramMaximumSeatPrice;
+    public void setMaximumSeatPrice(final double paramMaximumSeatPrice) {
+        maximumSeatPrice = paramMaximumSeatPrice;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class SeatGroupConfiguration {
      *            the new minimum number of seats
      */
     public void setMinimumNumberSeats(final int paramMinimumNumberSeats) {
-        this.minimumNumberSeats = paramMinimumNumberSeats;
+        minimumNumberSeats = paramMinimumNumberSeats;
     }
 
     /**
@@ -110,8 +110,8 @@ public final class SeatGroupConfiguration {
      * @param paramMinimumSeatPrice
      *            the new minimum seat price
      */
-    public void setMinimumSeatPrice(final int paramMinimumSeatPrice) {
-        this.minimumSeatPrice = paramMinimumSeatPrice;
+    public void setMinimumSeatPrice(final double paramMinimumSeatPrice) {
+        minimumSeatPrice = paramMinimumSeatPrice;
     }
 
     /**
@@ -121,7 +121,7 @@ public final class SeatGroupConfiguration {
      *            the new number seat group
      */
     public void setNumberSeatGroup(final int paramNumberSeatGroup) {
-        this.numberSeatGroup = paramNumberSeatGroup;
+        numberSeatGroup = paramNumberSeatGroup;
     }
 
 }

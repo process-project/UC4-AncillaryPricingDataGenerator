@@ -3,12 +3,10 @@ package com.lhsystems.module.datageneratorancillary.service.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,11 +20,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ServiceOrder")
 public final class ServiceOrder {
-
-    /** The booking this service order belongs to. */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOOKING_ID")
-    private Booking booking;
 
     /** The number of times this service is booked. */
     @Column(name = "COUNT")
@@ -51,6 +44,16 @@ public final class ServiceOrder {
     private final Service service;
 
     /**
+     * Instantiates a new ServiceOrder. Default constructor needed for entity.
+     */
+    public ServiceOrder() {
+        service = null;
+        count = 0;
+        price = 0;
+        daysBeforeDeparture = 0;
+    }
+
+    /**
      * Instantiates a new service order.
      *
      * @param paramService
@@ -62,21 +65,13 @@ public final class ServiceOrder {
      * @param paramDaysBeforeDeparture
      *            the days before departure
      */
-    public ServiceOrder(final Service paramService, final int paramCount,
+    public ServiceOrder(final Service paramService,
+            final int paramCount,
             final double paramPrice, final int paramDaysBeforeDeparture) {
         service = paramService;
         count = paramCount;
         price = paramPrice;
         daysBeforeDeparture = paramDaysBeforeDeparture;
-    }
-
-    /**
-     * Gets the booking.
-     *
-     * @return the booking
-     */
-    public Booking getBooking() {
-        return booking;
     }
 
     /**
@@ -124,13 +119,4 @@ public final class ServiceOrder {
         return service;
     }
 
-    /**
-     * Sets the booking.
-     *
-     * @param paramBooking
-     *            the new booking
-     */
-    public void setBooking(final Booking paramBooking) {
-        booking = paramBooking;
-    }
 }

@@ -5,7 +5,6 @@ import com.lhsystems.module.datageneratorancillary.service.serializer.data.Servi
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  * data structure representing a baggage class in an ancillary model.
@@ -14,7 +13,6 @@ import javax.persistence.Table;
  * @version $Revision: 1.10 $
  */
 @Entity
-@Table(name = "BaggageClass")
 public final class BaggageClass extends Service {
 
     /** The baggage limits. */
@@ -32,6 +30,7 @@ public final class BaggageClass extends Service {
      * class.
      */
     public BaggageClass() {
+        super();
         baggagePricing = null;
         baggageLimits = null;
     }
@@ -75,7 +74,7 @@ public final class BaggageClass extends Service {
     }
 
     @Override
-    public double getPrice(final int number) {
+    public double getPrice(final int number, final CoreBooking coreBooking) {
         int price = 0;
         if (number > 0) {
             price += baggagePricing.getFirstPrice();
@@ -85,7 +84,7 @@ public final class BaggageClass extends Service {
         }
         if (number >2) {
             price += baggagePricing.getAdditionalPrice() * (number - 2);
-    }
+        }
         return price;
     }
 

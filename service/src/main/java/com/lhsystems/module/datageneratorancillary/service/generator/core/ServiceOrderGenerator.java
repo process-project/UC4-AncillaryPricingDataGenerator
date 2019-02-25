@@ -34,6 +34,9 @@ public final class ServiceOrderGenerator {
      */
     private final ExtendedRandom random = new ExtendedRandom();
 
+    /** The probability of any service to be included in a service order. */
+    private final double serviceProbability;
+
     /**
      * Instantiates a new service order generator.
      *
@@ -44,6 +47,7 @@ public final class ServiceOrderGenerator {
             final ServiceOrderConfiguration serviceOrderConfiguration) {
         maximumNumberBags = serviceOrderConfiguration.getMaximumNumberBags();
         minimumNumberBags = serviceOrderConfiguration.getMinimumNumberBags();
+        serviceProbability = serviceOrderConfiguration.getServiceProbability();
     }
 
     /**
@@ -55,14 +59,10 @@ public final class ServiceOrderGenerator {
      */
     public List<ServiceOrder> generateOrders(final CoreBooking coreBooking) {
         final List<ServiceOrder> serviceOrders = generateBaggageOrders(
-                coreBooking.getTariff(),
-                coreBooking.getNumberPassengers(),
-                coreBooking.getDaysBeforeDeparture());
+                coreBooking);
         serviceOrders.addAll(
-                generateSeatOrders(
-                        coreBooking.getTariff(),
-                        coreBooking.getNumberPassengers(),
-                        coreBooking.getDaysBeforeDeparture()));
+                generateSeatOrders(coreBooking));
+        serviceOrders.addAll(generateAdditionalServiceOrders(coreBooking));
         return serviceOrders;
     }
 
@@ -136,24 +136,61 @@ public final class ServiceOrderGenerator {
     }
 
     /**
+     * Generate additional service orders besides seats and baggage.
+     *
+     * @param coreBooking
+     *            the core booking
+     * @return the list
+     */
+    private List<ServiceOrder> generateAdditionalServiceOrders(
+            final CoreBooking coreBooking) {
+        final List<Service> offeredServices = coreBooking.getTariff().getProduct().getServices();
+        final List<ServiceOrder> serviceOrders = new ArrayList<>();
+        final double shape;
+        final double scale;
+        if (coreBooking.getTariff().getMarket().compareTo(Market.DOMESTIC) <= 0) {
+            shape = 1.151;
+            scale = 1 / 0.046;
+        } else {
+            shape = 0.989;
+            scale = 1 / 0.014;
+        }
+        for (final Service service:offeredServices){
+            if (getRandom().nextDouble()<= serviceProbability){
+                final int daysBeforeDeparture = (int) getRandom().getCutOffGammaDistributedDouble(
+                        0,
+                        coreBooking.getDaysBeforeDeparture(),
+                        0,
+                        shape,
+                        scale);
+                serviceOrders.add(
+                        new ServiceOrder(
+                                service,
+                                1,
+                                service.getPrice(coreBooking),
+                                daysBeforeDeparture));
+            }
+        }
+
+        return serviceOrders;
+
+    }
+
+    /**
      * Generate baggage orders based on the number of passengers. The time of
      * buying the bags in days before departure is pulled from a modified gamma
      * distribution.
      *
-     * @param tariff
-     *            the tariff of the booking
-     * @param numberPassengers
-     *            the number of passengers
-     * @param coreBookingDaysBeforeDeparture
-     *            the time the the flight was booked in days before departure
+     * @param coreBooking
+     *            the core booking
      * @return the list
      */
-    private List<ServiceOrder> generateBaggageOrders(final Tariff tariff,
-            final int numberPassengers,
-            final int coreBookingDaysBeforeDeparture) {
+    private List<ServiceOrder> generateBaggageOrders(
+            final CoreBooking coreBooking) {
+        final Tariff tariff = coreBooking.getTariff();
         final HashMap<Service, Integer> chosenBags = chooseBags(
                 tariff,
-                numberPassengers);
+                coreBooking.getNumberPassengers());
         final List<ServiceOrder> serviceOrders = new ArrayList<>();
         final double shape;
         final double scale;
@@ -166,13 +203,16 @@ public final class ServiceOrderGenerator {
         }
         for (final Service baggageClass : chosenBags.keySet()) {
             serviceOrders.add(new ServiceOrder(baggageClass, chosenBags.get(baggageClass),
-                    baggageClass.getPrice(chosenBags.get(baggageClass))
+                    baggageClass.getPrice(
+                            chosenBags.get(baggageClass),
+                            coreBooking)
                     - baggageClass.getPrice(
                             tariff.getProduct().getNumberOfIncludedBagsByBaggageClass().get(
-                                    baggageClass)),
+                                    baggageClass),
+                            coreBooking),
                     (int) getRandom().getCutOffGammaDistributedDouble(
                             0,
-                            coreBookingDaysBeforeDeparture,
+                            coreBooking.getDaysBeforeDeparture(),
                             0,
                             shape,
                             scale)));
@@ -183,22 +223,18 @@ public final class ServiceOrderGenerator {
     /**
      * Selects seats for a booking.
      *
-     * @param tariff
-     *            the booked tariff
-     * @param numberPassengers
-     *            the number of passengers
-     * @param coreBookingDaysBeforeDeparture
-     *            the time of booking in days before departure
-     * @return the service selection
+     * @param coreBooking
+     *            the core booking
+     * @return a selection of seats
      */
     private List<ServiceOrder> generateSeatOrders(
-            final Tariff tariff, final int numberPassengers,
-            final int coreBookingDaysBeforeDeparture) {
+            final CoreBooking coreBooking) {
+        final Tariff tariff = coreBooking.getTariff();
         final HashMap<Service, Integer> chosenSeats = chooseSeats(
                 Service.getServicesByServiceClass(
                         tariff.getProduct().getServices(),
                         SeatGroup.class),
-                numberPassengers);
+                coreBooking.getNumberPassengers());
         final double shape;
         final double scale;
         if (tariff.getMarket().compareTo(Market.DOMESTIC) <= 0) {
@@ -210,14 +246,14 @@ public final class ServiceOrderGenerator {
         }
         final int daysBeforeDeparture = (int) getRandom().getCutOffGammaDistributedDouble(
                 0,
-                coreBookingDaysBeforeDeparture,
+                coreBooking.getDaysBeforeDeparture(),
                 0,
                 shape,
                 scale);
         final List<ServiceOrder> orders = new ArrayList<>();
         for (final Service seatGroup: chosenSeats.keySet()){
             orders.add(new ServiceOrder(seatGroup,chosenSeats.get(seatGroup),
-                    seatGroup.getPrice(chosenSeats.get(seatGroup)),
+                    seatGroup.getPrice(chosenSeats.get(seatGroup), coreBooking),
                     daysBeforeDeparture));
         }
         return orders;

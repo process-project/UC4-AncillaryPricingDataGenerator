@@ -35,6 +35,8 @@ public final class GeneratorConfiguration {
     /** Configuration for a seat group generator. */
     private SeatGroupConfiguration seatGroupConfiguration;
 
+    /** Configuration for a service generator. */
+    private ServiceConfiguration serviceConfiguration;
 
     /** Configuration for a service order generator. */
     private ServiceOrderConfiguration serviceOrderConfiguration;
@@ -128,6 +130,16 @@ public final class GeneratorConfiguration {
 
 
     /**
+     * Gets the service generator configuration.
+     *
+     * @return the service configuration
+     */
+    public ServiceConfiguration getServiceConfiguration() {
+        return serviceConfiguration;
+    }
+
+
+    /**
 
      * Gets the service order configuration.
      *
@@ -210,7 +222,7 @@ public final class GeneratorConfiguration {
      */
     public void setCoreBookingConfiguration(
             final CoreBookingConfiguration paramCoreBookingConfiguration) {
-        this.coreBookingConfiguration = paramCoreBookingConfiguration;
+        coreBookingConfiguration = paramCoreBookingConfiguration;
     }
 
     /**
@@ -247,6 +259,18 @@ public final class GeneratorConfiguration {
     }
 
     /**
+     * Sets the service configuration.
+     *
+     * @param paramServiceConfiguration
+     *            the new service configuration
+     */
+    public void setServiceConfiguration(
+            final ServiceConfiguration paramServiceConfiguration) {
+        serviceConfiguration = paramServiceConfiguration;
+    }
+
+
+    /**
 
      * Sets the service order configuration.
      *
@@ -255,7 +279,7 @@ public final class GeneratorConfiguration {
      */
     public void setServiceOrderConfiguration(
             final ServiceOrderConfiguration paramServiceOrderConfiguration) {
-        this.serviceOrderConfiguration = paramServiceOrderConfiguration;
+        serviceOrderConfiguration = paramServiceOrderConfiguration;
     }
 
 

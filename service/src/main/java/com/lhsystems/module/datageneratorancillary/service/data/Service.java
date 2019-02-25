@@ -15,7 +15,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- * Abstract class modelling all kinds of paid services and ancillaries.
+ * Abstract class modeling all kinds of paid services and ancillaries.
  *
  * @author REJ
  * @version $Revision: 1.10 $
@@ -83,17 +83,21 @@ public abstract class Service {
      *
      * @param number
      *            the number of times this service is booked
+     * @param coreBooking
+     *            the core booking for which the price is extracted
      * @return the price
      */
-    public abstract double getPrice(int number);
+    public abstract double getPrice(int number, CoreBooking coreBooking);
 
     /**
      * Gets the price of buying this service once.
      *
+     * @param coreBooking
+     *            the core booking for which the price is extracted
      * @return the price of buying this service once.
      */
-    public final double getPrice() {
-        return getPrice(1);
+    public final double getPrice(final CoreBooking coreBooking) {
+        return getPrice(1, coreBooking);
     }
 
     /**

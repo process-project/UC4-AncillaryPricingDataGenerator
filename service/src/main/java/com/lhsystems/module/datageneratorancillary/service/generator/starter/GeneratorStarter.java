@@ -36,46 +36,59 @@ public final class GeneratorStarter {
     /** Starts generating seat entities. */
     private final SeatingGeneratorStarter seatingGeneratorStarter;
 
+    /**
+     * Starts generating additional service entities besides seatGroups and
+     * baggage.
+     */
+    private final ServiceGeneratorStarter serviceGeneratorStarter;
+
     /** Starts generating tariff entities. */
     private final TariffGeneratorStarter tariffGeneratorStarter;
 
-
+    /** Starts serializing core booking entities. */
     private final CoreBookingSerializer coreBookingSerializer;
 
     /**
      * Instantiates a new Generator starter.
-     *  @param productGeneratorStarterParam
+     *
+     * @param productGeneratorStarterParam
      *            the product generator starter
      * @param baggageGeneratorStarterParam
      *            the baggage generator starter
      * @param seatingGeneratorStarterParam
- *            the seating generator starter
+     *            the seating generator starter
+     * @param serviceGeneratorStarterParam
+     *            the service generator starter
      * @param tariffGeneratorStarterParam
-*            the tariff generator starter
+     *            the tariff generator starter
      * @param flightGeneratorStarterParam
-*            the flight generator starter
+     *            the flight generator starter
      * @param routesGeneratorStarterParam
-*            the routes generator starter
+     *            the routes generator starter
      * @param bookingGeneratorStarterParam
+     *            the booking generator starter
      * @param coreBookingSerializer
+     *            the component responsible for serializing data
      */
     @Autowired
     public GeneratorStarter(final ProductGeneratorStarter productGeneratorStarterParam,
-                            final BaggageGeneratorStarter baggageGeneratorStarterParam,
-                            final SeatingGeneratorStarter seatingGeneratorStarterParam,
-                            final TariffGeneratorStarter tariffGeneratorStarterParam,
-                            final FlightGeneratorStarter flightGeneratorStarterParam,
-                            final RoutesGeneratorStarter routesGeneratorStarterParam,
-                            final BookingGeneratorStarter bookingGeneratorStarterParam,
-                            final CoreBookingSerializer coreBookingSerializerParam) {
+            final BaggageGeneratorStarter baggageGeneratorStarterParam,
+            final SeatingGeneratorStarter seatingGeneratorStarterParam,
+            final ServiceGeneratorStarter serviceGeneratorStarterParam,
+            final TariffGeneratorStarter tariffGeneratorStarterParam,
+            final FlightGeneratorStarter flightGeneratorStarterParam,
+            final RoutesGeneratorStarter routesGeneratorStarterParam,
+            final BookingGeneratorStarter bookingGeneratorStarterParam,
+            final CoreBookingSerializer coreBookingSerializerParam) {
         productGeneratorStarter = productGeneratorStarterParam;
         baggageGeneratorStarter = baggageGeneratorStarterParam;
         seatingGeneratorStarter = seatingGeneratorStarterParam;
+        serviceGeneratorStarter = serviceGeneratorStarterParam;
         tariffGeneratorStarter = tariffGeneratorStarterParam;
         flightGeneratorStarter = flightGeneratorStarterParam;
         routesGeneratorStarter = routesGeneratorStarterParam;
         bookingGeneratorStarter = bookingGeneratorStarterParam;
-        this.coreBookingSerializer = coreBookingSerializerParam;
+        coreBookingSerializer = coreBookingSerializerParam;
     }
 
     /**
@@ -99,6 +112,14 @@ public final class GeneratorStarter {
                 generatorConfiguration.getBaggageSizeConfiguration());
         final List<SeatGroup> seatGroups = seatingGeneratorStarter.generateSeatGroupEntities(
                 generatorConfiguration.getSeatGroupConfiguration());
+        final List<Service> services = serviceGeneratorStarter.generateServiceEntities(
+                generatorConfiguration.getServiceConfiguration());
+        for (final BaggageClass baggageClass : baggageClasses) {
+            services.add(baggageClass);
+        }
+        for (final SeatGroup seatGroup : seatGroups) {
+            services.add(seatGroup);
+        }
         final List<Service> services = new ArrayList<>();
         services.addAll(baggageClasses);
         services.addAll(seatGroups);

@@ -32,19 +32,19 @@ public final class Booking {
     @JoinColumn(name = "CORE_BOOKING")
     private final CoreBooking coreBooking;
 
-    /** The customer, who books. */
+    /** The customer who books. */
     @OneToOne
     @JoinColumn(name = "CUSTOMER")
     private final Customer customer;
 
 
     /** The service orders. */
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.MERGE)
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "BOOKING_ID")
     private final List<ServiceOrder> serviceOrders;
 
     /**
-     * Instantiates a new complete booking. DefaultConstructor needed for
-     * entity.
+     * Instantiates a new booking. Default constructor needed for entity.
      */
     public Booking() {
         customer = null;
@@ -53,7 +53,7 @@ public final class Booking {
     }
 
     /**
-     * Instantiates a new complete booking.
+     * Instantiates a new booking.
      *
      * @param paramCoreBooking
      *            the core booking field value

@@ -7,24 +7,29 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-
-    <!-- Parent pom containing infrastructure information (Nexus) -->
-    <parent>
-        <groupId>com.lufthansa.global</groupId>
-        <artifactId>library</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-
     <properties>
-        <failsOnError.plugin.codeCoverage>false</failsOnError.plugin.codeCoverage>
-        <skip.plugin.codeCoverage>false</skip.plugin.codeCoverage>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <version.springframework>4.3.11.RELEASE</version.springframework>
+        <version.springframework.boot>1.4.0.RELEASE</version.springframework.boot>
+        <version.springframework.datajpa>1.9.0.RELEASE</version.springframework.datajpa>
+
+        <version.hibernate>5.0.9.Final</version.hibernate>
 
         <!-- Plugin properties defining the version identifier -->
         <version.plugin.jacoco>0.8.1</version.plugin.jacoco>
         <version.plugin.surefire>2.22.0</version.plugin.surefire>
-        <version.spring>4.3.11.RELEASE</version.spring>
-        <version.spring.datajpa>1.9.0.RELEASE</version.spring.datajpa>
-        <version.hibernate>5.0.9.Final</version.hibernate>
+        <version.slf4j>1.7.5</version.slf4j>
+        <version.jackson>2.8.10</version.jackson>
+        <version.common.lang3>3.8</version.common.lang3>
+        <version.common.io>2.5</version.common.io>
+
+        <version.plugin.checkstyle>2.17</version.plugin.checkstyle>
+
+        <failsOnError.plugin.codeCoverage>false</failsOnError.plugin.codeCoverage>
+        <skip.plugin.codeCoverage>false</skip.plugin.codeCoverage>
 
         <!-- Empty or prefix of the repositories ended with dash -->
         <distributionManagement.repository />
@@ -54,17 +59,9 @@
                 </executions>
 
                 <configuration>
-                    <configLocation>product/od/checkstyle.xml</configLocation>
+                    <configLocation>/checkstyle.xml</configLocation>
                     <skip>${checkstyle.skip}</skip>
                 </configuration>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>com.lhsystems.global</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>1.0-1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>
@@ -120,132 +117,47 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/checkstyle*.xml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
     <dependencyManagement>
         <dependencies>
+            <!-- spring dependencies -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${version.springframework}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- jackson dependencies -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${version.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${version.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.jackson}</version>
+            </dependency>
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>1.5.0</version>
-            </dependency>
-            <!-- jackson dependencies -->
-
-            <!-- Module internal dependencies -->
-
-            <dependency>
-                <groupId>com.lhsystems.module.rule-engine-drools</groupId>
-                <artifactId>rule-engine-drools-api</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lhsystems.platform.platform</groupId>
-                <artifactId>rule-engine-drools-service</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <!-- Inter-module dependencies -->
-
-
-            <!-- Platform dependencies -->
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-boot</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-common</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-exception</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-logging</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-metrics</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-messaging</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-messaging-rabbit</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-serialization</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-tracing</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lufthansa.platform.rule</groupId>
-                <artifactId>rule-engine</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lufthansa.platform.rule</groupId>
-                <artifactId>rule-engine-common</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lufthansa.platform.rule</groupId>
-                <artifactId>rule-engine-drools</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <!-- Added dependency for platform-test -->
-
-
-            <!-- Caching dependencies -->
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-caching</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-caching-hazelcast</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-datastore-common</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.lufthansa.platform.platform</groupId>
-                <artifactId>platform-datastore-mysql</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
@@ -254,36 +166,24 @@
                 <version>1.4</version>
             </dependency>
 
-            <!-- Drools dependencies -->
-            <dependency>
-                <groupId>org.drools</groupId>
-                <artifactId>knowledge-api</artifactId>
-                <version>6.5.0.Final</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.drools</groupId>
-                <artifactId>drools-core</artifactId>
-                <version>6.5.0.Final</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.drools</groupId>
-                <artifactId>drools-compiler</artifactId>
-                <version>6.5.0.Final</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.drools</groupId>
-                <artifactId>drools-templates</artifactId>
-                <version>6.5.0.Final</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.8</version>
+                <version>${version.common.lang3}</version>
             </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.common.io}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-math3</artifactId>
@@ -301,7 +201,7 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
-                <version>${version.spring.datajpa}</version>
+                <version>${version.springframework.datajpa}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>
@@ -335,7 +235,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>1.6.1</version>
+                <version>${version.slf4j}</version>
             </dependency>
 
             <!-- Test Dependencies -->
@@ -366,7 +266,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>${version.spring}</version>
+                <version>${version.springframework}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

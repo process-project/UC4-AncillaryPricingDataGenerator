@@ -8,11 +8,29 @@ package com.lhsystems.module.datageneratorancillary.service.generator.configurat
  */
 public final class ProductConfiguration {
 
+    /**
+     * The maximum number of additional services besides baggage classes and
+     * seat groups offered in a product.
+     */
+    private int maximumNumberAddedServices;
+
     /** The maximum number of baggage classes. */
     private int maximumNumberBaggageClasses;
 
     /** The maximum number of seat groups offered in a product. */
     private int maximumNumberSeatGroups;
+
+    /**
+     * The maximum number of total bags included in all baggageClasses of one
+     * product.
+     */
+    private int maxNumberIncludedBags;
+
+    /**
+     * The minimum number of additional services besides baggage classes and
+     * seat groups offered in a product.
+     */
+    private int minimumNumberAddedServices;
 
     /** The minimum number of baggage classes. */
     private int minimumNumberBaggageClasses;
@@ -27,6 +45,15 @@ public final class ProductConfiguration {
      * Instantiates a new product configuration.
      */
     public ProductConfiguration() {
+    }
+
+    /**
+     * Gets the maximum number of added services.
+     *
+     * @return the maximum number added services
+     */
+    public int getMaximumNumberAddedServices() {
+        return maximumNumberAddedServices;
     }
 
     /**
@@ -45,6 +72,19 @@ public final class ProductConfiguration {
      */
     public int getMaximumNumberSeatGroups() {
         return maximumNumberSeatGroups;
+    }
+
+    public int getMaxNumberIncludedBags() {
+        return maxNumberIncludedBags;
+    }
+
+    /**
+     * Gets the minimum number of added services.
+     *
+     * @return the minimum number added services
+     */
+    public int getMinimumNumberAddedServices() {
+        return minimumNumberAddedServices;
     }
 
     /**
@@ -75,6 +115,17 @@ public final class ProductConfiguration {
     }
 
     /**
+     * Sets the maximum number of added services.
+     *
+     * @param paramMaximumNumberAddedServices
+     *            the new maximum number added services
+     */
+    public void setMaximumNumberAddedServices(
+            final int paramMaximumNumberAddedServices) {
+        maximumNumberAddedServices = paramMaximumNumberAddedServices;
+    }
+
+    /**
      * Sets the maximum number of baggage classes.
      *
      * @param paramMaximumNumberBaggageClasses
@@ -96,6 +147,21 @@ public final class ProductConfiguration {
         maximumNumberSeatGroups = paramMaximumNumberSeatGroups;
     }
 
+    public void setMaxNumberIncludedBags(final int maxNumberIncludedBags) {
+        this.maxNumberIncludedBags = maxNumberIncludedBags;
+    }
+
+    /**
+     * Sets the minimum number of added services.
+     *
+     * @param paramMinimumNumberAddedServices
+     *            the new minimum number added services
+     */
+    public void setMinimumNumberAddedServices(
+            final int paramMinimumNumberAddedServices) {
+        minimumNumberAddedServices = paramMinimumNumberAddedServices;
+    }
+
     /**
      * Sets the minimum number of baggage classes.
      *
@@ -114,7 +180,7 @@ public final class ProductConfiguration {
      *            the new minimum number seat groups
      */
     public void setMinimumNumberSeatGroups(final int paramMinimumNumberSeatGroups) {
-        this.minimumNumberSeatGroups = paramMinimumNumberSeatGroups;
+        minimumNumberSeatGroups = paramMinimumNumberSeatGroups;
     }
 
     /**
@@ -126,6 +192,5 @@ public final class ProductConfiguration {
     public void setNumberProduct(final int paramNumberProduct) {
         numberProduct = paramNumberProduct;
     }
-
 
 }

@@ -16,7 +16,7 @@ import javax.persistence.InheritanceType;
  * Abstract class modeling all kinds of paid services and ancillaries.
  *
  * @author REJ
- * @version $Revision : 1.10 $
+ * @version $Revision: 1.10 $
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

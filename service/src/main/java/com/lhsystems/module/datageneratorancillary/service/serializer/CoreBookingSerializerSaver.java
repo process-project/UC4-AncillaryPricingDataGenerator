@@ -6,12 +6,14 @@ import com.lhsystems.module.datageneratorancillary.service.serializer.data.Servi
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import static com.lhsystems.module.datageneratorancillary.service.serializer.CsvConstants.BOOKING_CSV_FILE_NAME;
+import static com.lhsystems.module.datageneratorancillary.service.serializer.CsvConstants.SERVICE_CSV_FILE_NAME;
 
 /**
  * The core booking saver.
  *
  * @author REJ
- * @version $Revision : 1.10 $
+ * @version $Revision: 1.10 $
  */
 @Service
 public class CoreBookingSerializerSaver {
@@ -20,13 +22,13 @@ public class CoreBookingSerializerSaver {
     /**
      * Basic constructor.
      */
-    public CoreBookingSerializerSaver() {
-    }
+    public CoreBookingSerializerSaver() { }
 
     /**
      * Save serialized entities.
      *
-     * @param serializedDataSummaries the serialized data
+     * @param serializedDataSummaries
+     *          the serialized data
      */
     void saveSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries) {
         saveBookingSerializedEntities(serializedDataSummaries);
@@ -46,13 +48,14 @@ public class CoreBookingSerializerSaver {
                         .map(SerializedDataSummary::getBookingSerializedEntity)
                         .collect(Collectors.toList());
 
-        CsvFileSaver.saveEntitiesList(bookingSerializedEntities, "bookings.csv", BookingSerializedEntity.class);
+        CsvFileSaver.saveEntitiesList(bookingSerializedEntities, BOOKING_CSV_FILE_NAME, BookingSerializedEntity.class);
     }
 
     /**
      * Save service serialized entities.
      *
-     * @param serializedDataSummaries he list of serialized data summaries
+     * @param serializedDataSummaries
+     *          The list of serialized data summaries
      */
     private static void saveServiceSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries) {
         final List<ServiceSerializedEntity> serviceSerializedEntities =
@@ -60,6 +63,6 @@ public class CoreBookingSerializerSaver {
                         .stream()
                         .flatMap(data -> data.getServiceSerializedEntities().stream())
                         .collect(Collectors.toList());
-        CsvFileSaver.saveEntitiesList(serviceSerializedEntities, "services.csv", ServiceSerializedEntity.class);
+        CsvFileSaver.saveEntitiesList(serviceSerializedEntities, SERVICE_CSV_FILE_NAME, ServiceSerializedEntity.class);
     }
 }

@@ -1,7 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;

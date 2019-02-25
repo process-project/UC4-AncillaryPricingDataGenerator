@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -39,6 +40,12 @@ public final class Flowers extends Service {
     @Override
     public double getPrice(final int number, final CoreBooking coreBooking) {
         return fixedPrice;
+    }
+
+    @Override
+    public ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(final ServiceSerializedEntity.ServiceSerializedEntityBuilder
+                                                                                                     serviceSerializedEntityBuilder) {
+        return serviceSerializedEntityBuilder;
     }
 
 }

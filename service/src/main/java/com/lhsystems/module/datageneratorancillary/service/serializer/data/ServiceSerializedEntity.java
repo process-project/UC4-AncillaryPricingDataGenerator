@@ -1,10 +1,11 @@
 package com.lhsystems.module.datageneratorancillary.service.serializer.data;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
+import com.lhsystems.module.datageneratorancillary.service.data.Donation;
+import com.lhsystems.module.datageneratorancillary.service.data.EntertainmentOnBoard;
 import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.ServiceOrder;
-
 import java.util.UUID;
 
 public class ServiceSerializedEntity {
@@ -28,6 +29,81 @@ public class ServiceSerializedEntity {
     private double price;
     private int daysBeforeDeparture;
 
+    private double deviationPrice;
+    private double entertainmentOnBoardPrice;
+
+    public UUID getBookingId() {
+        return bookingId;
+    }
+
+    public UUID getServiceId() {
+        return serviceId;
+    }
+
+    public double getBaggageCircumferenceMax() {
+        return baggageCircumferenceMax;
+    }
+
+    public double getBaggageHeightMax() {
+        return baggageHeightMax;
+    }
+
+    public double getBaggageLengthMax() {
+        return baggageLengthMax;
+    }
+
+    public double getBaggageWidthMax() {
+        return baggageWidthMax;
+    }
+
+    public double getPriceAdditionalBag() {
+        return priceAdditionalBag;
+    }
+
+    public double getPriceFirstBag() {
+        return priceFirstBag;
+    }
+
+    public double getPriceSecondBag() {
+        return priceSecondBag;
+    }
+
+    public int getBaggageCountMax() {
+        return baggageCountMax;
+    }
+
+    public double getBaggageWeightMax() {
+        return baggageWeightMax;
+    }
+
+    public int getNumberSeats() {
+        return numberSeats;
+    }
+
+    public double getSeatPrice() {
+        return seatPrice;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getDaysBeforeDeparture() {
+        return daysBeforeDeparture;
+    }
+
+    public double getDeviationPrice() {
+        return deviationPrice;
+    }
+
+    public double getEntertainmentOnBoardPrice() {
+        return entertainmentOnBoardPrice;
+    }
+
     private ServiceSerializedEntity (){ }
 
 
@@ -48,6 +124,8 @@ public class ServiceSerializedEntity {
         daysBeforeDeparture = serviceSerializedEntityBuilder.daysBeforeDeparture;
         price = serviceSerializedEntityBuilder.price;
         count = serviceSerializedEntityBuilder.count;
+        deviationPrice = serviceSerializedEntityBuilder.deviationPrice;
+        entertainmentOnBoardPrice = serviceSerializedEntityBuilder.entertainmentOnBoardPrice;
     };
 
     public static class ServiceSerializedEntityBuilder {
@@ -68,6 +146,9 @@ public class ServiceSerializedEntity {
         private int count;
         private double price;
         private int daysBeforeDeparture;
+
+        private double deviationPrice;
+        private double entertainmentOnBoardPrice;
 
 
         public ServiceSerializedEntityBuilder(final UUID bookingIdParam) {
@@ -95,6 +176,16 @@ public class ServiceSerializedEntity {
             this.count = serviceOrder.getCount();
             this.price = serviceOrder.getPrice();
             this.daysBeforeDeparture = serviceOrder.getDaysBeforeDeparture();
+            return this;
+        }
+
+        public ServiceSerializedEntityBuilder setDonationFields(final Donation donation) {
+            this.deviationPrice = donation.getPrice(0, null);
+            return this;
+        }
+
+        public ServiceSerializedEntityBuilder setEntertainmentsFields(final EntertainmentOnBoard entertainment) {
+            this.entertainmentOnBoardPrice = entertainment.getPrice(0, null);
             return this;
         }
 

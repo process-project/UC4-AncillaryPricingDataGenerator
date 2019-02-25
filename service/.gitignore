@@ -7,3 +7,7 @@
 **/*.log
 **/~**
 **/.idea
+/src/main/resources/options.yml
+*/main/resources/compartments.yml
+*/main/resources/generator-options.yml
+*/main/resources/database.properties

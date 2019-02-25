@@ -1,13 +1,21 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
-import com.lhsystems.module.datageneratorancillary.service.data.*;
+import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
+import com.lhsystems.module.datageneratorancillary.service.data.Booking;
+import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
+import com.lhsystems.module.datageneratorancillary.service.data.Flight;
+import com.lhsystems.module.datageneratorancillary.service.data.Market;
+import com.lhsystems.module.datageneratorancillary.service.data.Product;
+import com.lhsystems.module.datageneratorancillary.service.data.Route;
+import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
+import com.lhsystems.module.datageneratorancillary.service.data.Service;
+import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.serializer.CoreBookingSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Starts generating all entities in the proper order.
@@ -67,7 +75,7 @@ public final class GeneratorStarter {
      *            the routes generator starter
      * @param bookingGeneratorStarterParam
      *            the booking generator starter
-     * @param coreBookingSerializer
+     * @param coreBookingSerializerParam
      *            the component responsible for serializing data
      */
     @Autowired
@@ -114,13 +122,6 @@ public final class GeneratorStarter {
                 generatorConfiguration.getSeatGroupConfiguration());
         final List<Service> services = serviceGeneratorStarter.generateServiceEntities(
                 generatorConfiguration.getServiceConfiguration());
-        for (final BaggageClass baggageClass : baggageClasses) {
-            services.add(baggageClass);
-        }
-        for (final SeatGroup seatGroup : seatGroups) {
-            services.add(seatGroup);
-        }
-        final List<Service> services = new ArrayList<>();
         services.addAll(baggageClasses);
         services.addAll(seatGroups);
         final List<Product> products = productGeneratorStarter.generateProductEntities(

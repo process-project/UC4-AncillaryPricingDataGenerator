@@ -29,6 +29,58 @@ public class BookingSerializedEntity {
         return id;
     }
 
+    public int getDaysBeforeDeparture() {
+        return daysBeforeDeparture;
+    }
+
+    public int getNumberPassengers() {
+        return numberPassengers;
+    }
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public String getDepartureDate() {
+        return departureDate.toString();
+    }
+
+    public String getDepartureTime() {
+        return departureTime.toString();
+    }
+
+    public int getCustomerAge() {
+        return customerAge;
+    }
+
+    public String getCustomerGender() {
+        return customerGender;
+    }
+
+    public String getCustomerTravelType() {
+        return customerTravelType;
+    }
+
+    public int getCustomerSatisfaction() {
+        return customerSatisfaction;
+    }
+
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public String getOriginAirport() {
+        return originAirport;
+    }
+
+    public String getMarket() {
+        return market;
+    }
+
+    public int getFlightNumber() {
+        return flightNumber;
+    }
+
     private BookingSerializedEntity (){
     }
 

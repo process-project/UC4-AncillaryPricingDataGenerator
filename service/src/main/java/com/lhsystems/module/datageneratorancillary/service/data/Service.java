@@ -1,11 +1,9 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +16,7 @@ import javax.persistence.InheritanceType;
  * Abstract class modeling all kinds of paid services and ancillaries.
  *
  * @author REJ
- * @version $Revision: 1.10 $
+ * @version $Revision : 1.10 $
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -50,10 +48,8 @@ public abstract class Service {
     /**
      * Instantiates a new service.
      *
-     * @param paramName
-     *            the name
-     * @param paramMaximumCapacity
-     *            the maximum capacity
+     * @param paramName            the name
+     * @param paramMaximumCapacity the maximum capacity
      */
     public Service(final String paramName, final int paramMaximumCapacity) {
         name = paramName;
@@ -81,10 +77,8 @@ public abstract class Service {
     /**
      * Return a price depending on the number of times this service is booked.
      *
-     * @param number
-     *            the number of times this service is booked
-     * @param coreBooking
-     *            the core booking for which the price is extracted
+     * @param number      the number of times this service is booked
+     * @param coreBooking the core booking for which the price is extracted
      * @return the price
      */
     public abstract double getPrice(int number, CoreBooking coreBooking);
@@ -92,8 +86,7 @@ public abstract class Service {
     /**
      * Gets the price of buying this service once.
      *
-     * @param coreBooking
-     *            the core booking for which the price is extracted
+     * @param coreBooking the core booking for which the price is extracted
      * @return the price of buying this service once.
      */
     public final double getPrice(final CoreBooking coreBooking) {
@@ -103,10 +96,8 @@ public abstract class Service {
     /**
      * Gets the services of the given class from a collection of services.
      *
-     * @param services
-     *            the services
-     * @param serviceClass
-     *            the service class
+     * @param services     the services
+     * @param serviceClass the service class
      * @return the services of desired type
      */
     public static List<Service> getServicesByServiceClass(
@@ -117,7 +108,14 @@ public abstract class Service {
                         Collectors.toList());
     }
 
+    /**
+     * Populate serialized entity service builder based on entity type .
+     *
+     * @param serviceSerializedEntityBuilder
+     *      the current service serialized entity builder
+     * @return the current instance of this builder
+     */
     public abstract ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(
-            final ServiceSerializedEntity.ServiceSerializedEntityBuilder serviceSerializedEntityBuilder);
+            ServiceSerializedEntity.ServiceSerializedEntityBuilder serviceSerializedEntityBuilder);
 }
 

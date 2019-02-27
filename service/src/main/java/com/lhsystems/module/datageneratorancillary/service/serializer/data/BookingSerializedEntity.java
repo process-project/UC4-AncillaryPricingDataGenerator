@@ -25,6 +25,10 @@ public class BookingSerializedEntity {
     private String market;
     private int flightNumber;
 
+    private char compartmentIdentifier;
+    private String compartmentName;
+    private String productName;
+
     public UUID getId() {
         return id;
     }
@@ -81,6 +85,18 @@ public class BookingSerializedEntity {
         return flightNumber;
     }
 
+    public char getCompartmentIdentifier() {
+        return compartmentIdentifier;
+    }
+
+    public String getCompartmentName() {
+        return compartmentName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
     private BookingSerializedEntity (){
     }
 
@@ -99,6 +115,9 @@ public class BookingSerializedEntity {
         originAirport = bookingSerializedEntityBuilder.originAirport;
         market = bookingSerializedEntityBuilder.market;
         flightNumber = bookingSerializedEntityBuilder.flightNumber;
+        compartmentIdentifier = bookingSerializedEntityBuilder.compartmentIdentifier;
+        compartmentName = bookingSerializedEntityBuilder.compartmentName;
+        productName = bookingSerializedEntityBuilder.productName;
     }
 
 
@@ -118,6 +137,11 @@ public class BookingSerializedEntity {
         private String originAirport;
         private String market;
         private int flightNumber;
+
+        private char compartmentIdentifier;
+        private String compartmentName;
+        private String productName;
+
 
         public BookingSerializedEntityBuilder setCustomerEntities(final Customer customer) {
             this.customerAge = customer.getAge();
@@ -149,6 +173,13 @@ public class BookingSerializedEntity {
         public BookingSerializedEntityBuilder setCoreBookingFields(final CoreBooking coreBooking) {
             this.numberPassengers = coreBooking.getNumberPassengers();
             this.daysBeforeDeparture = coreBooking.getDaysBeforeDeparture();
+            return this;
+        }
+
+        public BookingSerializedEntityBuilder setProductFields(final Product product) {
+            this.compartmentIdentifier = product.getCompartment().getIdentifier();
+            this.compartmentName = product.getCompartment().getName();
+            this.productName = product.getName();
             return this;
         }
 

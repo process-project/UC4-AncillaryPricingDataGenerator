@@ -82,6 +82,7 @@ public class CoreBookingSerializer {
                 .setFlightFields(booking.getCoreBooking().getFlight())
                 .setRouteFields(booking.getCoreBooking().getFlight().getRoute())
                 .setTariffFields(booking.getCoreBooking().getTariff())
+                .setProductFields(booking.getCoreBooking().getTariff().getProduct())
                 .build();
     }
 

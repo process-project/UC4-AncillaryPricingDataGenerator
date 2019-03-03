@@ -1,8 +1,8 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import org.apache.commons.math3.distribution.PoissonDistribution;
 
 /**
@@ -36,6 +36,12 @@ public final class EntertainmentOnBoard extends Service {
     @Override
     public double getPrice(final int number, final CoreBooking coreBooking) {
         return new PoissonDistribution(pricePoissonMean).sample();
+    }
+
+    @Override
+    public ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(final ServiceSerializedEntity.ServiceSerializedEntityBuilder
+                                                                                                     serviceSerializedEntityBuilder) {
+        return serviceSerializedEntityBuilder.setEntertainmentsFields(this);
     }
 
 }

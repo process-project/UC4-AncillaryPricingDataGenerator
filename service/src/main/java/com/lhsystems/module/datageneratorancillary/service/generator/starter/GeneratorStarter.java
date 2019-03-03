@@ -1,6 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.starter;
 
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
+import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Market;
@@ -10,11 +11,10 @@ import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
 import com.lhsystems.module.datageneratorancillary.service.data.Service;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
-
+import com.lhsystems.module.datageneratorancillary.service.serializer.CoreBookingSerializer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -53,6 +53,9 @@ public final class GeneratorStarter {
     /** Starts generating tariff entities. */
     private final TariffGeneratorStarter tariffGeneratorStarter;
 
+    /** Starts serializing core booking entities. */
+    private final CoreBookingSerializer coreBookingSerializer;
+
     /**
      * Instantiates a new Generator starter.
      *
@@ -72,6 +75,8 @@ public final class GeneratorStarter {
      *            the routes generator starter
      * @param bookingGeneratorStarterParam
      *            the booking generator starter
+     * @param coreBookingSerializerParam
+     *            the component responsible for serializing data
      */
     @Autowired
     public GeneratorStarter(final ProductGeneratorStarter productGeneratorStarterParam,
@@ -81,7 +86,8 @@ public final class GeneratorStarter {
             final TariffGeneratorStarter tariffGeneratorStarterParam,
             final FlightGeneratorStarter flightGeneratorStarterParam,
             final RoutesGeneratorStarter routesGeneratorStarterParam,
-            final BookingGeneratorStarter bookingGeneratorStarterParam) {
+            final BookingGeneratorStarter bookingGeneratorStarterParam,
+            final CoreBookingSerializer coreBookingSerializerParam) {
         productGeneratorStarter = productGeneratorStarterParam;
         baggageGeneratorStarter = baggageGeneratorStarterParam;
         seatingGeneratorStarter = seatingGeneratorStarterParam;
@@ -90,6 +96,7 @@ public final class GeneratorStarter {
         flightGeneratorStarter = flightGeneratorStarterParam;
         routesGeneratorStarter = routesGeneratorStarterParam;
         bookingGeneratorStarter = bookingGeneratorStarterParam;
+        coreBookingSerializer = coreBookingSerializerParam;
     }
 
     /**
@@ -115,12 +122,8 @@ public final class GeneratorStarter {
                 generatorConfiguration.getSeatGroupConfiguration());
         final List<Service> services = serviceGeneratorStarter.generateServiceEntities(
                 generatorConfiguration.getServiceConfiguration());
-        for (final BaggageClass baggageClass : baggageClasses) {
-            services.add(baggageClass);
-        }
-        for (final SeatGroup seatGroup : seatGroups) {
-            services.add(seatGroup);
-        }
+        services.addAll(baggageClasses);
+        services.addAll(seatGroups);
         final List<Product> products = productGeneratorStarter.generateProductEntities(
                 compartments,
                 services,
@@ -138,11 +141,12 @@ public final class GeneratorStarter {
                 generatorConfiguration.getFlightConfiguration(),
                 tariffs,
                 routes);
-        bookingGeneratorStarter.generateBookingEntities(
+        final List<Booking> bookings = bookingGeneratorStarter.generateBookingEntities(
                 flights,
                 generatorConfiguration.getCustomerConfiguration(),
                 generatorConfiguration.getCoreBookingConfiguration(),
                 generatorConfiguration.getServiceOrderConfiguration());
+        coreBookingSerializer.generateFlattenData(bookings);
 
     }
 

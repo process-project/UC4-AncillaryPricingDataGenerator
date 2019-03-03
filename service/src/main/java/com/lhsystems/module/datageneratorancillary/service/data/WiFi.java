@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -46,6 +47,12 @@ public final class WiFi extends Service {
         } else {
             return priceShortRange;
         }
+    }
+
+    @Override
+    public ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(final ServiceSerializedEntity.ServiceSerializedEntityBuilder
+                                                                                                     serviceSerializedEntityBuilder) {
+        return serviceSerializedEntityBuilder;
     }
 
 }

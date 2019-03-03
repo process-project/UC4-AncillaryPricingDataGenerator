@@ -1,7 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +34,8 @@ public final class Booking {
     /** The customer who books. */
     @OneToOne
     @JoinColumn(name = "CUSTOMER")
-    private final Customer customer;
+    private final Customer customer;
+
 
     /** The service orders. */
     @OneToMany(cascade = CascadeType.MERGE)
@@ -89,4 +89,7 @@ public final class Booking {
         return customer;
     }
 
+    public List<ServiceOrder> getServiceOrders() {
+        return serviceOrders;
+    }
 }

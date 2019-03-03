@@ -1,5 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
+import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -72,4 +73,9 @@ public final class SeatGroup extends Service {
         return seatPrice * number;
     }
 
+    @Override
+    public final ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(
+            final ServiceSerializedEntity.ServiceSerializedEntityBuilder serviceSerializedEntityBuilder) {
+        return serviceSerializedEntityBuilder.setSeatFields(this);
+    }
 }

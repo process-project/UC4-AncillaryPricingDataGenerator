@@ -17,15 +17,15 @@ import org.slf4j.LoggerFactory;
  * @author REJ
  * @version $Revision: 1.10 $
  */
-final class CsvFileSaver {
+final class CsvLocalFileSaver {
 
     /*** Logger. ***/
-    private static final Logger log = LoggerFactory.getLogger(CsvFileSaver.class);
+    private static final Logger log = LoggerFactory.getLogger(CsvLocalFileSaver.class);
 
     /**
      * Private constructor.
      */
-    private CsvFileSaver(){
+    private CsvLocalFileSaver(){
 
     }
 
@@ -40,7 +40,6 @@ final class CsvFileSaver {
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
         final CsvMapper mapper = new CsvMapper();
         final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
-
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
         } catch (IOException e) {

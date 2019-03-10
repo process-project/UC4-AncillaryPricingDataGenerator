@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  hdfs:
+    image: harisekhon/hadoop:2.9  #version should be the same as in /service/pom
+    ports:
+    - 8020:8020
+    - 8042:8042
+    - 8088:8088
+    - 19888:19888
+    - 50010:50010
+    - 50020:50020
+    - 50070:50070
+    - 50075:50075
+    - 50090:50090
+
+  generator:
+    build: .
+    environment:
+      - HDFS_URL=hdfs
+    depends_on:
+      - hdfs
+    command: ["./wait-for-it.sh", "hdfs:8020", ""]
+    links:
+    - hdfs

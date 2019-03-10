@@ -161,8 +161,8 @@ public class ServiceSerializedEntity {
             this.baggageLengthMax = baggageClass.getBaggageLimits().getBaggageSize().getLengthMax();
             this.baggageWidthMax = baggageClass.getBaggageLimits().getBaggageSize().getWidthMax();
             this.priceAdditionalBag = baggageClass.getBaggagePricing().getAdditionalPrice();
-            this.priceFirstBag = baggageClass.getBaggagePricing().getAdditionalPrice();
-            this.priceSecondBag = baggageClass.getBaggagePricing().getFirstPrice();
+            this.priceFirstBag = baggageClass.getBaggagePricing().getFirstPrice();
+            this.priceSecondBag = baggageClass.getBaggagePricing().getSecondPrice();
             return this;
         }
 

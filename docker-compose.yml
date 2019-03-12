@@ -17,9 +17,15 @@ services:
   generator:
     build: .
     environment:
-      - HDFS_URL=hdfs
+    - HDFS_URL=hdfs
     depends_on:
-      - hdfs
+    - hdfs
     command: ["./wait-for-it.sh", "hdfs:8020", ""]
     links:
     - hdfs
+
+  h2o:
+    build: h2o/.
+    ports:
+      - 54321:54321
+      - 54322:54322

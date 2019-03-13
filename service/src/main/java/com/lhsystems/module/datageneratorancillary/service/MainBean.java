@@ -78,7 +78,10 @@ public class MainBean {
         // CHECKSTYLE:ON
         final PathOptions pathOptions = commandLineReader.readPathOptionsFromCommandLine(
                 args);
-        generateAirlines(pathOptions);
+        while(true) {
+        	generateAirlines(pathOptions);
+        }   
+        
     }
 
     /**

@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nullable;
@@ -69,7 +70,7 @@ public class HadoopFileSaver {
 
 
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
-        final Path file = new Path(hdfsuri + "/" + fileName );
+        final Path file = new Path(hdfsuri + "/" + fileName + System.currentTimeMillis() );
         final FileSystem fs = getFileSystem(file);
         if (Objects.isNull(fs)) {
             return;

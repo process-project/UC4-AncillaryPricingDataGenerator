@@ -48,7 +48,7 @@ public class CoreBookingSerializerSaver {
                         .map(SerializedDataSummary::getBookingSerializedEntity)
                         .collect(Collectors.toList());
 
-        CsvLocalFileSaver.saveEntitiesList(bookingSerializedEntities, BOOKING_CSV_FILE_NAME, BookingSerializedEntity.class);
+        //CsvLocalFileSaver.saveEntitiesList(bookingSerializedEntities, BOOKING_CSV_FILE_NAME, BookingSerializedEntity.class);
         HadoopFileSaver.saveEntitiesList(bookingSerializedEntities, BOOKING_CSV_FILE_NAME, BookingSerializedEntity.class);
     }
 
@@ -64,7 +64,7 @@ public class CoreBookingSerializerSaver {
                         .stream()
                         .flatMap(data -> data.getServiceSerializedEntities().stream())
                         .collect(Collectors.toList());
-        CsvLocalFileSaver.saveEntitiesList(serviceSerializedEntities, SERVICE_CSV_FILE_NAME, ServiceSerializedEntity.class);
+        //CsvLocalFileSaver.saveEntitiesList(serviceSerializedEntities, SERVICE_CSV_FILE_NAME, ServiceSerializedEntity.class);
         HadoopFileSaver.saveEntitiesList(serviceSerializedEntities, SERVICE_CSV_FILE_NAME, ServiceSerializedEntity.class);
     }
 }

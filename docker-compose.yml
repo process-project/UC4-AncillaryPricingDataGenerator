@@ -15,7 +15,7 @@ services:
     - 50090:50090
 
   generator:
-    build: .
+    build: process/datagenerator
     environment:
       - HDFS_URL=hdfs
     depends_on:

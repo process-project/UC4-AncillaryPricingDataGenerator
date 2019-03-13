@@ -36,8 +36,8 @@ public class HadoopFileSaver {
         conf.set("fs.defaultFS", hdfsuri);
         conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
         conf.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
-        System.setProperty("HADOOP_USER_NAME", "root");
-        System.setProperty("hadoop.home.dir", "/");
+//        System.setProperty("HADOOP_USER_NAME", "root");
+//        System.setProperty("hadoop.home.dir", "/");
 
         return conf;
     }

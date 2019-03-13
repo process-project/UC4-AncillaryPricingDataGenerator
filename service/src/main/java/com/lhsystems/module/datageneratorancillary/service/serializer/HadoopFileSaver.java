@@ -69,7 +69,7 @@ public class HadoopFileSaver {
 
 
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
-        final Path file = new Path(hdfsuri + "/" + fileName + "dupa");
+        final Path file = new Path(hdfsuri + "/" + fileName );
         final FileSystem fs = getFileSystem(file);
         if (Objects.isNull(fs)) {
             return;

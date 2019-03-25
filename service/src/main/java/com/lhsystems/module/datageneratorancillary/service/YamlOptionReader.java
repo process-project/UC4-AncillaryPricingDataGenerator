@@ -2,14 +2,17 @@ package com.lhsystems.module.datageneratorancillary.service;
 
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
+
 import static com.lhsystems.module.datageneratorancillary.service.CommandLineOptionsReader.DEFAULT_COMPARTMENT_FILE;
 import static com.lhsystems.module.datageneratorancillary.service.CommandLineOptionsReader.DEFAULT_GENERATOR_OPTIONS_FILE;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -62,7 +65,7 @@ public final class YamlOptionReader {
             if (!defaultFile.equals(generatorOptionsPath)) {
                 return new FileInputStream(generatorOptionsPath);
             }
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             log.error("Cannot find file from program argument", e.getMessage());
         }
         return getClass().getResourceAsStream(defaultFile);

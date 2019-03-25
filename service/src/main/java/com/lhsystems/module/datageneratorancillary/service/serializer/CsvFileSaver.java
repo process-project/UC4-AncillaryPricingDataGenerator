@@ -2,6 +2,7 @@ package com.lhsystems.module.datageneratorancillary.service.serializer;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +22,8 @@ import org.slf4j.LoggerFactory;
 final class CsvFileSaver {
 
     /*** Logger. ***/
-    private static final Logger log = LoggerFactory.getLogger(CsvFileSaver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(
+            CsvFileSaver.class);
 
     /**
      * Private constructor.
@@ -43,8 +46,8 @@ final class CsvFileSaver {
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
-        } catch (IOException e) {
-            log.error("Cannot write to csv file", e);
+        } catch (final IOException e) {
+            LOG.error("Cannot write to csv file", e);
         }
     }
 }

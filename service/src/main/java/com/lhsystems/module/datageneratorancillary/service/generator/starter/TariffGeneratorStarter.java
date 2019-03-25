@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Starts generating tariff entities and save them into database.
  *
  *
- * @author MB
+ * @author MiB
  * @version $Revision: 1.10 $
  */
 @org.springframework.stereotype.Service

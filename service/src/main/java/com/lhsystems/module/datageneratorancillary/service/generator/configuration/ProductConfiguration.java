@@ -74,6 +74,11 @@ public final class ProductConfiguration {
         return maximumNumberSeatGroups;
     }
 
+    /**
+     * Gets the max number of included bags.
+     *
+     * @return the max number of included bags
+     */
     public int getMaxNumberIncludedBags() {
         return maxNumberIncludedBags;
     }
@@ -147,8 +152,14 @@ public final class ProductConfiguration {
         maximumNumberSeatGroups = paramMaximumNumberSeatGroups;
     }
 
-    public void setMaxNumberIncludedBags(final int maxNumberIncludedBags) {
-        this.maxNumberIncludedBags = maxNumberIncludedBags;
+    /**
+     * Sets the maximal number of included bags.
+     *
+     * @param paramMaxNumberIncludedBags
+     *            the new max number included bags
+     */
+    public void setMaxNumberIncludedBags(final int paramMaxNumberIncludedBags) {
+        maxNumberIncludedBags = paramMaxNumberIncludedBags;
     }
 
     /**

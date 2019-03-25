@@ -5,7 +5,6 @@ import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
 import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.BaggageClassGenerator;
-import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ public final class BaggageClassGeneratorTest {
         final List<BaggagePricing> pricing = new ArrayList<>();
         limits.add(new BaggageLimits(new BaggageSize(1, 1, 1, 1), 1, 1));
         pricing.add(new BaggagePricing(1, 1, 1));
-        final ExtendedRandom random = new ExtendedRandom();
         final BaggageClassGenerator baggageClassGenerator = new BaggageClassGenerator(
                 limits,
                 pricing);

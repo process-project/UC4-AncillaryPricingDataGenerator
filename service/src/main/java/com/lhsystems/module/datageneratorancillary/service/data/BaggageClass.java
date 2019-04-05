@@ -1,6 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -88,7 +89,7 @@ public final class BaggageClass extends Service {
     }
 
     @Override
-    public final ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(
+    public ServiceSerializedEntity.ServiceSerializedEntityBuilder populateServiceBuilder(
             final ServiceSerializedEntity.ServiceSerializedEntityBuilder serviceSerializedEntityBuilder) {
         return serviceSerializedEntityBuilder.setBaggageFields(this);
     }

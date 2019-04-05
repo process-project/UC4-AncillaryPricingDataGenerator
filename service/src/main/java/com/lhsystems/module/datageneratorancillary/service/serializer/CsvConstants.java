@@ -8,14 +8,14 @@ package com.lhsystems.module.datageneratorancillary.service.serializer;
  */
 final class CsvConstants {
 
-    /**
-     * Default constructor.
-     */
-    private CsvConstants(){}
-
     /*** The Booking csv file name. */
     static final String BOOKING_CSV_FILE_NAME = "booking.csv";
 
     /*** The Service csv file name.*/
     static final String SERVICE_CSV_FILE_NAME = "service.csv";
+
+    /**
+     * Default constructor.
+     */
+    private CsvConstants(){}
 }

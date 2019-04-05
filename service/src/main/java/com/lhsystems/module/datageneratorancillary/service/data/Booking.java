@@ -1,6 +1,7 @@
 package com.lhsystems.module.datageneratorancillary.service.data;
 
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -89,6 +90,11 @@ public final class Booking {
         return customer;
     }
 
+    /**
+     * Gets the service orders.
+     *
+     * @return the service orders
+     */
     public List<ServiceOrder> getServiceOrders() {
         return serviceOrders;
     }

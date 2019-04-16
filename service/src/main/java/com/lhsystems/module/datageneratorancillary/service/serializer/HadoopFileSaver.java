@@ -36,9 +36,6 @@ public class HadoopFileSaver {
         conf.set("fs.defaultFS", hdfsuri);
         conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
         conf.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
-//        System.setProperty("HADOOP_USER_NAME", "root");
-//        System.setProperty("hadoop.home.dir", "/");
-
         return conf;
     }
 
@@ -57,11 +54,9 @@ public class HadoopFileSaver {
 
 
     @Nullable
-    private static FileSystem getFileSystem(final Path fileToDelete) {
+    private static FileSystem getFileSystem() {
         try {
-            final FileSystem fs = FileSystem.get(URI.create(hdfsuri), initializeHadoop());
-            //if (fs.exists(fileToDelete)) { fs.delete(fileToDelete, true); }
-            return fs;
+            return FileSystem.get(URI.create(hdfsuri), initializeHadoop());
         } catch (IOException e) {
             log.error("Cannot get hadoop file system", e);
         }
@@ -70,8 +65,7 @@ public class HadoopFileSaver {
 
 
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
-        final Path file = new Path(hdfsuri + "/" + fileName + System.currentTimeMillis() );
-        final FileSystem fs = getFileSystem(file);
+        final FileSystem fs = getFileSystem();
         if (Objects.isNull(fs)) {
             return;
         }
@@ -79,11 +73,23 @@ public class HadoopFileSaver {
         final CsvMapper mapper = new CsvMapper();
         final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
 
+        final String pathFileName = getPathFileName(fileName);
+        final Path file = new Path(pathFileName);
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(fs.create(file), StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
         } catch (IOException e) {
             log.error("Cannot write to hadoop file", e);
         }
+    }
+
+    private static String getPathFileName(final String fileName) {
+        final String infiniteLoop = System.getenv("INFINITE_GENERATE");
+        String pathFileName = hdfsuri + "/" + fileName;
+
+        if (Boolean.valueOf(infiniteLoop)) {
+            pathFileName = pathFileName.replace(".csv", System.currentTimeMillis() + ".csv");
+        }
+        return pathFileName;
     }
 }

@@ -18,6 +18,7 @@ services:
     image: process/datagenerator
     environment:
       - HDFS_URL=hdfs
+      - INFINITE_GENERATE=false
     depends_on:
       - hdfs
     command: ["./wait-for-it.sh", "hdfs:8020", ""]

@@ -104,7 +104,7 @@ public final class CustomerGenerator extends DataGenerator {
         final HashMap<TravelType, Double> travelTypeProbabilities = new HashMap<>();
         travelTypeProbabilities.put(TravelType.BUSINESS, businessProbability);
         travelTypeProbabilities.put(
-                TravelType.BUSINESS,
+                TravelType.LEISURE,
                 1 - businessProbability);
         final TravelType travelType = getRandom().getOneRandomElement(
                 travelTypeProbabilities);

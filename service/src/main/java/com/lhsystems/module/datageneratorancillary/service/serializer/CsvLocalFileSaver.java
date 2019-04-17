@@ -42,7 +42,7 @@ final class CsvLocalFileSaver {
         final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Cannot write to csv file", e);
         }
     }

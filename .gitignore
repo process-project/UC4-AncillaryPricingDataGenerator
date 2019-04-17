@@ -9,4 +9,7 @@
 **/.idea
 **/*.iml
 **/*.csv
-
+/src/main/resources/options.yml
+*/main/resources/compartments.yml
+*/main/resources/generator-options.yml
+*/main/resources/database.properties

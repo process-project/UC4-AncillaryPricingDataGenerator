@@ -9,3 +9,4 @@
 **/.idea
 **/*.iml
 **/*.csv
+/scripts/responses

@@ -21,6 +21,6 @@ services:
       - INFINITE_GENERATE=false
     depends_on:
       - hdfs
-    command: ["./wait-for-it.sh", "hdfs:8020", ""]
+    command: ["./scripts/wait-for-it.sh", "hdfs:8020", ""]
     links:
     - hdfs

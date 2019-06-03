@@ -63,7 +63,7 @@ public class MainBean {
                     final YamlOptionReader yamlOptionReader,
                     final SSIMFileReader ssimFileReader,
                     final CoreBookingSerializer coreBookingSerializerParam,
-                    @Value("INFINITE_GENERATE") final String infiniteLoopParam) {
+                    @Value("${INFINITE_GENERATE}") final String infiniteLoopParam) {
         generatorStarter = generatorStarterParam;
         commandLineReader = commandLineOptionsReader;
         optionReader = yamlOptionReader;

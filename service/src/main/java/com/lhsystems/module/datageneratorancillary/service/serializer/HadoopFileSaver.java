@@ -65,7 +65,9 @@ public class HadoopFileSaver {
 
 
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
+        long startTime = System.currentTimeMillis();
         final FileSystem fs = getFileSystem();
+        log.info("Start saving entities to hdfs. Url:  " + hdfsuri + ", filename: " + fileName);
         if (Objects.isNull(fs)) {
             return;
         }
@@ -80,7 +82,11 @@ public class HadoopFileSaver {
             mapper.writer(schema).writeValue(writer, entities);
         } catch (IOException e) {
             log.error("Cannot write to hadoop file", e);
+            return;
         }
+
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        log.info("Saving file " + fileName + " to hdfs completed successfully. It takes " + elapsedTime + " ms");
     }
 
     private static String getPathFileName(final String fileName) {

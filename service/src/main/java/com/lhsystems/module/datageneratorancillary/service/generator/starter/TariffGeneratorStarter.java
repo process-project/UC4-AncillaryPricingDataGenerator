@@ -9,6 +9,7 @@ import com.lhsystems.module.datageneratorancillary.service.repository.TariffRepo
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Starts generating tariff entities and save them into database.
@@ -17,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author MiB
  * @version $Revision: 1.10 $
  */
-@org.springframework.stereotype.Service
+@Service
 public final class TariffGeneratorStarter {
 
     /** The repository used for saving tariffs. */

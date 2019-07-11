@@ -4,9 +4,11 @@ This project is responsible for generating booking data and then saving generate
 
 ##Configuration
 
-There are two parameters that can be pass as environment variables (option -e, example `-e HDFS_URL='hadoop'`) to docker:
+There are three parameters that can be pass as environment variables (option -e, example `-e HDFS_URL='hadoop'`) to docker:
 * `HDFS_URL`  - the url of hdfs file system or ip of docker image with hadoop, if it is not passed, the default value hdfs://hdfs:8020 is used
 * `INFINITE_GENERATE` - if this flag is set to true value, generator runs indefinitely, otherwise it will generate data only once
+* `SAVE_TO_DATABASE` - if this flag is set to true value, generator saves the data into database defined in database.properties
+
 
 ##Building
 

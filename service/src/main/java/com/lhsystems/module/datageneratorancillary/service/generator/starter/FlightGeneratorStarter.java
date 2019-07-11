@@ -56,8 +56,7 @@ public final class FlightGeneratorStarter {
                 flightConfiguration);
         final List<Flight> flights = flightGenerator.generateList(
                 flightConfiguration.getNumberFlight());
-        return flights.stream()
-                .map(flightRepository::save)
-                .collect(Collectors.toList());
+        flightRepository.save(flights);
+        return flights;
     }
 }

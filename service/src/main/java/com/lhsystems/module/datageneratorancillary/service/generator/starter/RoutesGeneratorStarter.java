@@ -8,8 +8,10 @@ import com.lhsystems.module.datageneratorancillary.service.repository.RouteRepos
 import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,6 +37,13 @@ public final class RoutesGeneratorStarter {
 
     /** Generates a stream of pseudo random numbers used for generating flights.*/
     private final ExtendedRandom random = new ExtendedRandom();
+
+
+    /** Stores all airports used for generating flights.*/
+    private final HashSet<Airport> allAirports = new HashSet<>();
+
+    /** Stores all routes used for generating flights.*/
+    private final HashSet<Route> allRoutes = new HashSet<>();
 
     /**
      * Instantiates a new route generator starer with injected repositories.
@@ -97,6 +106,17 @@ public final class RoutesGeneratorStarter {
         return getOrCreateRouteIfNotExists(airports.get(0), airports.get(1));
     }
 
+    private Route getOrCreateRouteIfNotExists(final Airport origin, final Airport destination) {
+        String saveToDatabase = System.getenv("SAVE_TO_DATABASE");
+
+        if (Boolean.valueOf(saveToDatabase)) {
+            return getOrCreateRouteIfNotExistsInDatabase(origin, destination);
+        }
+        return getOrCreateRouteIfNotExistsInSet(origin, destination);
+
+    }
+
+
     /**
      * Check that route is existing in database, if not, create new one.
      *
@@ -107,7 +127,7 @@ public final class RoutesGeneratorStarter {
      * @return
      *      route, new or from database
      */
-    private Route getOrCreateRouteIfNotExists(final Airport origin, final Airport destination){
+    private Route getOrCreateRouteIfNotExistsInDatabase(Airport origin, Airport destination) {
         Route currentRoute = routeRepository.isRouteExists(origin, destination);
         if(Objects.isNull(currentRoute)) {
             final Route route = new Route(origin, destination);
@@ -117,12 +137,37 @@ public final class RoutesGeneratorStarter {
     }
 
     /**
+     * Check that route is existing in set, if not, create new one.
+     *
+     * @param origin
+     *        origin airport for route
+     * @param destination
+     *        destination airport for route
+     * @return
+     *      route, new or from set
+     */
+    private Route getOrCreateRouteIfNotExistsInSet(final Airport origin, final Airport destination){
+        Optional<Route> currentRoute = findRouteInSet(origin, destination);
+        if(currentRoute.isPresent()) {
+            return currentRoute.get();
+        }
+        final Route route = new Route(origin, destination);
+        allRoutes.add(route);
+        return route;
+    }
+
+    private Optional<Route> findRouteInSet(final Airport origin, final Airport destination) {
+        return allRoutes.stream().filter(route -> route.getOriginAirport().equals(origin) && route.getDestinationAirport().equals(destination)).findFirst();
+    }
+
+    /**
      * Check that airport is existing in database, if not, save new one.
      *
      * @param airport
      *        airport to check
      */
     private void saveAirportIfNotExits(final Airport airport) {
+        allAirports.add(airport);
         if (!airportRepository.exists(airport.getIata())) {
             airportRepository.save(airport);
         }

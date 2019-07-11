@@ -7,6 +7,8 @@ import com.lhsystems.module.datageneratorancillary.service.generator.starter.Gen
 import com.lhsystems.module.datageneratorancillary.service.serializer.CoreBookingSerializer;
 import com.lhsystems.module.datageneratorancillary.service.utils.PathOptions;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -48,6 +50,11 @@ public class MainBean {
     /** Flag for generating infinity entities. */
     private final Boolean infiniteLoop;
 
+
+    /** Logger.*/
+    private final Logger log = LoggerFactory.getLogger(MainBean.class);
+
+
     /**
      * Instantiates a new Main bean.
      * @param generatorStarterParam      the generator starter
@@ -84,8 +91,12 @@ public class MainBean {
         // CHECKSTYLE:ON
         final PathOptions pathOptions = commandLineReader.readPathOptionsFromCommandLine(
                 args);
-
+        long startTime = System.currentTimeMillis();
         generateAirlines(pathOptions);
+
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        log.info("Generation of all entities takes " + elapsedTime + " ms");
+
         while (infiniteLoop) {
             generateAirlines(pathOptions);
         }

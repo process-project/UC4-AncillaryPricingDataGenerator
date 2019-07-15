@@ -48,12 +48,6 @@ public class MainBean {
     /** Logger.*/
     private final Logger log = LoggerFactory.getLogger(MainBean.class);
 
-
-
-    /** Logger.*/
-    private final Logger log = LoggerFactory.getLogger(MainBean.class);
-
-
     /**
      * Instantiates a new Main bean.
      * @param generatorStarterParam      the generator starter

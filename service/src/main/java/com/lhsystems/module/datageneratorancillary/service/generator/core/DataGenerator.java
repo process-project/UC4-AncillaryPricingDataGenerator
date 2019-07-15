@@ -5,6 +5,7 @@ import com.lhsystems.module.datageneratorancillary.service.utils.ExtendedRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 /**
  * Abstract super class for random data generators.
@@ -35,8 +36,8 @@ public abstract class DataGenerator {
      *            the number of objects to generate
      * @return the list
      */
-    public final <T> List<T> generateList(final int numberToGenerate) {
-        return IntStream.range(0, numberToGenerate)
+    public final <T> List<T> generateList(final long numberToGenerate) {
+        return LongStream.range(0, numberToGenerate)
                 .mapToObj(n -> (T) generate())
                 .collect(Collectors.toList());
     }

@@ -24,7 +24,7 @@ public final class FlightConfiguration {
     private int minimumNumberTariffs;
 
     /** Number of flights that should be generated. */
-    private int numberFlight;
+    private long numberFlight;
 
 
     /**
@@ -80,7 +80,7 @@ public final class FlightConfiguration {
      * @return
      *      number of flights
      */
-    public int getNumberFlight() {
+    public long getNumberFlight() {
         return numberFlight;
     }
 
@@ -130,7 +130,7 @@ public final class FlightConfiguration {
      * @param numberParam
      *            number from zml file
      */
-    public void setNumberFlight(final int numberParam) {
+    public void setNumberFlight(final long numberParam) {
         numberFlight = numberParam;
     }
 }

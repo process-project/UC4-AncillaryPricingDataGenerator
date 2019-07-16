@@ -49,13 +49,12 @@ public final class FlightGeneratorStarter {
      */
     public List<Flight> generateFlightsEntities(
             final FlightConfiguration flightConfiguration,
-            final List<Tariff> tariffs, final List<Route> routes) {
+            final List<Tariff> tariffs, final List<Route> routes, final long flightsNumber) {
         final FlightGenerator flightGenerator = new FlightGenerator(
                 routes,
                 tariffs,
                 flightConfiguration);
-        final List<Flight> flights = flightGenerator.generateList(
-                flightConfiguration.getNumberFlight());
+        final List<Flight> flights = flightGenerator.generateList(flightsNumber);
         flightRepository.save(flights);
         return flights;
     }

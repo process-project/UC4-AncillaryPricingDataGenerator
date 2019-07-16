@@ -22,6 +22,8 @@ final class CsvLocalFileSaver {
     /*** Logger. ***/
     private static final Logger log = LoggerFactory.getLogger(CsvLocalFileSaver.class);
 
+    static final CsvMapper mapper = new CsvMapper();
+
     /**
      * Private constructor.
      */
@@ -38,9 +40,8 @@ final class CsvLocalFileSaver {
      * @param serializedClass the serialized class to save in file
      */
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
-        final CsvMapper mapper = new CsvMapper();
         final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName, true), StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
         } catch (final IOException e) {
             log.error("Cannot write to csv file", e);

@@ -8,13 +8,12 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nullable;
 import org.apache.commons.lang.StringUtils;
-import org.apache.directory.api.util.Strings;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.slf4j.Logger;
@@ -27,6 +26,7 @@ public class HadoopFileSaver {
 
 
     private static String hdfsuri = "";
+    private static final CsvMapper mapper = new CsvMapper();
 
     public static Configuration initializeHadoop() {
         final Configuration conf = new Configuration();
@@ -34,6 +34,7 @@ public class HadoopFileSaver {
         initializeHdfsUrl();
 
         conf.set("fs.defaultFS", hdfsuri);
+        conf.set("dfs.replication", "1");
         conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
         conf.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
         return conf;
@@ -64,22 +65,40 @@ public class HadoopFileSaver {
     }
 
 
+    private static FSDataOutputStream getOutputDataStream(FileSystem fs, Path file){
+        try {
+            if(fs.exists(file)){
+                return fs.append(file);
+            }
+            return fs.create(file);
+        } catch (IOException e) {
+            log.error("Cannot create a hadoop file", e);
+        }
+
+        return null;
+    }
+
+
     static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
         long startTime = System.currentTimeMillis();
         final FileSystem fs = getFileSystem();
-        log.info("Start saving entities to hdfs. Url:  " + hdfsuri + ", filename: " + fileName);
+        log.info("Start saving entities to hdfs. Url: " + hdfsuri + ", filename: " + fileName);
         if (Objects.isNull(fs)) {
             return;
         }
-
-        final CsvMapper mapper = new CsvMapper();
         final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
 
         final String pathFileName = getPathFileName(fileName);
         final Path file = new Path(pathFileName);
+        final FSDataOutputStream outputDataStream = getOutputDataStream(fs, file);
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(fs.create(file), StandardCharsets.UTF_8))) {
+        if (Objects.isNull(outputDataStream)) {
+            return;
+        }
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(outputDataStream, StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
+            outputDataStream.close();
         } catch (IOException e) {
             log.error("Cannot write to hadoop file", e);
             return;

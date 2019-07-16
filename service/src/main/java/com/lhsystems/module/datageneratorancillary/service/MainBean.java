@@ -1,6 +1,5 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.data.Booking;
 import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.starter.GeneratorStarter;
@@ -42,11 +41,6 @@ public class MainBean {
      */
     private final SSIMFileReader ssimReader;
 
-
-    /** Starts serializing core booking entities. */
-    private final CoreBookingSerializer coreBookingSerializer;
-
-
     /** Flag for generating infinity entities. */
     private final Boolean infiniteLoop;
 
@@ -54,14 +48,12 @@ public class MainBean {
     /** Logger.*/
     private final Logger log = LoggerFactory.getLogger(MainBean.class);
 
-
     /**
      * Instantiates a new Main bean.
      * @param generatorStarterParam      the generator starter
      * @param commandLineOptionsReader   the command line options reader
      * @param yamlOptionReader           the yaml option reader
      * @param ssimFileReader             the ssim file reader
-     * @param coreBookingSerializerParam the component responsible for serializing data
      * @param infiniteLoopParam          the environment variable for generating infinity entities
      */
     @Autowired
@@ -69,13 +61,11 @@ public class MainBean {
                     final CommandLineOptionsReader commandLineOptionsReader,
                     final YamlOptionReader yamlOptionReader,
                     final SSIMFileReader ssimFileReader,
-                    final CoreBookingSerializer coreBookingSerializerParam,
                     @Value("${INFINITE_GENERATE}") final String infiniteLoopParam) {
         generatorStarter = generatorStarterParam;
         commandLineReader = commandLineOptionsReader;
         optionReader = yamlOptionReader;
         ssimReader = ssimFileReader;
-        coreBookingSerializer = coreBookingSerializerParam;
         infiniteLoop = Boolean.valueOf(infiniteLoopParam);
     }
 
@@ -115,11 +105,9 @@ public class MainBean {
                 pathOptions.getSsimFile());
         final List<Compartment> compartments = optionReader.readCompartments(
                 pathOptions.getCompartmenFile());
-        final List<Booking> bookings = generatorStarter.generateData(
+        generatorStarter.generateBasicData(
                 generatorConfiguration,
                 ssimLines,
                 compartments);
-        coreBookingSerializer.generateFlattenData(bookings);
     }
-
 }

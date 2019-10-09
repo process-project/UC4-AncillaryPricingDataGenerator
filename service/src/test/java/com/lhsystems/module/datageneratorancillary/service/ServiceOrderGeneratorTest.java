@@ -77,7 +77,7 @@ public class ServiceOrderGeneratorTest {
         final List<Tariff> tariffs = new ArrayList<>();
         tariffs.add(tariff);
         final Route route = new Route(new Airport("TAD","Test Airport Domestic", Market.DOMESTIC), new Airport("TAI","Test Airport Intercontinental", Market.INTERCONTINENTAL));
-        final Flight flight = new Flight(1, LocalDateTime.of(2018, 11, 11, 6, 6), route, tariffs);
+        final Flight flight = new Flight(1L, LocalDateTime.of(2018, 11, 11, 6, 6), route, tariffs);
         final Customer customer = new Customer(
                 40,
                 Gender.FEMALE,

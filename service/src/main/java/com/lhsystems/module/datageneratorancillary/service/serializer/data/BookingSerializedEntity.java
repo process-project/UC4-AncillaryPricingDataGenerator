@@ -50,7 +50,7 @@ public final class BookingSerializedEntity {
     private String destinationAirport;
 
     /** The flight number of the flight. */
-    private int flightNumber;
+    private Long flightNumber;
 
     /** The id. */
     private UUID id;
@@ -227,7 +227,7 @@ public final class BookingSerializedEntity {
      *
      * @return the flights flight number
      */
-    public int getFlightNumber() {
+    public Long getFlightNumber() {
         return flightNumber;
     }
 
@@ -294,7 +294,7 @@ public final class BookingSerializedEntity {
         private String destinationAirport;
 
         /** The flight number. */
-        private int flightNumber;
+        private Long flightNumber;
 
         /** The market. */
         private String market;

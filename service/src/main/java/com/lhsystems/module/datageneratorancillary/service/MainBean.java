@@ -85,7 +85,7 @@ public class MainBean {
         generateAirlines(pathOptions);
 
         long elapsedTime = System.currentTimeMillis() - startTime;
-        log.info("Generation of all entities takes " + elapsedTime + " ms");
+        log.info("Generation of all entities took " + elapsedTime + " ms");
 
         while (infiniteLoop) {
             generateAirlines(pathOptions);

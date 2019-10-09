@@ -10,8 +10,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * Class that randomly generates flights.
@@ -26,7 +30,7 @@ public final class FlightGenerator extends DataGenerator {
      * Counter to remember which numbers have been used as
      * <code>flightNumber</code> already.
      */
-    private int flightNumberCounter;
+    private long flightNumberCounter;
 
     /** The last date of the generation interval. */
     private final LocalDate maximumDate;
@@ -49,6 +53,9 @@ public final class FlightGenerator extends DataGenerator {
      */
     private final List<Route> routes;
 
+
+    private Map<Market, List<Tariff>> tariffsOnMarket;
+
     /**
      * Constructor.
      *
@@ -70,6 +77,53 @@ public final class FlightGenerator extends DataGenerator {
         maximumDate = configuration.getMaximumFlightDateAsLocalDate();
         minimumNumberTariffs = configuration.getMinimumNumberTariffs();
         maximumNumberTariffs = configuration.getMaximumNumberTariffs();
+        tariffsOnMarket = createMapTariffs(paramTariffs);
+
+
+    }
+
+    private Map<Market, List<Tariff>> createMapTariffs(List<Tariff> paramTariffs) {
+        Map<Market, List<Tariff>> tariffsOnMarket = new HashMap<>();
+
+        for(Market market: Market.getAllMarkets()) {
+            final List<Tariff> tariffs = new ArrayList<>();
+            for (final Tariff tariff: paramTariffs){
+                if (tariff.getMarket().equals(market)){
+                    tariffs.add(tariff);
+                }
+            }
+            tariffsOnMarket.put(market, tariffs);
+        }
+        return tariffsOnMarket;
+    }
+
+
+    /**
+     * Generate a generic list containing a number of objects.
+     *
+     * @param numberToGenerate
+     *            the number of objects to generate
+     * @return the list
+     */
+    public final List<Flight> generateFlights(final long numberToGenerate, final long batchNumber) {
+        return LongStream.range(0, numberToGenerate)
+                .mapToObj(n -> generate(n, batchNumber))
+                .collect(Collectors.toList());
+    }
+
+    protected Flight generate(long numberToGenerate, long batchNumber) {
+        final long flightNumber = numberToGenerate * batchNumber;
+        final LocalDate departureDate = getRandom().getRandomDay(
+                minimumDate,
+                maximumDate);
+        final LocalTime departureTime = getRandom().getRandomDaytime();
+        final Route route = getRandom().getOneRandomElement(routes);
+        final List<Tariff> chosenTariffs = chooseTariffs(tariffsOnMarket.get(route.getMarket()));
+        return new Flight(
+                flightNumber,
+                LocalDateTime.of(departureDate, departureTime),
+                route,
+                chosenTariffs);
     }
 
 
@@ -78,13 +132,13 @@ public final class FlightGenerator extends DataGenerator {
      */
     @Override
     protected Flight generate() {
-        final int flightNumber = increaseFlightNumberCounter();
+        final Long flightNumber = increaseFlightNumberCounter();
         final LocalDate departureDate = getRandom().getRandomDay(
                 minimumDate,
                 maximumDate);
         final LocalTime departureTime = getRandom().getRandomDaytime();
         final Route route = getRandom().getOneRandomElement(routes);
-        final List<Tariff> chosenTariffs = chooseTariffs(route.getMarket());
+        final List<Tariff> chosenTariffs = chooseTariffs(tariffsOnMarket.get(route.getMarket()));
         return new Flight(
                 flightNumber,
                 LocalDateTime.of(departureDate, departureTime),
@@ -100,13 +154,7 @@ public final class FlightGenerator extends DataGenerator {
      *            the market
      * @return a list of tariffs
      */
-    private List<Tariff> chooseTariffs(final Market market) {
-        final List<Tariff> tariffsOfMarket = new ArrayList<>();
-        for (final Tariff tariff:tariffs){
-            if (tariff.getMarket().equals(market)){
-                tariffsOfMarket.add(tariff);
-            }
-        }
+    private List<Tariff> chooseTariffs(final List<Tariff> tariffsOfMarket) {
         return getRandom().getRandomlyManyElements(
                 tariffsOfMarket,
                 minimumNumberTariffs,
@@ -133,8 +181,8 @@ public final class FlightGenerator extends DataGenerator {
      *
      * @return <code>this.flightNumberCounter</code>
      */
-    private int increaseFlightNumberCounter() {
-        final int tempHelper = flightNumberCounter;
+    private Long increaseFlightNumberCounter() {
+        final Long tempHelper = flightNumberCounter;
         this.setFlightNumberCounter(flightNumberCounter + 1);
         return tempHelper;
     }
@@ -147,7 +195,7 @@ public final class FlightGenerator extends DataGenerator {
      * @param paramFlightNumberCounter
      *            the number that <code>flightNumberCounter</code> is set to.
      */
-    private void setFlightNumberCounter(final int paramFlightNumberCounter) {
+    private void setFlightNumberCounter(final long paramFlightNumberCounter) {
         flightNumberCounter = paramFlightNumberCounter;
     }
 

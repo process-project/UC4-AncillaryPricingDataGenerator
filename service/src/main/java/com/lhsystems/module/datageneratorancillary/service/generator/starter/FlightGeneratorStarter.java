@@ -8,7 +8,6 @@ import com.lhsystems.module.datageneratorancillary.service.generator.core.Flight
 import com.lhsystems.module.datageneratorancillary.service.repository.FlightRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,6 +43,8 @@ public final class FlightGeneratorStarter {
      *        the tariffs to be used for flight generation
      * @param routes
      *        the routes to be used for flight generation
+     * @param flightsNumber
+     *        number of flights to generate
      * @return
      *        the list of generated flights
      */

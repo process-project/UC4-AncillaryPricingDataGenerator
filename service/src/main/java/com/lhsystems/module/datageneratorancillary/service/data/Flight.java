@@ -54,7 +54,7 @@ public final class Flight {
      * Flight number of the flight.
      */
     @Column(name = "FLIGHT_NUMBER")
-    private final int flightNumber;
+    private final Long flightNumber;
 
     /**
      * Unique identifier to be used in a database.
@@ -73,7 +73,7 @@ public final class Flight {
      * class.
      */
     public Flight() {
-        flightNumber = 0;
+        flightNumber = 0L;
         departureTime = null;
         departureDate = null;
         route = null;
@@ -92,7 +92,7 @@ public final class Flight {
      * @param tariffs
      *            the tariffs that are bookable on this flight
      */
-    public Flight(final Integer paramFlightNumber,
+    public Flight(final Long paramFlightNumber,
             final LocalDateTime departureDateTime,
             final Route paramRoute, final List<Tariff> tariffs) {
         flightNumber = paramFlightNumber;
@@ -136,7 +136,7 @@ public final class Flight {
      *
      * @return <code>flightNumber</code> of the flight object
      */
-    public int getFlightNumber() {
+    public Long getFlightNumber() {
         return flightNumber;
     }
 

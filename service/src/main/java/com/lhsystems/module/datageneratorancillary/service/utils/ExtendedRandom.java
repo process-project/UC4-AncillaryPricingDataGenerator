@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -127,7 +129,9 @@ public final class ExtendedRandom extends Random {
     }
 
     /**
-     * Choose a random number of elements of a given list randomly.
+     * Choose a random number of elements of a given list randomly. For performance issues method was accelerated,
+     * however it can run endlessly in worst case scenario. It will not happen in our generator as every object in
+     * list is unique.
      *
      * @param <T>
      *            the generic type of the list
@@ -141,10 +145,19 @@ public final class ExtendedRandom extends Random {
      */
     public <T> List<T> getRandomlyManyElements(final List<T> someList,
             final int min, final int max) {
-        final int numberOfElements = Integer.min(
-                nextInt(min, max + 1),
-                someList.size());
-        return getMultipleRandomElements(someList, numberOfElements);
+        if (someList.size() < max) {
+            return Collections.emptyList();
+        }
+
+        int toGenerate = nextInt(min, max + 1);
+        HashSet<T> currentElements = new HashSet<>();
+
+        while (currentElements.size() < toGenerate) {
+            int i = nextInt(0, someList.size());
+            currentElements.add(someList.get(i));
+        }
+
+        return new ArrayList<>(currentElements);
     }
 
     /**

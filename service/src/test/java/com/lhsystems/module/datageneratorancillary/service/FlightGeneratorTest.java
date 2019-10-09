@@ -138,7 +138,7 @@ public class FlightGeneratorTest {
      * @return true, if flight numbers are unique
      */
     private boolean checkFlightNumbers(final List<Flight> flights) {
-        final Set<Integer> usedFlightNumbers = new HashSet<>();
+        final Set<Long> usedFlightNumbers = new HashSet<>();
         boolean result = true;
         for (final Flight flight : flights) {
             if (!usedFlightNumbers.add(flight.getFlightNumber())) {

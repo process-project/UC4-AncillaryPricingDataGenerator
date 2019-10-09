@@ -105,7 +105,7 @@ public class HadoopFileSaver {
         }
 
         long elapsedTime = System.currentTimeMillis() - startTime;
-        log.info("Saving file " + fileName + " to hdfs completed successfully. It takes " + elapsedTime + " ms");
+        log.info("Saving file " + fileName + " to hdfs completed successfully. It took " + elapsedTime + " ms");
     }
 
     private static String getPathFileName(final String fileName) {

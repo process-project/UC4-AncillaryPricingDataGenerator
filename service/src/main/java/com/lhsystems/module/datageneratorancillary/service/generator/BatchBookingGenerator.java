@@ -5,10 +5,12 @@ import com.lhsystems.module.datageneratorancillary.service.data.Flight;
 import com.lhsystems.module.datageneratorancillary.service.data.Route;
 import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.GeneratorConfiguration;
+import com.lhsystems.module.datageneratorancillary.service.generator.core.FlightGenerator;
 import com.lhsystems.module.datageneratorancillary.service.generator.starter.BookingGeneratorStarter;
 import com.lhsystems.module.datageneratorancillary.service.generator.starter.FlightGeneratorStarter;
 import com.lhsystems.module.datageneratorancillary.service.serializer.CoreBookingSerializer;
 import java.util.List;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -64,32 +66,52 @@ public class BatchBookingGenerator {
     public void generateBookingsInBatch(final List<Route> routes,
                                         final List<Tariff> tariffs,
                                         final GeneratorConfiguration generatorConfiguration){
-        final long numberOfFlights = generatorConfiguration.getFlightConfiguration().getNumberFlight();
-        final long oneBatch = Math.min(numberOfFlights, 1_000_000);
+        final long numberOfFlights = getNumberOfFlights(generatorConfiguration);
+        final long oneBatch = Math.min(numberOfFlights, getBatchSize());
         long currentNumberOfGeneratedBookings = 0;
+        long currentBatch = 0;
+
+        FlightGenerator flightGenerator = new FlightGenerator(routes, tariffs, generatorConfiguration.getFlightConfiguration());
         while (currentNumberOfGeneratedBookings < numberOfFlights) {
             final long startTime = System.currentTimeMillis();
             currentNumberOfGeneratedBookings += oneBatch;
+
             final long leftEntities = Math.max(0, (numberOfFlights - currentNumberOfGeneratedBookings));
 
             log.info("Started generating booking entities. Range from: " + (currentNumberOfGeneratedBookings-oneBatch)
                     + " to: " + Math.min(currentNumberOfGeneratedBookings, numberOfFlights) + " left: "  + leftEntities);
 
-            final List<Flight> flights = flightGeneratorStarter.generateFlightsEntities(
-                    generatorConfiguration.getFlightConfiguration(),
-                    tariffs,
-                    routes,
-                    oneBatch);
+            final List<Flight> flights = flightGenerator.generateFlights(oneBatch, currentBatch);
+            log.info("flights generated in " + (System.currentTimeMillis() - startTime) + " ms");
 
+            final long startTimeBookings = System.currentTimeMillis();
             final List<Booking> bookings = bookingGeneratorStarter.generateBookingEntities(
                     flights,
                     generatorConfiguration.getCustomerConfiguration(),
                     generatorConfiguration.getCoreBookingConfiguration(),
                     generatorConfiguration.getServiceOrderConfiguration());
 
+            currentBatch++;
+            log.info("bookings generated in " + (System.currentTimeMillis() - startTimeBookings) + " ms");
+
             coreBookingSerializer.generateFlattenData(bookings);
-            final long elapsedTime = System.currentTimeMillis() - startTime;
-            log.info("Batch of entities generated and saved successfully. It takes " + elapsedTime + " ms");
+            log.info("Batch of entities generated and saved successfully. It took " + (System.currentTimeMillis() - startTime) + " ms");
         }
+    }
+
+    private Long getBatchSize(){
+        String batchSize = System.getenv("BATCH_SIZE");
+        if(Objects.nonNull(batchSize)) {
+            return Long.valueOf(batchSize);
+        }
+        return 1_000_000L;
+    }
+
+    private Long getNumberOfFlights(final GeneratorConfiguration generatorConfiguration){
+        String batchSize = System.getenv("FLIGHTS_NUMBER");
+        if(Objects.nonNull(batchSize)) {
+            return Long.valueOf(batchSize);
+        }
+        return generatorConfiguration.getFlightConfiguration().getNumberFlight();
     }
 }

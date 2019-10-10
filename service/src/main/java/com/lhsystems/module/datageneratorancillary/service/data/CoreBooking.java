@@ -44,6 +44,12 @@ public final class CoreBooking {
     @Column(name = "NUMBER_PASSENGERS")
     private final int numberPassengers;
 
+    /** The point of sale. */
+    private final PointOfSale pointOfSale;
+
+    /** The booking channel */
+    private final BookingChannel bookingChannel;
+
     /** The chosen tariff. */
     @OneToOne
     @JoinColumn(name = "TARIFF")
@@ -58,6 +64,8 @@ public final class CoreBooking {
         numberPassengers = 0;
         tariff = null;
         customer = null;
+        pointOfSale = null;
+        bookingChannel = null;
     }
 
     /**
@@ -77,13 +85,18 @@ public final class CoreBooking {
      */
     public CoreBooking(final int paramDaysBeforeDeparture,
             final Flight paramFlight,
-            final int paramNumberPassengers, final Tariff paramTariff,
-            final Customer paramCustomer) {
+            final int paramNumberPassengers,
+            final Tariff paramTariff,
+            final Customer paramCustomer,
+            final PointOfSale paramPointOfSale,
+            final BookingChannel paramBookingChannel) {
         daysBeforeDeparture = paramDaysBeforeDeparture;
         flight = paramFlight;
         numberPassengers = paramNumberPassengers;
         tariff = paramTariff;
         customer = paramCustomer;
+        pointOfSale = paramPointOfSale;
+        bookingChannel = paramBookingChannel;
     }
 
     /**
@@ -129,6 +142,24 @@ public final class CoreBooking {
      */
     public int getNumberPassengers() {
         return numberPassengers;
+    }
+
+    /**
+     * Gets the point of sale.
+     *
+     * @return the point of sale
+     */
+    public PointOfSale getPointOfSale() {
+        return pointOfSale;
+    }
+
+    /**
+     * Gets the booking channel.
+     *
+     * @return the booking channel
+     */
+    public BookingChannel getBookingChannel() {
+        return bookingChannel;
     }
 
     /**

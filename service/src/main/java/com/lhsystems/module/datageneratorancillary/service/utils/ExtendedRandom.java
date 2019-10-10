@@ -103,6 +103,19 @@ public final class ExtendedRandom extends Random {
     }
 
     /**
+     * Choose one element of a given array.
+     *
+     * @param <T>
+     *            the generic type of the elements in the array
+     * @param someArray
+     *            the array to chose from
+     * @return the chosen element
+     */
+    public <T> T getOneRandomElement(final T[] someArray) {
+        return someArray[nextInt(someArray.length)];
+    }
+
+    /**
      * Choose one element out of the keys of a given map randomly according to
      * frequencies passed as map.
      *

@@ -1,14 +1,13 @@
 package com.lhsystems.module.datageneratorancillary.service.generator.core;
 
-import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
-import com.lhsystems.module.datageneratorancillary.service.data.Customer;
-import com.lhsystems.module.datageneratorancillary.service.data.Flight;
-import com.lhsystems.module.datageneratorancillary.service.data.Market;
-import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.data.TravelType;
+import com.google.common.collect.ImmutableMap;
+import com.lhsystems.module.datageneratorancillary.service.data.*;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.CoreBookingConfiguration;
 
 import java.util.List;
+import java.util.Map;
+
+import static com.lhsystems.module.datageneratorancillary.service.data.BookingChannel.*;
 
 /**
  * Generates CoreBooking objects randomly.
@@ -17,6 +16,20 @@ import java.util.List;
  * @version $Revision: 1.10 $
  */
 public final class CoreBookingGenerator extends DataGenerator {
+
+    private static final Map<BookingChannel, Double> BOOKING_CHANNEL_FREQUENCY_MAP = ImmutableMap.<BookingChannel, Double>builder()
+            .put(LH_GROUP_DIRECT_ONLI, 58800.0)
+            .put(LH_GROUP_DIRECT_OFFL, 15564.0)
+            .put(TOUR_OPERATOR, 10059.0)
+            .put(ONLINE_AGENTS, 7776.0)
+            .put(LOCAL_CHAINS, 7352.0)
+            .put(CONSOLIDATOR, 6042.0)
+            .put(RETAILER, 5199.0)
+            .put(GLOBAL_CHAINS, 3518.0)
+            .put(SPECIAL, 354.0)
+            .put(UNKNOWN, 57.0)
+            .put(OAL_SALES, 20.0)
+            .build();
 
     /** The flights of which we chose during booking generation. */
     private final List<Flight> flights;
@@ -102,12 +115,16 @@ public final class CoreBookingGenerator extends DataGenerator {
                 shape,
                 scale);
         final int numberPassengers = getNumberPassengers(customer);
+        final PointOfSale pointOfSale = getRandom().getOneRandomElement(PointOfSale.values());
+        final BookingChannel bookingChannel = getRandom().getOneRandomElement(BOOKING_CHANNEL_FREQUENCY_MAP);
         return new CoreBooking(
                 daysBeforeDeparture,
                 flight,
                 numberPassengers,
                 tariff,
-                customer);
+                customer,
+                pointOfSale,
+                bookingChannel);
     }
 }
 

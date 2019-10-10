@@ -70,6 +70,12 @@ public final class BookingSerializedEntity {
     /** The ticket price. */
     private Double ticketPrice;
 
+    /** The point of sale. */
+    private String pointOfSale;
+
+    /** The booking channel. */
+    private String bookingChannel;
+
     /**
      * Instantiates a new booking serialized entity.
      */
@@ -102,6 +108,8 @@ public final class BookingSerializedEntity {
         compartmentIdentifier = bookingSerializedEntityBuilder.compartmentIdentifier;
         compartmentName = bookingSerializedEntityBuilder.compartmentName;
         productName = bookingSerializedEntityBuilder.productName;
+        pointOfSale = bookingSerializedEntityBuilder.pointOfSale;
+        bookingChannel = bookingSerializedEntityBuilder.bookingChannel;
     }
 
 
@@ -259,6 +267,24 @@ public final class BookingSerializedEntity {
     }
 
     /**
+     * Gets the point of sale.
+     *
+     * @return the point of sale
+     */
+    public String getPointOfSale() {
+        return pointOfSale;
+    }
+
+    /**
+     * Gets the booking channel.
+     *
+     * @return the booking channel
+     */
+    public String getBookingChannel() {
+        return bookingChannel;
+    }
+
+    /**
      * Builds Serialized Entity Builder.
      */
     public static final class BookingSerializedEntityBuilder {
@@ -308,9 +334,14 @@ public final class BookingSerializedEntity {
         /** The product name. */
         private String productName;
 
-
         /** The ticket price. */
         private Double ticketPrice;
+
+        /** The point of sale. */
+        private String pointOfSale;
+
+        /** The booking channel. */
+        private String bookingChannel;
 
 
         /**
@@ -385,6 +416,8 @@ public final class BookingSerializedEntity {
         public BookingSerializedEntityBuilder setCoreBookingFields(final CoreBooking coreBooking) {
             numberPassengers = coreBooking.getNumberPassengers();
             daysBeforeDeparture = coreBooking.getDaysBeforeDeparture();
+            pointOfSale = coreBooking.getPointOfSale().name();
+            bookingChannel = coreBooking.getBookingChannel().getChannelName();
             return this;
         }
 

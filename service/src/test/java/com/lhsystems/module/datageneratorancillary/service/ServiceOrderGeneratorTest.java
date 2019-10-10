@@ -1,23 +1,6 @@
 package com.lhsystems.module.datageneratorancillary.service;
 
-import com.lhsystems.module.datageneratorancillary.service.data.Airport;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageClass;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageLimits;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggagePricing;
-import com.lhsystems.module.datageneratorancillary.service.data.BaggageSize;
-import com.lhsystems.module.datageneratorancillary.service.data.Compartment;
-import com.lhsystems.module.datageneratorancillary.service.data.CoreBooking;
-import com.lhsystems.module.datageneratorancillary.service.data.Customer;
-import com.lhsystems.module.datageneratorancillary.service.data.Flight;
-import com.lhsystems.module.datageneratorancillary.service.data.Gender;
-import com.lhsystems.module.datageneratorancillary.service.data.Market;
-import com.lhsystems.module.datageneratorancillary.service.data.Product;
-import com.lhsystems.module.datageneratorancillary.service.data.Route;
-import com.lhsystems.module.datageneratorancillary.service.data.SeatGroup;
-import com.lhsystems.module.datageneratorancillary.service.data.Service;
-import com.lhsystems.module.datageneratorancillary.service.data.ServiceOrder;
-import com.lhsystems.module.datageneratorancillary.service.data.Tariff;
-import com.lhsystems.module.datageneratorancillary.service.data.TravelType;
+import com.lhsystems.module.datageneratorancillary.service.data.*;
 import com.lhsystems.module.datageneratorancillary.service.generator.configuration.ServiceOrderConfiguration;
 import com.lhsystems.module.datageneratorancillary.service.generator.core.ServiceOrderGenerator;
 
@@ -83,7 +66,7 @@ public class ServiceOrderGeneratorTest {
                 Gender.FEMALE,
                 TravelType.BUSINESS,
                 3);
-        coreBooking = new CoreBooking(1, flight, 3, tariff, customer);
+        coreBooking = new CoreBooking(1, flight, 3, tariff, customer, PointOfSale.DE, BookingChannel.LH_GROUP_DIRECT_ONLI);
     }
 
     @Test

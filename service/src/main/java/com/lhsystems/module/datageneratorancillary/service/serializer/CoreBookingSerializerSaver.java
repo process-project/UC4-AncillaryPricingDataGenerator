@@ -4,7 +4,6 @@ import com.lhsystems.module.datageneratorancillary.service.serializer.data.Booki
 import com.lhsystems.module.datageneratorancillary.service.serializer.data.SerializedDataSummary;
 import com.lhsystems.module.datageneratorancillary.service.serializer.data.ServiceSerializedEntity;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,10 +39,12 @@ public class CoreBookingSerializerSaver {
      *
      * @param serializedDataSummaries
      *          the serialized data
+     * @param withHeader
+     *          indicates that data should be saved with column headers
      */
-    void saveSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries) {
-        saveBookingSerializedEntities(serializedDataSummaries);
-        saveServiceSerializedEntities(serializedDataSummaries);
+    void saveSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries, boolean withHeader) {
+        saveBookingSerializedEntities(serializedDataSummaries, withHeader);
+        saveServiceSerializedEntities(serializedDataSummaries, withHeader);
     }
 
     /**
@@ -52,7 +53,7 @@ public class CoreBookingSerializerSaver {
      * @param serializedDataSummaries
      *      the list of serialized data summaries
      */
-    private void saveBookingSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries) {
+    private void saveBookingSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries, boolean withHeader) {
         final List<BookingSerializedEntity> bookingSerializedEntities =
                 serializedDataSummaries
                         .stream()
@@ -60,9 +61,9 @@ public class CoreBookingSerializerSaver {
                         .collect(Collectors.toList());
 
         if(saveLocally) {
-            CsvLocalFileSaver.saveEntitiesList(bookingSerializedEntities, bookingName, BookingSerializedEntity.class);
+            CsvLocalFileSaver.saveEntitiesList(bookingSerializedEntities, bookingName, withHeader, BookingSerializedEntity.class);
         } else {
-            HadoopFileSaver.saveEntitiesList(bookingSerializedEntities, bookingName, BookingSerializedEntity.class);
+            HadoopFileSaver.saveEntitiesList(bookingSerializedEntities, bookingName, withHeader, BookingSerializedEntity.class);
         }
     }
 
@@ -72,16 +73,16 @@ public class CoreBookingSerializerSaver {
      * @param serializedDataSummaries
      *          The list of serialized data summaries
      */
-    private void saveServiceSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries) {
+    private void saveServiceSerializedEntities(final List<SerializedDataSummary> serializedDataSummaries, boolean withHeader) {
         final List<ServiceSerializedEntity> serviceSerializedEntities =
                 serializedDataSummaries
                         .stream()
                         .flatMap(data -> data.getServiceSerializedEntities().stream())
                         .collect(Collectors.toList());
         if(saveLocally) {
-            CsvLocalFileSaver.saveEntitiesList(serviceSerializedEntities, serviceName, ServiceSerializedEntity.class);
+            CsvLocalFileSaver.saveEntitiesList(serviceSerializedEntities, serviceName, withHeader, ServiceSerializedEntity.class);
         } else {
-            HadoopFileSaver.saveEntitiesList(serviceSerializedEntities, serviceName, ServiceSerializedEntity.class);
+            HadoopFileSaver.saveEntitiesList(serviceSerializedEntities, serviceName, withHeader, ServiceSerializedEntity.class);
         }
     }
 }

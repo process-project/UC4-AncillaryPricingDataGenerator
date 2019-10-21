@@ -27,6 +27,9 @@ public class BatchBookingGenerator {
     /** Logger.*/
     private static final Logger log = LoggerFactory.getLogger(BatchBookingGenerator.class);
 
+    /** First batch index */
+    private static final int FIRST_BATCH_INDEX = 0;
+
     /** Starts serializing core booking entities */
     private final CoreBookingSerializer coreBookingSerializer;
 
@@ -69,7 +72,7 @@ public class BatchBookingGenerator {
         final long numberOfFlights = getNumberOfFlights(generatorConfiguration);
         final long oneBatch = Math.min(numberOfFlights, getBatchSize());
         long currentNumberOfGeneratedBookings = 0;
-        long currentBatch = 0;
+        long currentBatch = FIRST_BATCH_INDEX;
 
         FlightGenerator flightGenerator = new FlightGenerator(routes, tariffs, generatorConfiguration.getFlightConfiguration());
         while (currentNumberOfGeneratedBookings < numberOfFlights) {
@@ -91,11 +94,12 @@ public class BatchBookingGenerator {
                     generatorConfiguration.getCoreBookingConfiguration(),
                     generatorConfiguration.getServiceOrderConfiguration());
 
-            currentBatch++;
             log.info("bookings generated in " + (System.currentTimeMillis() - startTimeBookings) + " ms");
 
-            coreBookingSerializer.generateFlattenData(bookings);
+            coreBookingSerializer.generateFlattenData(bookings, currentBatch == FIRST_BATCH_INDEX);
             log.info("Batch of entities generated and saved successfully. It took " + (System.currentTimeMillis() - startTime) + " ms");
+
+            currentBatch++;
         }
     }
 

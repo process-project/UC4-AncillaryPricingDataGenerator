@@ -35,10 +35,11 @@ public class CoreBookingSerializer {
      * Generate flatten data and then save it.
      *
      * @param bookings the bookings
+     * @param withHeader indicates if data should be saved with column headers
      */
-    public final void generateFlattenData(final List<Booking> bookings) {
+    public final void generateFlattenData(final List<Booking> bookings, boolean withHeader) {
         final List<SerializedDataSummary> serializedDataSummaries = createSerializedData(bookings);
-        coreBookingSerializerSaver.saveSerializedEntities(serializedDataSummaries);
+        coreBookingSerializerSaver.saveSerializedEntities(serializedDataSummaries, withHeader);
     }
 
     /**

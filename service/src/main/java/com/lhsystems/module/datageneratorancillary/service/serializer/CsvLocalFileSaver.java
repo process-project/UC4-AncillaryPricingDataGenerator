@@ -39,10 +39,10 @@ final class CsvLocalFileSaver {
      * @param fileName        the csv file name
      * @param serializedClass the serialized class to save in file
      */
-    static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
+    static <T> void saveEntitiesList(final List<T> entities, final String fileName, final boolean useHeader, final Class<T> serializedClass) {
         long startTime = System.currentTimeMillis();
         log.info("Start saving entities locally. Filename: " + fileName);
-        final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
+        final CsvSchema schema = mapper.schemaFor(serializedClass).withUseHeader(useHeader).withColumnSeparator(';');
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName, true), StandardCharsets.UTF_8))) {
             mapper.writer(schema).writeValue(writer, entities);
         } catch (final IOException e) {

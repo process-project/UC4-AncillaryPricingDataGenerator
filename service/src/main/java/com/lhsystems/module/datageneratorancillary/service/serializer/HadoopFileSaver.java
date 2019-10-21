@@ -79,14 +79,14 @@ public class HadoopFileSaver {
     }
 
 
-    static <T> void saveEntitiesList(final List<T> entities, final String fileName, final Class<T> serializedClass) {
+    static <T> void saveEntitiesList(final List<T> entities, final String fileName, final boolean useHeader, final Class<T> serializedClass) {
         long startTime = System.currentTimeMillis();
         final FileSystem fs = getFileSystem();
         log.info("Start saving entities to hdfs. Url: " + hdfsuri + ", filename: " + fileName);
         if (Objects.isNull(fs)) {
             return;
         }
-        final CsvSchema schema = mapper.schemaFor(serializedClass).withHeader().withColumnSeparator(';');
+        final CsvSchema schema = mapper.schemaFor(serializedClass).withUseHeader(useHeader).withColumnSeparator(';');
 
         final String pathFileName = getPathFileName(fileName);
         final Path file = new Path(pathFileName);

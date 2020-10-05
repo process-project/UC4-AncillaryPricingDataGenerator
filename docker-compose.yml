@@ -3,6 +3,7 @@ version: '3'
 services:
   hdfs:
     image: harisekhon/hadoop:2.9  #version should be the same as in /service/pom
+    container_name: hdfs
     ports:
     - 8020:8020
     - 8042:8042
@@ -13,14 +14,38 @@ services:
     - 50070:50070
     - 50075:50075
     - 50090:50090
-
+      
   generator:
-    image: process/datagenerator
+    image: process/datagenerator:latest
+    container_name: generator
     environment:
       - HDFS_URL=hdfs
       - INFINITE_GENERATE=false
     depends_on:
       - hdfs
-    command: ["./scripts/wait-for-it.sh", "hdfs:8020", ""]
     links:
-    - hdfs
+      - hdfs
+
+  generatorOutput:
+    image: process/datagenerator:latest
+    container_name: generatorOutput
+    environment:
+      - INFINITE_GENERATE=false
+      - HDFS_URL=hdfs
+      - BOOKING_FILENAME=bookingOutput.csv
+      - SERVICE_FILENAME=serviceOutput.csv
+    depends_on:
+      - hdfs
+    links:
+      - hdfs
+
+  calculator:
+    image: ancillary-calculator
+    container_name: calculator
+    environment:
+      - OUTPUT_FOLDER=response/
+      - HDFS_URL=hdfs
+    depends_on:
+      - hdfs
+    links:
+      - hdfs

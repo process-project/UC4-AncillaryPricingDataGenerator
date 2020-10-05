@@ -1,7 +1,7 @@
 def jdkVersion = 'jdk-openJDK-1.8-latest'
 def job = 'module/datageneratorancillary'
 def mavenStatement = 'mvn -B clean deploy'
-def mavenVersion = 'maven-3.5.0'
+def mavenVersion = 'maven-3.6.3'
 
 node {
     echo 'Build ${job}'

@@ -1,25 +1,27 @@
 #!/bin/bash
 
-HADOOP_OUTPUT_FOLDER="/response"
+HADOOP_OUTPUT_FOLDER="response/"
 
-docker rm -f hadoop
+docker rm -f hdfs
 docker rm -f generator
+docker rm -f generatorOutput
+docker rm -f calculator
 
-docker network ls | grep docker-network > /dev/null || docker network create docker-network
+docker-compose -f ../docker-compose.yml up -d hdfs
 
-docker run --net=docker-network -d -p 8020:8020 -p 8032:8032 -p 8088:8088 -p 9000:9000 -p 10020:10020 -p 19888:19888 -p 50010:50010 -p 50020:50020 -p 50070:50070 -p 50075:50075 -p 50090:50090 --name hadoop harisekhon/hadoop:2.9
+hadoopIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hdfs)
 
-hadoopIP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hadoop)
+bash ./wait-for-it.sh -h $hadoopIP -p 8020 -t 15
 
-bash ./wait-for-it.sh -h $hadoopIP -p 8020 -t 60
+docker exec -it hdfs hdfs dfs -mkdir -p $HADOOP_OUTPUT_FOLDER
+docker exec -it hdfs hdfs dfs -chmod 777 $HADOOP_OUTPUT_FOLDER
 
-docker exec -it hadoop hdfs dfs -mkdir -p $HADOOP_OUTPUT_FOLDER
-docker exec -it hadoop hdfs dfs -chmod 777 $HADOOP_OUTPUT_FOLDER
+docker-compose -f ../docker-compose.yml up -d generator
 
-docker run --net=docker-network -e HDFS_URL='hadoop' --name generator process/datagenerator
+sleep 6
 
-until [ "`/usr/bin/docker inspect -f {{.State.Running}} generator`"=="true" ]; do
-    sleep 0.1;
-done;
+docker-compose -f ../docker-compose.yml up -d generatorOutput
 
-docker run --net=docker-network  -e HDFS_URL='hadoop' -e OUTPUT_FOLDER=$HADOOP_OUTPUT_FOLDER   -t ancillary-calculator
+sleep 6
+
+docker-compose -f ../docker-compose.yml up -d calculator 
